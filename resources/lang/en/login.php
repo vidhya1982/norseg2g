@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'text1' => 'Login',
+    'text2' => 'Home',
+    'text3' => 'New Customer',
+    'text4' => 'Email',
+    'text5' => 'Password',
+    'text6' => 'Enter Your Password',
+    'text7' => 'Create an account',
+    'text8' => 'Forgot Passowrd',
+    'text9' => 'Quick and painless, under three minutes (we promise)',
+    'invalid_user_pass' => 'Invalid Email or Password.',
+    'user_inactive' => 'User is not Active.',
+    'link_expired' => 'Sorry. The link has expired.',
+    'rset_click_login' => 'Click here to login',
+    'rset_click_reset' => 'Click here reset password',
+    'login_hint' => 'Registered users with email id other than Gmail/Yahoo/Hotmail etc',
+    'existing' => 'Existing Customers',
+    'google_sign_in' => 'Login with Google',
+    'apple_sign_in' => 'Login with Apple',
+    'google_continue' => 'Continue with Google',
+    'apple_continue' => 'Continue with Apple',
+    'continue' => 'Continue',
+];

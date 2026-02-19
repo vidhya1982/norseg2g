@@ -1,0 +1,104 @@
+/* ============================
+   FAIR USE POLICY – GSM2GO
+   ============================ */
+
+.fairuse-page {
+  background: var(--page-background);
+}
+
+/* HERO */
+.fairuse-hero {
+  background: var(--highlight-background);
+  border-radius: 24px;
+  padding: 60px 30px;
+  text-align: center;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.12);
+}
+
+.fairuse-hero h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.fairuse-hero h1 span {
+  color: #304eb6;
+}
+
+.fairuse-hero p {
+  margin-top: 14px;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.fairuse-hero small {
+  display: block;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* CARDS */
+.fairuse-card {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 30px;
+  margin-bottom: 28px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.fairuse-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+}
+
+.fairuse-card h5 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+
+.fairuse-card p {
+  color: var(--content-text);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* LIST */
+.fairuse-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 10px;
+}
+
+.fairuse-list li {
+  position: relative;
+  padding-left: 26px;
+  margin-bottom: 10px;
+  color: var(--content-text);
+  font-size: 15px;
+}
+
+.fairuse-list li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  color: var(--primary-green);
+  font-weight: 700;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .fairuse-hero {
+    padding: 45px 20px;
+  }
+
+  .fairuse-hero h1 {
+    font-size: 2rem;
+  }
+}

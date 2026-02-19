@@ -1,0 +1,66 @@
+.footer-info .footer-links a:hover {
+  color: var(--text-secondary-color) !important;
+}
+footer {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 6rem 0;
+}
+.gallery  {
+ display: flex;
+  justify-content: center;
+  flex-wrap: wrap;   /* new row ke liye */
+  gap: 12px;  
+}
+.gallery img {
+  border-radius: 10px;
+  width: 90px;     
+  height: 90px;
+  object-fit: cover;
+}
+
+.list-unstyled li {
+  margin-bottom: 5px;
+}
+.list-unstyled li a {
+  color: white;
+  margin-bottom: 10px;
+  /* line-height: 0%; */
+}
+.contact-info-footer {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact-info-footer .d-flex {
+  gap: 12px;
+}
+
+.contact-info-footer i {
+  color: var(--bs-deep-blue);
+  background-color: var(--btn-background-color);
+  padding: 10px;
+  border-radius: 50%;
+}
+.contact-info-footer .contact-content strong {
+  display: block;
+  white-space: nowrap;   
+  font-weight: 600;
+}
+
+.footer-bottom {
+  position: relative;
+}
+
+.footer-bottom a {
+  background: var(--btn-background-color);
+  text-decoration: none;
+  top: -15px;
+  right: 0px;
+  position: absolute;
+  display: inline-block;
+   color: var(--bs-deep-blue);
+}
+
+
+

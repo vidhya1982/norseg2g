@@ -1,0 +1,199 @@
+.header-top{
+    background-color: #e6d4d4;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.main-header{
+   background: var(--primary-color);
+    color: var(--white);
+}
+.plan-btn{
+    background-color: var(--plan-btn-bg);
+    border: none;
+    outline: none;
+    box-shadow: none;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.header{
+    background-color: var(--header-bg);
+    font-size: 0.875rem;
+}
+
+.destination-btn{
+    background: var(--btn-background-color);
+    border-radius: 0.25rem;
+    border: none;
+    font-size: 14px;
+    color: var(--bs-deep-blue);
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    outline: none;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
+
+/* --- mobile sidebar --- */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;          
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  transform: translateX(-110%);
+  transition: transform 0.32s ease;
+  z-index: 1051;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+}
+
+/* when open */
+.mobile-sidebar.open {
+  transform: translateX(0);
+}
+
+/* overlay */
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease;
+  z-index: 1050;
+}
+.mobile-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* close button */
+.close-sidebar {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #333;
+  align-self: flex-end;
+  padding: 6px;
+  cursor: pointer;
+}
+
+/* menu list styling */
+.mobile-nav-list {
+  list-style: none;
+  padding: 10px 2px;
+  margin: 12px 0 22px 0;
+  flex: 1;
+}
+.mobile-nav-list li {
+  margin: 14px 0;
+}
+.mobile-nav-list a {
+  text-decoration: none;
+  color: #6b6b6b;
+  font-size: 18px;
+  padding-left: 6px;
+  display: inline-block;
+}
+.mobile-nav-list a:hover {
+  color: #222;
+  font-weight: 600;
+}
+
+/* bottom area (logo/button) */
+.sidebar-bottom {
+  border-top: 1px solid #eee;
+  padding-top: 14px;
+}
+
+
+
+/* ensure navbar is relative (for absolute centering) */
+.navbar.position-relative { position: relative; }
+
+/* Logo size */
+.logo-img { height: 48px; }
+
+/* ---- CENTER LOGO on small screens --- */
+.logo-center-mobile {
+  display: inline-block;
+}
+
+
+
+.lang-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lang-wrapper i {
+  font-size: 14px;
+}
+
+.lang-select {
+  color:#ffffff;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 14px;
+  width: 16px; /* default me sirf arrow dikhe */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M3 2.5l3 3 3-3' fill='none' stroke='%239E9E9E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 14px;
+}
+
+.lang-select:not(:has(option:checked[disabled])) {
+  min-width: fit-content;
+}
+
+/* dropdown list */
+.lang-select option {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+/* selected option (works in most browsers) */
+.lang-select option:checked {
+  background-color: #1e6bd6;
+  color: #fff;
+}
+
+.navbar-nav .nav-link {
+     color: var(--white);
+    font-weight: 500;
+    padding: 1rem 1.2rem;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--white);
+    opacity: 0.8;
+}
+
+.navbar-nav .nav-link.active::after {
+    content: "";
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+

@@ -1,0 +1,133 @@
+/* ============================
+   AUTH PAGES – LOGIN / SIGNUP
+   ============================ */
+
+.auth-page {
+  background: var(--page-background);
+}
+.login-hero {
+  background-image: url('../images/authImg.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;      
+  background-position: center;   
+  border-radius: 22px;
+  padding: 70px 40px;
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0,0,0,.08);
+  overflow: hidden;              
+}
+.auth-link {
+  font-size: 0.9rem;
+  color: #6c757d;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+
+
+.auth-hero p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.95);
+}
+
+/* CARD */
+.auth-card {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 35px 30px;
+ 
+  box-shadow: 0 18px 45px rgba(0,0,0,0.1);
+}
+
+.auth-title {
+  text-align: center;
+  font-weight: 700;
+  color: var(--blue);
+  margin-bottom: 20px;
+}
+
+/* INPUT */
+.auth-card .form-control {
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+}
+
+
+.auth-btn-outline {
+  border: 1px solid #dcdcdc;
+  border-radius: 30px;
+  padding: 11px;
+  font-weight: 500;
+  background: var(--white);
+}
+
+.auth-btn-outline:hover {
+  background: #f8fbff;
+}
+
+.auth-btn-secondary {
+  background: var(--primary-green);
+  color: var(--white);
+  border-radius: 30px;
+  padding: 12px;
+  font-weight: 600;
+}
+
+.auth-btn-secondary:hover {
+  background: #579800;
+}
+
+/* DIVIDER */
+.auth-divider {
+  position: relative;
+  text-align: center;
+  margin: 22px 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%;
+  height: 1px;
+  background: #ddd;
+}
+
+.auth-divider::before { left: 0; }
+.auth-divider::after { right: 0; }
+
+.auth-divider span {
+  background: var(--white);
+  padding: 0 12px;
+  font-size: 13px;
+  color: var(--text-secondary-color);
+}
+
+/* FOOTER */
+.auth-footer {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.auth-footer p {
+  margin-bottom: 10px;
+  color: var(--content-text);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .auth-hero {
+    padding: 45px 20px;
+  }
+
+  .auth-hero h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,125 @@
+.esim-page {
+    background: var(--page-background);
+}
+
+/* HERO */
+.esim-hero {
+    background: var(--highlight-background);
+    color: var(--white);
+    border-radius: 24px;
+    padding: 60px 30px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.esim-hero h1 {
+    font-weight: 700;
+    color: var(--white);
+}
+
+.esim-hero h1 span {
+    color: #304eb6;
+}
+
+.esim-hero p {
+    margin-top: 10px;
+    color: rgba(255,255,255,0.95);
+}
+
+.esim-hero small {
+    color: rgba(255,255,255,0.85);
+}
+
+/* CARD */
+.esim-card {
+    background: var(--white);
+    border-radius: 22px;
+    padding: 30px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
+
+.esim-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 50px rgba(0,0,0,0.12);
+}
+
+/* BRAND TITLE */
+.brand-title {
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--blue);
+    border-bottom: 2px solid var(--primary-green);
+    display: inline-block;
+    margin-bottom: 15px;
+    padding-bottom: 6px;
+}
+
+/* DEVICE LIST */
+.device-list {
+    columns: 2;
+    column-gap: 40px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.device-list li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--content-text);
+    transition: all 0.2s ease;
+}
+
+.device-list li:hover {
+    color: var(--blue);
+    padding-left: 6px;
+}
+
+/* NOTE BOX */
+.note-box {
+    background: var(--header-bg);
+    border-left: 5px solid var(--blue);
+    padding: 15px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    margin-top: 20px;
+    color: var(--content-text);
+}
+
+/* WARNING BOX */
+.warning-box {
+    background: #fff2f2;
+    border-left: 5px solid var(--accent-color);
+    padding: 15px 18px;
+    border-radius: 14px;
+    font-size: 14px;
+    margin-top: 20px;
+    color: var(--content-text);
+}
+
+/* UNLOCK NOTE */
+.unlock-note {
+    background: var(--header-bg);
+    border-left: 5px solid var(--primary-green);
+    padding: 18px 22px;
+    border-radius: 16px;
+    font-size: 15px;
+    margin-top: 40px;
+    color: var(--content-text);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .device-list {
+        columns: 1;
+    }
+
+    .esim-hero {
+        padding: 40px 20px;
+    }
+
+    .esim-card {
+        padding: 24px;
+    }
+}

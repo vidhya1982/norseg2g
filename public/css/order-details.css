@@ -1,0 +1,454 @@
+.order-wrapper {
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.06);
+    padding: .8rem;
+}
+
+/* ====== CARD ====== */
+.order-detail-card {
+    padding: 24px;
+    margin-bottom: 24px;
+}
+.card:hover { transform: translateY(-4px); }
+.order-summary{
+ padding: 24px;
+    margin-bottom: 24px;
+background: linear-gradient(
+    135deg,
+    rgba(0, 61, 189, 0.08),
+    rgba(100, 174, 2, 0.08)
+  );
+}
+
+/* ====== HEADER ====== */
+.header {
+    background: var(--header-bg);
+}
+.header h1 {
+    color: var(--primary-color);
+}
+.subtitle {
+    color: var(--text-secondary-color);
+}
+
+/* ====== HIGHLIGHT ====== */
+.highlight {
+    background: var(--highlight-background);
+    color: var(--white);
+}
+.highlight a { color: var(--white); }
+
+/* ====== BADGES ====== */
+.badge-row span {
+    display: inline-block;
+    background: var(--primary-green);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-right: 8px;
+    font-size: 13px;
+}
+
+/* ====== STEPS ====== */
+.steps li {
+    padding-left: 22px;
+    margin-bottom: 8px;
+    position: relative;
+    list-style: none;
+}
+.steps li::before {
+    content: "✔";
+    color: var(--primary-green);
+    position: absolute;
+    left: 0;
+}
+
+/* ====== SUMMARY ====== */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+}
+.summary-grid span {
+    color: var(--text-secondary-color);
+    font-size: 13px;
+}
+
+/* ====== COPY ====== */
+.copy-field {
+    display: flex;
+    gap: 12px;
+}
+.copy-field button {
+    background: var(--btn-background-color);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+}
+
+/* ====== QR ====== */
+.qr {
+    margin-top: 12px;
+    border-radius: 12px;
+}
+
+/* ====== ANIMATIONS ====== */
+.fade-in { animation: fade .6s ease both; }
+.slide-up { animation: slide .6s ease both; }
+.zoom-in { animation: zoom .6s ease both; }
+
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slide {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes zoom {
+    from { opacity: 0; transform: scale(.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+/* =========================
+   ORDER SUMMARY CONTAINER
+========================= */
+
+.order-summary {
+    background: linear-gradient(
+        135deg,
+        #f4f9ff 0%,
+        #f7fbf3 100%
+    );
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    margin-bottom: 40px;
+}
+
+/* Title */
+.order-summary h3 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 24px;
+}
+
+/* =========================
+   SUMMARY GRID
+========================= */
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 22px;
+    margin-bottom: 32px;
+}
+
+/* Each Item */
+.summary-grid div {
+    /* background: var(--white); */
+    border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 8px 18px rgb/a(0,0,0,0.06);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid red !important;
+}
+
+.summary-grid div:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+}
+
+/* Label */
+.summary-grid span {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary-color);
+    margin-bottom: 6px;
+}
+
+/* Value */
+.summary-grid strong {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--secondary-color);
+}
+
+/* Highlight Total */
+.summary-grid div:last-child strong {
+    color: var(--primary-green);
+    font-size: 20px;
+}
+
+
+.activation-card {
+    position: relative;
+    padding: 28px 32px;
+    background: var(--white);
+    border-radius: 16px;
+    margin: 30px 0;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.06);
+}
+
+/* LEFT BORDER */
+.activation-card::before {
+    content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 0;
+    width: 5px;
+    border-radius: 5px;
+    background: var(--highlight-background);
+}
+
+/* BOTTOM BORDER */
+.activation-card::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 0;
+    height: 5px;
+    border-radius: 5px;
+    background: var(--highlight-background);
+}
+
+
+.support-box {
+    position: relative;
+    padding: 22px 28px;
+    margin: 30px 0;
+    color: var(--content-text);
+    line-height: 1.6;
+}
+
+/* LEFT ACCENT BORDER */
+.support-box::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 4px;
+    background: var(--highlight-background);
+    border-radius: 4px;
+}
+
+/* BOTTOM ACCENT BORDER */
+.support-box::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 0;
+    height: 4px;
+    background: var(--highlight-background);
+    border-radius: 4px;
+}
+
+/* Brand highlight */
+.support-box .brand {
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+/* Links */
+.support-box a {
+    color: var(--blue);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.support-box a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   eSIM DETAIL CARD
+========================= */
+
+
+/* Title */
+.order-detail-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--heading);
+    margin-bottom: 18px;
+}
+
+/* =========================
+   ICCID COPY FIELD
+========================= */
+
+.copy-field {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* ICCID Text */
+.copy-field code {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-color);
+    background: rgba(255,255,255,0.9);
+    padding: 12px 16px;
+    border-radius: 10px;
+    word-break: break-all;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06);
+}
+
+/* Copy Button */
+.copy-field button {
+    background: var(--primary-green);
+    color: var(--white);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* Button Hover */
+.copy-field button:hover {
+    background: #5a9d02;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(100,174,2,0.35);
+}
+
+/* apn details */
+.apn-guide {
+    margin-top: 32px;
+    color: var(--content-text);
+    line-height: 1.7;
+}
+
+/* Intro */
+.intro-text {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.note-text {
+    font-size: 14px;
+    color: var(--text-secondary-color);
+    margin-bottom: 24px;
+}
+
+/* Section title */
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--heading);
+    margin: 30px 0 16px;
+    position: relative;
+    padding-left: 14px;
+}
+
+.section-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+    border-radius: 4px;
+    background: var(--highlight-background);
+}
+
+/* Steps list */
+.steps-list {
+    list-style: none;
+    padding-left: 20px;
+    margin-bottom: 24px;
+}
+
+.steps-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    font-size: 14.5px;
+}
+
+.steps-list li::before {
+    content: "\f00c";
+    position: absolute;
+    left: 0;
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+/* Warning / Important */
+.steps-list.warning li::before {
+    content: "\f071";
+    color: var(--accent-color);
+}
+
+/* Sub sections */
+.sub-section {
+    border-left: 3px solid var(--primary-green);
+    padding-left: 14px;
+    margin: 16px 0;
+}
+
+.sub-section span {
+    font-weight: 600;
+    color: var(--heading);
+    display: block;
+}
+
+.sub-section p {
+    font-size: 14px;
+    margin: 4px 0 0;
+}
+
+/* Final check */
+.final-check {
+    margin-top: 28px;
+    padding-left: 16px;
+    border-left: 3px dashed var(--primary-color);
+}
+
+.final-check p {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.final-check ul {
+    list-style: disc;
+    padding-left: 18px;
+    font-size: 14px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .order-summary {
+        padding: 24px;
+    }
+
+    .summary-grid {
+        gap: 16px;
+    }
+
+    .order-summary h3 {
+        font-size: 22px;
+    }
+
+    .order-detail-card {
+        padding: 22px;
+    }
+}

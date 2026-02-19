@@ -1,0 +1,246 @@
+
+.dashboard-menu .logout {
+  color: #dc3545;
+}
+
+.user-siderbar-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 18px 45px rgba(0,0,0,.08);
+}
+
+.dashboard-page a{
+  text-decoration: none;
+}
+
+
+.dashboard-page{
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+
+.stats-card {
+     border-radius: 14px;
+    padding: 18px 20px;
+    box-shadow: 0 8px 18px rgb/a(0,0,0,0.06);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgb(1, 50, 6) !important;
+}
+
+.stats-card:hover {
+  transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+}
+
+.stats-icon {
+    font-size: 24px;
+    color: #123910;
+}
+
+
+
+.info-card {
+  position: relative;
+    padding: 28px 32px;
+    background: var(--white);
+    border-radius: 16px;
+    margin: 30px 0;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.06);
+}
+.info-card::before {
+ content: "";
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    left: 0;
+    width: 5px;
+    border-radius: 5px;
+    background: var(--highlight-background);
+}
+.info-card::after {
+ content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 0;
+    height: 5px;
+    border-radius: 5px;
+    background: var(--highlight-background);
+}
+.info-card li{
+    list-style: none;
+}
+
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.quick-card {
+    display: block;
+    padding: 16px;
+    background: #f8fbff;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    transition: .3s;
+    text-decoration: none;
+}
+
+.quick-card:hover {
+    background: var(--primary-green);
+    color: #fff;
+}
+
+.quick-card.danger:hover {
+        background: #6693d4;
+}
+
+.mobile-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.mobile-tabs a {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+.dashboard-sidebar {
+  background: var(--white);
+  border-right: 1px solid #e6ecf5;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.04);
+  position: sticky !important;
+  top: 0;
+      border-radius: 18px;
+      padding: .5rem;
+}
+
+/* =========================================================
+   USER BOX
+========================================================= */
+.user-box {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 61, 189, 0.08),
+    rgba(100, 174, 2, 0.08)
+  );
+  border-radius: 18px;
+  text-align: center;
+  padding:2rem;
+}
+.dashboard-layout,
+.dashboard-content,
+.row {
+    overflow: visible !important;
+}
+
+.user-box h4 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.user-box small {
+  font-size: 13px;
+  color: var(--text-secondary-color);
+  word-break: break-all;
+}
+
+/* =========================================================
+   MENU
+========================================================= */
+.dashboard-menu {
+  list-style: none;
+  padding-left: 0%;
+}
+
+.dashboard-menu li {
+}
+
+/* =========================================================
+   MENU LINKS
+========================================================= */
+.dashboard-menu li a {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--content-text);
+  transition: all 0.25s ease;
+}
+
+/* hover */
+.dashboard-menu li a:hover {
+  color: var(--primary-color);
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   ACTIVE MENU
+========================================================= */
+.dashboard-menu li.active a {
+  background: var(--highlight-background);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 10px 24px rgba(0, 61, 189, 0.35);
+}
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+.dashboard-menu li.logout {
+
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #dc2626;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+
+.dashboard-menu li.logout:hover {
+  background: rgba(220, 38, 38, 0.12);
+  transform: translateX(4px);
+}
+
+/* =========================================================
+   RESPONSIVE (MOBILE)
+========================================================= */
+@media (max-width: 992px) {
+  .dashboard-sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    box-shadow: none;
+    border-right: none;
+  }
+
+  .dashboard-menu li a {
+    justify-content: center;
+  }
+
+  .user-box {
+    margin: 16px;
+  }
+}

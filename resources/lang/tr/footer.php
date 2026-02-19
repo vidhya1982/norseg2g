@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'text1' => 'The gsm2go eSIM – the only with data and voice: Comes with a real phone number for real phone calls, in and out.',
+    'text2' => 'Quick Links',
+    'text3' => 'Terms and Conditions and GDPR',
+    'text4' => 'GDPR',
+    'text5' => 'Cellular Data Optimization',
+    'text6' => 'Contact Us',
+    'text7' => 'Contact Information',
+    'text8' => 'gsm2go eSIM',
+    'text9' => 'Call Us:',
+    'text10' => '123-456-7898',
+    'text11' => 'Email Us:',
+    'text12' => 'cs@gsm2go.com',
+    'text13' => 'Copyright @ gsm2go. All Rights Reserved.',
+    'text14' => 'We do not store credit card details. Your credit card information is transmitted securely.',
+    'text16' => 'eSIM Compatible Phone list',
+    'fup' => 'Fair Use Policy',
+    'link_text_uk' => 'UK data and voice eSIM Plans',
+    'link_text_usa' => 'USA eSIM High Speed Data Plans',
+    'link_text_uae' => 'UAE data and voice eSIM Plans',
+    'link_text_jp' => 'Japan data and voice eSIM Plans',
+    'link_text_world' => 'World data and voice eSIM Plans',
+    'link_text_eu' => 'Europe data and voice eSIM Plans',
+];

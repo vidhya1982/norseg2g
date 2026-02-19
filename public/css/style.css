@@ -1,0 +1,40 @@
+@import url('common.css');
+@import url('googleFont.css');
+@import url('responsive.css');
+/* header */
+@import url('login.css');
+@import url('signup.css');
+@import url('user-pannel.css');
+@import url('header.css');
+/* homepage */
+@import url('home.css');
+
+/* Footer */
+@import url('footer.css');
+
+@import url('esim-compatible.css');
+@import url('cellular-optimization.css');
+@import url('terms.css');
+@import url('fair-use.css');
+
+/**checkout page */
+@import url('checkout.css');
+
+
+/* Cart Page */
+@import url('cart.css');
+
+/*plans page*/
+@import url('plans.css');
+@import url('guide.css');
+@import url('faq.css');
+
+@import url('buisness.css');
+@import url('about.css');
+@import url('contact.css');
+
+@import url('profile.css');
+@import url('orders.css');
+@import url('user-password-page.css');
+@import url('order-details.css');
+

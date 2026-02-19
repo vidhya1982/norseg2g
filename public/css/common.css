@@ -1,0 +1,66 @@
+/* :root {
+  --primary-color: #003dbd;
+  --secondary-color: #292929;
+  --accent-color: #ff5722;
+  --text-color: #64ae02;
+  --btn-background-color: #64ae02;
+  --text-secondary-color: #747474;
+  --background-color: #e5eeff;
+  --text-light: #484e5b;
+  --page-background: #f5f2f2;
+   --primary-green: #64AE02;
+    --heading: #292929;
+    --white: #FFFFFF;
+    --content-text: #606571;
+    --plan-btn-bg: #002269;
+    --header-text: #839CD0;
+    --header-bg: #F8FBFF;
+    --blue: #0d6efd;
+    --highlight-background: linear-gradient(135deg, #6693d4, #acd972);
+} */
+
+:root {
+  /* Primary Norse Dark Navy */
+--primary-color: #0d294b;
+     /* Deep navy */
+  --secondary-color: #111111;      /* Almost black */
+  
+  /* Norse Accent Red */
+  --accent-color: #E10600;         /* Strong airline red */
+  
+  /* Text Colors */
+  --text-color: #1A1A1A;
+  --text-secondary-color: #6B7280;
+  --text-light: #9CA3AF;
+  
+  /* Backgrounds */
+  --background-color: #F4F6F9;     /* Soft grey background */
+  --page-background: #FFFFFF;      /* Clean white */
+  --header-bg: #FFFFFF;
+  
+  /* Buttons */
+  --btn-background-color: #FFD795; /* Red CTA */
+  --plan-btn-bg: #0A1F44;          /* Navy button */
+  
+  /* Utility */
+  --white: #FFFFFF;
+  --blue: #0A1F44;
+  
+  /* Replace green theme */
+  --primary-green: #E10600;        /* Remove green vibe */
+  
+  /* Remove gradient look */
+ --highlight-background: linear-gradient(135deg, #081c34, #0f2a52);
+
+  --bs-deep-blue:#172744;
+
+}
+
+
+.page-background {
+  background: var(--page-background);
+} 
+
+section {
+  padding: 4rem 0;
+}

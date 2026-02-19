@@ -1,0 +1,20 @@
+body {
+  direction: rtl;
+  text-align: right;
+}
+
+
+/******************** FAQ Page RTL Configuration ******************/
+.accordion-button::after {
+    margin-left: unset;
+    margin-right: auto;
+}
+
+.view-button i {
+    margin-left: 0;
+    margin-right: 1rem;
+   
+}
+.view-dest{
+  text-align: left;
+}

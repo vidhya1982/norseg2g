@@ -1,0 +1,128 @@
+/* ===============================
+   CONTACT PAGE – GSM2GO THEME
+   =============================== */
+
+body {
+    background: #f4f8ff;
+}
+
+/* Hero section */
+.contact-hero {
+    background: linear-gradient(120deg, rgba(13,110,253,.12), rgba(100,174,2,.12));
+   
+    border-radius: 24px;
+    padding: 60px 30px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(245, 245, 245, 0.25);
+}
+
+.contact-hero h1 span {
+    color: #eaffd5;
+}
+
+.contact-hero p {
+    opacity: 0.95;
+    font-size: 16px;
+}
+
+/* Form card */
+.form-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: 60px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    position: relative;
+    z-index: 2;
+}
+
+/* Labels */
+.form-label {
+    font-weight: 600;
+    color: #1d3557;
+    font-size: 14px;
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+    border-radius: 12px;
+    padding: 12px 14px;
+    border: 1px solid #e0e6ef;
+    transition: all 0.25s ease;
+    font-size: 14px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.15);
+}
+
+/* Phone input group */
+.input-group .form-select {
+    background-color: #f8fbff;
+    font-weight: 500;
+}
+
+.input-group .form-control {
+    border-left: 0;
+}
+
+/* Textarea */
+textarea.form-control {
+    resize: none;
+}
+
+/* Captcha */
+.captcha-box img {
+    border-radius: 8px;
+    border: 1px solid #dbe3f0;
+    margin-right: 10px;
+}
+
+.captcha-box a {
+    font-size: 13px;
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.captcha-box a:hover {
+    text-decoration: underline;
+}
+
+
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 35px rgba(13,110,253,0.4);
+}
+
+/* Small animation */
+.form-card {
+    animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-hero {
+        padding: 40px 20px;
+    }
+
+    .form-card {
+        padding: 30px 20px;
+        margin-top: 40px;
+    }
+}

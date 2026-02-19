@@ -1,0 +1,73 @@
+.about-hero{
+            background: linear-gradient(120deg, rgba(13,110,253,.12), rgba(100,174,2,.12));
+            border-radius: 26px;
+            padding: 90px 60px;
+        }
+
+        .about-section{
+            margin-top: 90px;
+        }
+
+
+        .about-card{
+            border-radius: 20px;
+            border:none;
+            box-shadow: 0 14px 45px rgba(0,0,0,.07);
+            transition: all .3s ease;
+        }
+
+        .about-card:hover{
+            transform: translateY(-8px);
+        }
+
+        .gradient-text{
+           background: var(--highlight-background);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .icon-badge{
+            width:52px;
+            height:52px;
+            border-radius:50%;
+            background: var(--highlight-background);
+            color:#fff;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:22px;
+            margin-bottom:15px;
+        }
+
+        .cta-box{
+            background: var(--highlight-background);
+            border-radius:30px;
+            color:#fff;
+            padding:80px;
+        }
+
+        @media(max-width:768px){
+            .about-hero{padding:50px 30px;}
+            .cta-box{padding:50px 30px;}
+        }
+
+
+        .about-section img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+/* Large screens (desktop) */
+@media (min-width: 992px) {
+    .about-section img {
+        max-width: 420px;   /* adjust if needed */
+    }
+}
+
+/* Extra large screens */
+@media (min-width: 1200px) {
+    .about-section img {
+        max-width: 500px;   /* bigger image on large desktops */
+    }
+}

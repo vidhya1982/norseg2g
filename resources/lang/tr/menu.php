@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'home' => 'Home',
+    'aboutus' => 'About Us',
+    'faq' => 'FAQ',
+    'guide' => 'Guide',
+    'postpaid' => 'For Business',
+    'plans' => 'Plans',
+    'login' => 'Login',
+    'logout' => 'Logout',
+    'signup' => 'Sign Up',
+    'dashboard' => 'Dashboard',
+    'orders' => 'Orders',
+    'profile' => 'Profile',
+    'myaccount' => 'My Account',
+    'subheading1' => "The World's Best",
+    'subheading2' => 'eSIM',
+    'contact' => 'Contact',
+    'personal_info' => 'Personal Information',
+    'password' => 'Password',
+    'account_info' => 'Account Information',
+    'cart' => 'Cart',
+    'recharge' => 'Recharge',
+];

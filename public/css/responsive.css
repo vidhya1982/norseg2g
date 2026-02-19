@@ -1,0 +1,174 @@
+/* Responsive fix for smaller screens */
+@media (max-width: 768px) {
+  section {
+  padding: 2rem 0 !important;
+}
+    .img1{
+            top: 35% !important;
+            left: 20% !important;
+    }
+    .img1, .img2, .img3 {
+        position: static;
+        width: 70%;
+        margin: 10px auto;
+        display: block;
+    }
+
+    .img3{
+      max-height: 400px;
+    }
+    .position-relative {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-banner .row {
+        flex-direction: column;
+    }
+    .banner-title-header{    font-size: 2rem !important; }
+
+    .search-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .view-btn {
+        margin-top: 20px;
+    }
+    .arrow{
+    margin: 0rem;
+}
+}
+
+
+/*checkout page */
+
+@media screen and (min-width: 768px) {
+  
+  .checkout-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .payment-section {
+    flex: 1 1 45%;
+  }
+
+  .package-section, .summary-section {
+    flex: 1 1 45%;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+   .contact-info-footer {
+    flex-direction: column;
+  }
+
+  footer ul li a {
+    white-space: normal;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+  }
+            .checkout-container {
+                flex-direction: column;
+            }
+
+            .checkout-left,
+            .checkout-right {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .package-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .package-right {
+                text-align: left;
+                margin-top: 8px;
+            }
+
+            .pay-now button {
+                width: 100%;
+            }
+  }
+
+
+/* Mobile: center the logo absolutely */
+@media (max-width: 991px) {
+  /* place logo in center of navbar */
+  .logo-center-mobile {
+    position: absolute;
+    left: 40%;
+    transform: translateX(-50%);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5; /* stays above other elements */
+  }
+
+  /* hamburger: keep it left */
+  .navbar-toggler {
+    position: relative;
+    z-index: 6;
+    margin-left: 0.25rem; /* small spacing from left edge */
+  }
+
+  /* mobile right button: float to the right */
+  #mobileDestBtn {
+    margin-left: auto;
+    position: relative;
+    z-index: 6;
+    
+  }
+
+  /* make sure collapsed content (if any) doesn't push logo */
+  .collapse.navbar-collapse { display: none !important; }
+
+  /* small tweak so logo won't overlap too close to buttons */
+  .logo-img { height: 44px; }
+}
+
+/* Desktop fallback: logo static */
+@media (min-width: 992px) {
+  .logo-center-mobile { position: static; transform: none; }
+  .navbar-toggler { display: none; } /* hide mobile toggler on desktop */
+}
+/* place this in your style.css AFTER bootstrap link */
+@media (max-width: 991.98px) { /* lg se chhote screens */
+  nav.navbar {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* center the logo in the middle column */
+  .navbar-brand.logo-center-mobile {
+    justify-self: center;
+    margin: 0; /* remove default margins */
+  }
+
+  /* hamburger left, keep its default look */
+  #mobileMenuBtn {
+    order: 1;
+  }
+
+  /* right mobile button */
+  #mobileDestBtn {
+    order: 3;
+  }
+
+  /* make sure image doesn't overflow */
+  .logo-img {
+    max-height: 42px; /* adjust as needed */
+    width: auto;
+    display: block;
+  }
+}
