@@ -55,17 +55,7 @@
         </div>
 
         <div class="d-none d-lg-flex ml-auto align-items-center right-section gap-3">
-            <div class="lang-wrapper">
-                <i class="fa-solid fa-globe"></i>
-
-                <select class="lang-select" onchange="window.location='{{ url('lang') }}/'+this.value">
-                    @foreach ($languages as $code => $label)
-                        <option value="{{ $code }}" {{ app()->getLocale() === $code ? 'selected': '' }}>
-                            {{ $label }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+           
 
 
 
@@ -98,18 +88,7 @@
                 <div class="d-flex align-items-center mb-3">
                     <i class="fa-solid fa-globe mr-2"></i>
 
-                    <div class="lang-wrapper">
-                        <i class="fa-solid fa-globe"></i>
-
-                        <select class="lang-select" onchange="window.location='{{ url('lang') }}/'+this.value"
-                            border-none>
-                            @foreach ($languages as $code => $label)
-                                <option value="{{ $code }}" {{ app()->getLocale() === $code ? 'selected' : '' }}>
-                                    {{ $label }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                   
 
                 </div>
             </div>
