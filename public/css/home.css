@@ -199,7 +199,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(10, 31, 68, 0.85);
+    background-color: rgba(10, 31, 68, 0.70);
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: 1;
@@ -211,7 +211,7 @@
     top: 15px;
     right: 15px;
     background-color: var(--btn-background-color);
-    color: #fff;
+    color: var(--bs-deep-blue);
     font-size: 13px;
     border: none;
     border-radius: 100%;
@@ -408,6 +408,85 @@ table th:first-child {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     image-rendering: auto;
     display: block;
+}
+
+
+
+.spec-link:hover {
+    text-decoration: underline;
+}
+
+/* Modal Theme */
+.specs-modal {
+    background: #081c34;
+    color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.specs-header {
+    background: #0f2a52;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.specs-body {
+    padding: 25px;
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.spec-title {
+    width: 35%;
+    font-weight: 600;
+    color: #cbd5e1;
+}
+.spec-link {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bs-deep-blue);
+    background: rgba(255,255,255,0.9);
+    padding: 6px 12px;
+    border-radius: 20px;
+    z-index: 5;
+    transition: 0.3s ease;
+}
+.plan-card:hover .spec-link {
+    color: var(--bs-deep-blue);
+    background: var(--btn-background-color);
+}
+
+.spec-value {
+    width: 60%;
+}
+
+.spec-value.highlight {
+    color: #E10600;
+    font-weight: 600;
+}
+
+.specs-footer {
+    background: #0f2a52;
+    padding: 18px;
+}
+
+.close-modal-btn {
+    background: #ffffff;
+    border: none;
+    color: rgb(0, 0, 0);
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 600;
 }
 
 @keyframes fadeIn {
