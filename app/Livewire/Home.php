@@ -25,9 +25,7 @@ class Home extends Component
         $this->compare = __('compare_table');
         $this->pricingCompare = __('plan_compare_table');
 
-        $this->countries = Country::select('id', 'country_name')
-            ->orderBy('country_name')
-            ->get();
+        $this->countries = Country::activeCountries()->get();
     }
 
     public function render()

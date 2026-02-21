@@ -136,30 +136,79 @@ function showGuideTab(tabId, btn) {
 
 // country search autocomplete home page 
 $(function () {
+
     const $input = $('#countrySearch');
     const $list  = $('#suggestions');
-    const $items = $list.find('li');
+    const $clear = $('#clearBtn');
 
+    // Show dropdown on focus
+    $input.on('focus', function () {
+        $list.show();
+    });
+
+    // Filtering
     $input.on('input', function () {
+
         const val = $(this).val().toLowerCase().trim();
-        if (!val) return $list.hide();
+        const $items = $list.find('.suggestion-item');
+
+        if (!val) {
+            $items.show();
+            $list.hide();
+            return;
+        }
 
         let hasMatch = false;
 
         $items.each(function () {
-            const match = $(this).text().toLowerCase().trim().startsWith(val);
+
+            const text = $(this)
+                .find('.suggestion-left span')
+                .text()
+                .toLowerCase()
+                .trim();
+
+            const match = text.includes(val);
+
             $(this).toggle(match);
+
             if (match) hasMatch = true;
         });
 
         $list.toggle(hasMatch);
     });
-    $list.on('click', 'li', function () {
-        const text = $(this).text().trim();
+
+    // Click on suggestion
+    $list.on('click', '.suggestion-item', function () {
+
+        const text = $(this)
+            .find('.suggestion-left span')
+            .text()
+            .trim();
+
         $input.val(text);
         $list.hide();
     });
+
+    // ✅ CLEAR BUTTON FIX
+    $clear.on('click', function (e) {
+        e.stopPropagation();
+        $input.val('');
+        $list.hide();
+    });
+
+    // Click outside hide dropdown
+    $(document).on('click', function (e) {
+        if (!$(e.target).closest('.search-container').length) {
+            $list.hide();
+        }
+    });
+
 });
+  
+
+
+
 
 
 $(document).on('click', '.suggestion-item', function () {

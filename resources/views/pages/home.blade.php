@@ -7,26 +7,44 @@
                 <!-- <p class="banner-title-content">{{ __('home.discount_line') }}</p>-->
 
                 <div class="search-container">
-                    <i class="fa fa-search search-icon"></i>
+                    <div class="search-left">
+                        <i class="fa-solid fa-location-dot search-icon"></i>
+                    </div>
 
                     <input type="text" class="search-input" placeholder="Search for destination" autocomplete="off"
                         id="countrySearch" wire:loading.attr="disabled">
-
-
-
+<button type="button" class="search-clear-btn" id="clearBtn">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
                     <!-- Loader -->
                     <div class="loader search-button" wire:loading wire:target="loadZonesByCountry">
                         <i class="fa fa-spinner fa-spin"></i> Loading...
                     </div>
 
                     <ul class="suggestions-list" id="suggestions" wire:loading.remove>
+
+                        <!-- Header Row -->
+                        <div class="dropdown-header">
+                            <span>DESTINATIONS</span>
+                            <span class="results-count">{{ count($countries) }} RESULTS</span>
+                        </div>
+
                         @foreach ($countries as $country)
                             <li class="suggestion-item" data-country="{{ $country->id }}">
-                                {{ $country->country_name }}
+
+                                <div class="suggestion-left">
+                                    <img src="{{ asset('images/country_flag/' . $country->flag) }}"
+                                        alt="{{ $country->country_name }}" class="img-fluid country-flag"
+                                        style="max-width:40px">
+                                    <span>{{ $country->country_name }}</span>
+                                </div>
+
+                                <span class="country-badge">Country</span>
+
                             </li>
                         @endforeach
-                    </ul>
 
+                    </ul>
                 </div>
 
 
@@ -202,9 +220,9 @@
 
                                     <div class="spec-row">
                                         <div class="spec-title">Technical Support</div>
-                                        <div class="spec-value badge">
+                                        <div class="spec-value">
                                             <span>24/7/365 Helpdesk</span><br>
-                                            <span>24/7/365 support@maya.net</span>
+                                            <span>24/7/365 cs@gsm2go.com</span>
                                         </div>
                                     </div>
 
