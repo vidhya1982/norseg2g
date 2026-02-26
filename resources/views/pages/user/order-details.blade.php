@@ -57,8 +57,22 @@
                 </ul>
             </div>
 
-            <div class="activation-card zoom-in">
+            <div class="activation-card zoom-in d-flex align-items-center justify-content-center">
                 <h5>QR Code for your gsm2go eSIM:</h5>
+
+                @if($order->iccid && file_exists(public_path('images/uploads/qr/' . $order->iccid->ICCID . '.png')))
+    <div class="text-center">
+        <img 
+            src="{{ asset('images/uploads/qr/' . $order->iccid->ICCID . '.png') }}" 
+            alt="eSIM QR Code"
+            style="max-width:50px;width:100%;height:auto;border:1px solid #ddd;padding:10px;background:#fff;"
+        >
+    </div>
+@else
+    <div class="alert alert-warning text-center">
+        QR code not available yet.
+    </div>
+@endif
             </div>
 
             <!-- ORDER SUMMARY -->

@@ -101,8 +101,12 @@ Route::get('/checkout', Checkout::class)->name('checkout');
 
 
 
+Route::post('/webhooks/airwallex', function (Request $request) {
 
+    Log::info('Webhook Received', $request->all());
 
+    return response()->json(['success' => true]);
+});
 /*
 |--------------------------------------------------------------------------
 | LANGUAGE SWITCH

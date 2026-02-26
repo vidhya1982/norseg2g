@@ -217,32 +217,93 @@
 ========================= */
 
 .checkout-right {
-    background: #ffffff;
-    padding: 2rem;
-    border-radius: 18px;
+     background: #fff;
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1rem;
     height: fit-content;
 }
 
-.payment-options > div {
+/* ── Payment Method Selector Wrapper ── */
+#payment-method-selector {
+  
+}
+
+/* ── Payment Method Option Rows ── */
+.payment-option-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1.2rem;
-    margin-bottom: 0.9rem;
-    border-bottom: 1.5px solid #1d6e29;
-    border-radius: 20px;
+    padding: 0.85rem 1.2rem;
+    margin-bottom: 0.5rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.payment-option-row:last-child {
+    margin-bottom: 0;
+}
+
+.payment-option-row:hover {
+    border-color: #1d6e29;
+    box-shadow: 0 0 0 3px rgba(29, 110, 41, 0.08);
+}
+
+/* .payment-option-selected {
+    border: 2px solid #1d6e29 !important;
+    box-shadow: 0 0 0 3px rgba(29, 110, 41, 0.12);
+    background: #f0fdf4;
+} */
+
 .checkout-payment-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
     font-weight: 600;
+    font-size: 0.95rem;
     color: #111827;
+    cursor: pointer;
+    margin: 0;
+}
+
+.checkout-payment-label input[type="radio"] {
+    accent-color: #1d6e29;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.pay-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
 .pay-logo img {
-    height: 22px;
-    margin-right: 0.5rem;
+    height: 24px;
+    object-fit: contain;
 }
 
+/* ── Pay Now wrapper box ── */
+.pay-now {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    margin-top: 1rem;
+}
+
+/* ── Airwallex wrapper ── */
+#airwallex-element-wrapper {
+    background: #fff;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border: none !important;
+    margin-top: 1rem;
+}
 /* =========================
    PAY NOW
 ========================= */

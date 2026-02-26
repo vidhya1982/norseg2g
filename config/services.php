@@ -52,5 +52,33 @@ return [
         'redirect' => env('APPLE_REDIRECT_URI'),
     ],
 
+    'airwallex' => [
+
+        'env' => env('AIRWALLEX_ENV', 'sandbox'),
+
+        'sandbox' => [
+            'base_url' => env('AIRWALLEX_SANDBOX_BASE_URL'),
+            'client_id' => env('AIRWALLEX_SANDBOX_CLIENT_ID'),
+            'api_key' => env('AIRWALLEX_SANDBOX_API_KEY'),
+            'account_id' => env('AIRWALLEX_ACCOUNT_ID'),
+        ],
+
+        // 'production' => [
+        //     'base_url' => env('AIRWALLEX_PROD_BASE_URL'),
+        //     'client_id' => env('AIRWALLEX_PROD_CLIENT_ID'),
+        //     'api_key' => env('AIRWALLEX_PROD_API_KEY'),
+        // ],
+    ],
+
+    'esim' => [
+        'api_user' => env('ESIM_API_USER'),
+        'api_pass' => env('ESIM_API_PASS'),
+        'api_url' => env('ESIM_API_URL'),
+        'distributor_id' => env('ESIM_DISTRIBUTOR_ID', '14597879'),
+        'admin_email' => env('ESIM_ADMIN_EMAIL'),
+    ],
+    'tly' => [
+        'token' => env('TLY_TOKEN'),
+    ],
 
 ];
