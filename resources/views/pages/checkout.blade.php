@@ -76,85 +76,67 @@
             {{-- ═══════════ RIGHT SIDE ═══════════ --}}
             <div class="checkout-right page-background">
 
-                {{-- ══ PAYMENT METHOD SELECTOR ══ --}}
-                <div id="payment-method-selector" class="{{ $isGuest ? 'opacity-50 pointer-events-none' : '' }}">
+              {{-- ══ PAYMENT METHOD SELECTOR ══ --}}
+<div id="payment-method-selector" class="{{ $isGuest ? 'opacity-50 pointer-events-none' : '' }}">
+    {{-- Card --}}
+    <div class="payment-option-row payment-option-selected" onclick="selectPayMethod('card')" id="method-card">
+        <label class="checkout-payment-label">
+            <input type="radio" name="pay" value="card" checked onchange="selectPayMethod('card')" />
+            Credit / Debit Card
+        </label>
+        <div class="pay-logo">
+            <img src="{{ asset('images/visa.png') }}" alt="Visa" />
+            <img src="{{ asset('images/mastercard.png') }}" alt="Mastercard" />
+            <img src="{{ asset('images/amex.png') }}" alt="Amex" />
+        </div>
+    </div>
 
-                    {{-- Card --}}
-                    <div class="payment-option-row payment-option-selected" onclick="selectPayMethod('card')" id="method-card">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="card" checked onchange="selectPayMethod('card')" />
-                            Credit / Debit Card
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/visa.png') }}"       alt="Visa" />
-                            <img src="{{ asset('images/mastercard.png') }}" alt="Mastercard" />
-                            <img src="{{ asset('images/amex.png') }}"       alt="Amex" />
-                        </div>
-                    </div>
+    {{-- Apple Pay --}}
+    <div class="payment-option-row" onclick="selectPayMethod('applepay')" id="method-applepay">
+        <label class="checkout-payment-label">
+            <input type="radio" name="pay" value="applepay" onchange="selectPayMethod('applepay')" />
+            Apple Pay
+        </label>
+        <div class="pay-logo">
+            <img src="{{ asset('images/applepay.png') }}" alt="Apple Pay" />
+        </div>
+    </div>
 
-                    {{-- Apple Pay --}}
-                    <div class="payment-option-row" onclick="selectPayMethod('applepay')" id="method-applepay">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="applepay" onchange="selectPayMethod('applepay')" />
-                            Apple Pay
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/applepay.png') }}" alt="Apple Pay" />
-                        </div>
-                    </div>
+    {{-- Google Pay --}}
+    <div class="payment-option-row" onclick="selectPayMethod('googlepay')" id="method-googlepay">
+        <label class="checkout-payment-label">
+            <input type="radio" name="pay" value="googlepay" onchange="selectPayMethod('googlepay')" />
+            Google Pay
+        </label>
+        <div class="pay-logo">
+            <img src="{{ asset('images/gpay.png') }}" alt="Google Pay" />
+        </div>
+    </div>
 
-                    {{-- Google Pay --}}
-                    <div class="payment-option-row" onclick="selectPayMethod('googlepay')" id="method-googlepay">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="googlepay" onchange="selectPayMethod('googlepay')" />
-                            Google Pay
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/gpay.png') }}" alt="Google Pay" />
-                        </div>
-                    </div>
+    {{-- PayPal --}}
+    <div class="payment-option-row" onclick="selectPayMethod('paypal')" id="method-paypal">
+        <label class="checkout-payment-label">
+            <input type="radio" name="pay" value="paypal" onchange="selectPayMethod('paypal')" />
+            PayPal
+        </label>
+        <div class="pay-logo">
+            <img src="{{ asset('images/paypal.png') }}" alt="PayPal" />
+        </div>
+    </div>
+</div>
 
-                    {{-- PayPal --}}
-                    <div class="payment-option-row" onclick="selectPayMethod('paypal')" id="method-paypal">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="paypal" onchange="selectPayMethod('paypal')" />
-                            PayPal
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/paypal.png') }}" alt="PayPal" />
-                        </div>
-                    </div>
-                </div>
+{{-- ══ AIRWALLEX DROP-IN WRAPPER ══ --}}
+<div id="airwallex-element-wrapper" style="display:none;" class="mt-3 p-3 border rounded bg-white">
+    <p class="small text-muted mb-2">
+        <i class="fa-solid fa-lock text-success me-1"></i>
+        Secure payment powered by Airwallex
+    </p>
 
-                {{-- ══ AIRWALLEX ELEMENT WRAPPER ══ --}}
-                <div id="airwallex-element-wrapper" style="display:none;" class="mt-3 p-3 border rounded bg-white">
-                    <p class="small text-muted mb-2">
-                        <i class="fa-solid fa-lock text-success me-1"></i>
-                        Secure payment powered by Airwallex
-                    </p>
+    {{-- Single drop-in container — handles card + wallets --}}
+    <div id="airwallex-dropin" style="min-height:120px;"></div>
 
-                    {{-- Card element --}}
-                    <div id="airwallex-card"      style="display:none; min-height:60px;"></div>
-                    {{-- Apple Pay button --}}
-                    <div id="airwallex-applepay"  style="display:none; min-height:50px;"></div>
-                    {{-- Google Pay button --}}
-                    <div id="airwallex-googlepay" style="display:none; min-height:50px;"></div>
-                    {{-- PayPal button --}}
-                    <div id="airwallex-paypal"    style="display:none; min-height:50px;"></div>
-
-                    <div id="airwallex-error" class="text-danger small mt-2" style="display:none;"></div>
-
-                    {{-- Confirm button — sirf card ke liye --}}
-                    <button id="airwallex-pay-btn"
-                            class="pay-now-btn w-100 mt-3"
-                            onclick="confirmAirwallexPayment()"
-                            disabled
-                            style="display:none;">
-                        <i class="fa-solid fa-lock me-1"></i>
-                        Confirm & Pay ${{ number_format($grandTotal, 2) }}
-                    </button>
-                </div>
-
+    <div id="airwallex-error" class="text-danger small mt-2" style="display:none;"></div>
+</div>
                 {{-- ══ PAY NOW / GUEST SECTION ══ --}}
                 <div class="pay-now p-4 bg-white">
                     @if(! $isGuest)
@@ -206,7 +188,3 @@
 </div>
 
 
-@push('scripts')
-<script src="https://static.airwallex.com/components/sdk/v1/index.js"></script>
-<script src="{{ asset('js/checkout-airwallex.js') }}"></script>
-@endpush

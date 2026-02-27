@@ -11,6 +11,7 @@
 
 /* Footer */
 @import url('footer.css');
+@import url('gallery-slideshow.css');
 
 @import url('esim-compatible.css');
 @import url('cellular-optimization.css');

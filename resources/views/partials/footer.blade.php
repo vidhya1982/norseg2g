@@ -81,9 +81,9 @@
                 <h6 class="fw-bold">gsm2go travellers gallery</h6>
                 <div class="gallery">
                     @for ($i = 1; $i <= 9; $i++)
-                        <div>
+                       <a href="{{ route('gallery') }}">
                             <img src="{{ asset('images/gallery-img' . $i . '.png') }}" class="img-fluid rounded" alt="">
-                        </div>
+                        </a>
                     @endfor
                 </div>
             </div>

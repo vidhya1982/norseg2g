@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\GallerySlideshow;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\{
     Login,
@@ -96,6 +97,7 @@ Route::get('/esim-compatible', EsimCompatible::class)->name('esim-compatible');
 Route::get('/cellular-optimization', CellularOptimization::class)->name('cellular-optimization');
 Route::get('/terms', Terms::class)->name('terms');
 Route::get('/fair-use', FairUse::class)->name('fair-use');
+Route::get('/gallery', GallerySlideshow::class)->name('gallery');
 Route::get('/cart', Cart::class)->name('cart');
 Route::get('/checkout', Checkout::class)->name('checkout');
 

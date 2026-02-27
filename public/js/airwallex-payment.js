@@ -1,27 +1,10 @@
-/**
- * checkout-airwallex.js
- * Airwallex payment integration for checkout page.
- *
- * Usage (in Blade layout, after Airwallex SDK):
- *   <script src="https://checkout.airwallex.com/assets/elements.bundle.min.js"></script>
- *   <script src="{{ asset('js/checkout-airwallex.js') }}"></script>
- *
- * Livewire events consumed:  startPayment  (intentId, clientSecret, method)
- * Livewire methods called:   handlePaymentSuccess(intentId)
- */
-
 (function () {
     'use strict';
 
-    // ─────────────────────────────────────────────────────────────────────────
-    //  State
-    // ─────────────────────────────────────────────────────────────────────────
-
-    var _intentId     = null;
-    var _clientSecret = null;
-    var _activeMethod = 'card';   // currently selected payment method
-    var _elements     = {};       // mounted Airwallex elements keyed by method
-    var isConfirming  = false;
+    var _intentId      = null;
+    var _clientSecret  = null;
+    var _activeMethod  = 'card';
+    var _dropinElement = null;
 
     // ─────────────────────────────────────────────────────────────────────────
     //  Payment Method Selector
@@ -30,11 +13,10 @@
     window.selectPayMethod = function (method) {
         _activeMethod = method;
 
-        // Sync Livewire property so payNow() gets the correct method
+        // Sync Livewire property
         if (window.Livewire) {
-            Livewire.find(
-                document.querySelector('[wire\\:id]')?.getAttribute('wire:id')
-            )?.set('paymentMethod', method);
+            var wireId = document.querySelector('[wire\\:id]')?.getAttribute('wire:id');
+            Livewire.find(wireId)?.set('paymentMethod', method);
         }
 
         // Sync radio buttons
@@ -49,35 +31,11 @@
         var selectedRow = document.getElementById('method-' + method);
         if (selectedRow) selectedRow.classList.add('payment-option-selected');
 
-        // If elements already mounted (after payNow), switch visible element
-        if (_intentId) {
-            showMethodElement(method);
+        // If payment already initialized, remount with new method
+        if (_intentId && _clientSecret) {
+            remountDropin(method);
         }
     };
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Show / Hide element containers
-    // ─────────────────────────────────────────────────────────────────────────
-
-    function showMethodElement(method) {
-        ['airwallex-card', 'airwallex-applepay', 'airwallex-googlepay', 'airwallex-paypal']
-            .forEach(function (id) {
-                var el = document.getElementById(id);
-                if (el) el.style.display = 'none';
-            });
-
-        var active = document.getElementById('airwallex-' + method);
-        if (active) active.style.display = 'block';
-
-        // Confirm button only for card (wallets confirm themselves)
-        var btn = document.getElementById('airwallex-pay-btn');
-        if (btn) btn.style.display = (method === 'card') ? 'block' : 'none';
-
-        // Lazy-mount wallet if not yet mounted
-        if (method !== 'card' && _intentId && !_elements[method]) {
-            mountDropin(method);
-        }
-    }
 
     // ─────────────────────────────────────────────────────────────────────────
     //  Livewire: listen for startPayment event
@@ -111,183 +69,91 @@
             if (initBtn) initBtn.style.display  = 'none';
             if (hint)    hint.style.display     = 'block';
 
-            // Small delay to ensure DOM is ready before mounting
-            setTimeout(mountAllElements, 400);
+            setTimeout(function () {
+                remountDropin(_activeMethod);
+            }, 400);
         });
     });
 
     // ─────────────────────────────────────────────────────────────────────────
-    //  Mount all elements
+    //  Remount Drop-in with specific method only
     // ─────────────────────────────────────────────────────────────────────────
 
-    function mountAllElements() {
-        try {
-            Airwallex.init({ env: 'demo', origin: window.location.origin });
-        } catch (e) {
-            console.warn('[Airwallex] init warning:', e);
+    function remountDropin(method) {
+        // Unmount previous
+        if (_dropinElement) {
+            try { _dropinElement.unmount(); } catch (e) {}
+            _dropinElement = null;
         }
 
-        if (_activeMethod === 'card') {
-            mountCard();
-        } else {
-            mountDropin(_activeMethod);
-        }
+        // Clear container
+        var container = document.getElementById('airwallex-dropin');
+        if (container) container.innerHTML = '';
 
-        showMethodElement(_activeMethod);
+        mountDropin(method);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    //  Card Element
+    //  Mount Drop-in with ONLY the selected method
     // ─────────────────────────────────────────────────────────────────────────
 
-    function mountCard() {
-        var container = document.getElementById('airwallex-card');
-        if (!container || _elements['card']) return;
-
-        try {
-            var cardEl = Airwallex.createElement('card', {
-                intent_id:     _intentId,
-                client_secret: _clientSecret,
-            });
-
-            cardEl.mount('airwallex-card');
-            _elements['card'] = cardEl;
-
-            cardEl.on('ready', function () {
-                console.log('[Airwallex] Card element ready ✅');
-            });
-
-            cardEl.on('change', function (e) {
-                var btn = document.getElementById('airwallex-pay-btn');
-                if (btn) btn.disabled = !(e && e.detail && e.detail.complete);
-            });
-
-            cardEl.on('error', function (e) {
-                showAirwallexError((e?.detail?.message) || 'Card error');
-            });
-
-        } catch (err) {
-            console.error('[Airwallex] mountCard failed:', err);
-            showAirwallexError('Card payment not available. Please try again.');
-        }
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Dropin Element (PayPal / Google Pay / Apple Pay)
-    // ─────────────────────────────────────────────────────────────────────────
-
-    function mountDropin(method) {
-        var containerId = 'airwallex-' + method;
-        var container   = document.getElementById(containerId);
-        if (!container || _elements[method]) return;
-
-        // HTTPS check for wallet methods
-        if (window.location.protocol !== 'https:' &&
-            (method === 'applepay' || method === 'googlepay')) {
-            container.innerHTML =
-                '<p class="text-warning small p-2">⚠️ ' + method +
-                ' requires HTTPS. Use Card payment for local testing.</p>';
+    async function mountDropin(method) {
+        var container = document.getElementById('airwallex-dropin');
+        if (!container) {
+            console.error('[Airwallex] #airwallex-dropin container not found');
             return;
         }
 
-        var methodMap = {
-            googlepay: 'googlepay',
-            applepay:  'applepay',
-            paypal:    'paypal',
-        };
-
-        try {
-            var dropinEl = Airwallex.createElement('dropin', {
-                intent_id:     _intentId,
-                client_secret: _clientSecret,
-                methods:       [methodMap[method]],
-            });
-
-            dropinEl.mount(containerId);
-            _elements[method] = dropinEl;
-
-            dropinEl.on('ready', function () {
-                console.log('[Airwallex] dropin (' + method + ') ready ✅');
-            });
-
-            dropinEl.on('success', function (e) {
-                console.log('[Airwallex] dropin (' + method + ') success', e);
-                Livewire.find(
-                    document.querySelector('[wire\\:id]')?.getAttribute('wire:id')
-                )?.call('handlePaymentSuccess', _intentId);
-            });
-
-            dropinEl.on('error', function (e) {
-                var msg = (e?.detail?.message) || (method + ' payment failed');
-                console.error('[Airwallex] dropin error:', e);
-                showAirwallexError(msg);
-            });
-
-        } catch (err) {
-            console.error('[Airwallex] dropin (' + method + ') mount failed:', err.message || err);
-            var isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
-            var msg = isLocalhost
-                ? '⚠️ ' + method + ' is not supported on localhost. Use Card or test via ngrok (HTTPS).'
-                : '⚠️ ' + method + ' unavailable. Please use Card.';
-            container.innerHTML = '<p class="text-warning small p-2">' + msg + '</p>';
-        }
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    //  Confirm Card Payment
-    // ─────────────────────────────────────────────────────────────────────────
-
-    window.confirmAirwallexPayment = function () {
-        if (isConfirming) return;
-
-        var cardEl = _elements['card'];
-        if (!cardEl) { showAirwallexError('Payment form not ready.'); return; }
-
-        if (!_intentId || !_clientSecret) {
-            showAirwallexError('Session expired. Please refresh and try again.');
-            return;
-        }
-
-        isConfirming = true;
         hideAirwallexError();
 
-        var btn = document.getElementById('airwallex-pay-btn');
-        if (btn) { btn.disabled = true; btn.textContent = 'Processing...'; }
+        try {
+            await window.AirwallexComponentsSDK.init({
+                env: 'demo', // change to 'prod' for production
+                enabledElements: ['payments'],
+            });
 
-        console.log('[Airwallex] Confirming card payment, intent:', _intentId);
+            console.log('[Airwallex] SDK initialized ✅');
 
-        Airwallex.confirmPaymentIntent({
-            element:       cardEl,
-            id:            _intentId,
-            client_secret: _clientSecret,
-        }).then(function (result) {
-            console.log('[Airwallex] Confirm result:', result);
+            // Build options — pass ONLY the selected method
+            var elementOptions = {
+                intent_id:     _intentId,
+                client_secret: _clientSecret,
+                currency:      'USD',
+                methods:       [method],  // ✅ Only show selected method
+            };
 
-            if (result && result.error) {
-                throw new Error(result.error.message || 'Payment declined.');
+            // Add required options for wallet methods
+            if (method === 'applepay') {
+                elementOptions.applePayRequestOptions = { countryCode: 'US' };
+            }
+            if (method === 'googlepay') {
+                elementOptions.googlePayRequestOptions = { countryCode: 'US' };
             }
 
-            var status = result?.paymentIntent?.status ?? result?.status ?? '';
-            console.log('[Airwallex] Payment status:', status);
+            _dropinElement = await window.AirwallexComponentsSDK.createElement('dropIn', elementOptions);
 
-            if (status === 'SUCCEEDED' || status === 'REQUIRES_CAPTURE') {
-                Livewire.find(
-                    document.querySelector('[wire\\:id]')?.getAttribute('wire:id')
-                )?.call('handlePaymentSuccess', _intentId);
-            } else {
-                throw new Error('Unexpected payment status: ' + status);
-            }
+            _dropinElement.mount('airwallex-dropin');
 
-        }).catch(function (err) {
-            console.error('[Airwallex] confirm error:', err);
-            showAirwallexError(err.message || 'Payment failed. Please try again.');
-            isConfirming = false;
-            if (btn) {
-                btn.disabled  = false;
-                btn.innerHTML = '<i class="fa-solid fa-lock me-1"></i> Confirm & Pay';
-            }
-        });
-    };
+            _dropinElement.on('ready', function () {
+                console.log('[Airwallex] Drop-in ready for method:', method, '✅');
+            });
+
+            _dropinElement.on('success', function () {
+                console.log('[Airwallex] Payment success ✅');
+                var wireId = document.querySelector('[wire\\:id]')?.getAttribute('wire:id');
+                Livewire.find(wireId)?.call('handlePaymentSuccess', _intentId);
+            });
+
+            _dropinElement.on('error', function (e) {
+                console.error('[Airwallex] Drop-in error:', e);
+                showAirwallexError(e?.detail?.message || 'Payment failed. Please try again.');
+            });
+
+        } catch (err) {
+            console.error('[Airwallex] mountDropin failed:', err);
+            showAirwallexError('Payment form failed to load. Please refresh and try again.');
+        }
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     //  Helpers

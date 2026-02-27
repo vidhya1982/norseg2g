@@ -25,7 +25,9 @@
 <!-- // Tom select JS -->
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
 
-<script src="https://checkout.airwallex.com/assets/elements.bundle.min.js"></script>
+<!-- <script src="https://checkout.airwallex.com/assets/elements.bundle.min.js"></script> -->
+
+<script src="https://static.airwallex.com/components/sdk/v1/index.js"></script>
 
 
 
@@ -36,3 +38,4 @@
 <script src="{{ asset('js/cart-store.js') }}"></script>
 <script src="{{ asset('js/mainScript.js') }}"></script>
 <script src="{{ asset('js/airwallex-payment.js') }}"></script>
+<script src="{{ asset('js/gallery-slideshow.js') }}"></script>
