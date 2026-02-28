@@ -1,50 +1,57 @@
-
 document.addEventListener("DOMContentLoaded", function () {
 
-    const track = document.querySelector(".premium-track");
-    const slides = document.querySelectorAll(".premium-slide");
-    const nextBtn = document.querySelector(".next");
-    const prevBtn = document.querySelector(".prev");
-    const currentText = document.getElementById("currentSlide");
-    const totalText = document.getElementById("totalSlide");
-    const progressBar = document.querySelector(".premium-bar");
+    const lightbox = document.getElementById("galleryLightbox");
+    const slides = document.querySelectorAll(".lightbox-slide");
+    const openEls = document.querySelectorAll(".open-lightbox");
+    const closeBtn = document.querySelector(".close-lightbox");
+    const nextBtn = document.querySelector(".lightbox-nav.next");
+    const prevBtn = document.querySelector(".lightbox-nav.prev");
+    const track = document.querySelector(".lightbox-track");
 
     let current = 0;
-    const total = slides.length;
 
-    totalText.textContent = total < 10 ? "0" + total : total;
+    function updateGallery() {
 
-    function updateSlider() {
+        track.style.transform = `translateX(-${current * 100}%)`;
 
-    track.style.transform = `translateX(-${current * 100}%)`;
+        slides.forEach((slide, index) => {
+            slide.classList.remove("active");
+            if (index === current) {
+                slide.classList.add("active");
+            }
+        });
+    }
 
-    slides.forEach((slide, index) => {
-        slide.classList.remove("active");
-
-        if (index === current) {
-            slide.classList.add("active");
-        }
+    openEls.forEach(el => {
+        el.addEventListener("click", function () {
+            current = parseInt(this.getAttribute("data-index"));
+            lightbox.style.display = "flex";
+            updateGallery();
+        });
     });
 
-    currentText.textContent =
-        current + 1 < 10 ? "0" + (current + 1) : (current + 1);
-
-    progressBar.style.width = ((current + 1) / total) * 100 + "%";
-}
-
-    nextBtn.addEventListener("click", function () {
-        if (current < total - 1) {
+    nextBtn.addEventListener("click", () => {
+        if (current < slides.length - 1) {
             current++;
-            updateSlider();
+            updateGallery();
         }
     });
 
-    prevBtn.addEventListener("click", function () {
+    prevBtn.addEventListener("click", () => {
         if (current > 0) {
             current--;
-            updateSlider();
+            updateGallery();
         }
     });
 
-    updateSlider();
+    closeBtn.addEventListener("click", () => {
+        lightbox.style.display = "none";
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") nextBtn.click();
+        if (e.key === "ArrowLeft") prevBtn.click();
+        if (e.key === "Escape") closeBtn.click();
+    });
+
 });

@@ -5,6 +5,7 @@
     var _clientSecret  = null;
     var _activeMethod  = 'card';
     var _dropinElement = null;
+    var _sdkInitialized = false;
 
     // ─────────────────────────────────────────────────────────────────────────
     //  Payment Method Selector
@@ -107,12 +108,15 @@
         hideAirwallexError();
 
         try {
-            await window.AirwallexComponentsSDK.init({
-                env: 'demo', // change to 'prod' for production
-                enabledElements: ['payments'],
-            });
+          if (!_sdkInitialized) {
+    await window.AirwallexComponentsSDK.init({
+        env: 'demo',
+        enabledElements: ['payments'],
+    });
+    _sdkInitialized = true;
+    console.log('[Airwallex] SDK initialized ✅');
+}
 
-            console.log('[Airwallex] SDK initialized ✅');
 
             // Build options — pass ONLY the selected method
             var elementOptions = {
@@ -120,6 +124,7 @@
                 client_secret: _clientSecret,
                 currency:      'USD',
                 methods:       [method],  // ✅ Only show selected method
+                save_card_for_future_use: true,
             };
 
             // Add required options for wallet methods

@@ -75,6 +75,30 @@
 
             {{-- ═══════════ RIGHT SIDE ═══════════ --}}
             <div class="checkout-right page-background">
+                @if(Auth::check() && Auth::user()->hasSavedCard())
+    <div class="saved-cards-section mb-3">
+        <h5>Saved Cards</h5>
+
+        @foreach(Auth::user()->savedCards as $card)
+            <div class="payment-option-row">
+                <label>
+                    <input type="radio"
+                           wire:model="selectedCardMethodId"
+                           value="{{ $card->payment_method_id }}">
+                    <img src="{{ asset($card->brand_icon) }}" height="22">
+                    {{ $card->display_label }}
+                </label>
+            </div>
+        @endforeach
+
+        <div class="payment-option-row">
+            <label>
+                <input type="radio" wire:model="selectedCardMethodId" value="">
+                Use new card
+            </label>
+        </div>
+    </div>
+@endif
 
               {{-- ══ PAYMENT METHOD SELECTOR ══ --}}
 <div id="payment-method-selector" class="{{ $isGuest ? 'opacity-50 pointer-events-none' : '' }}">
