@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\GallerySlideshow;
+use App\Livewire\User\RechargeLookup;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\{
     Login,
@@ -73,8 +74,14 @@ Route::middleware('auth')->prefix('user')->group(function () {
 
     Route::get('/orders', Orders::class)->name('user.orders');
     Route::get('/orders/data', [Orders::class, 'datatable'])->name('orders.data');
-    Route::get('/orders/{order}/detail', OrderDetails::class)->name('orders.detail');
-    Route::get('/orders/{order}/recharge', RechargeOrder::class)->name('orders.recharge');
+   Route::get('/orders/recharge', \App\Livewire\User\RechargeLookup::class)->name('orders.recharge.lookup');
+
+
+Route::get('/orders/recharge/{msisdn}', RechargeOrder::class)
+    ->name('orders.recharge');
+ 
+    Route::get('/orders/{id}/detail', OrderDetails::class)
+    ->name('orders.detail');
     Route::get('/orders/{order}/balance', Balance::class)->name('orders.balance');
 
     Route::get('/profile', Profile::class)->name('user.profile');

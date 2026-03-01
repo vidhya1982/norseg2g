@@ -9,23 +9,22 @@ class OrderDetails extends Component
 {
     public Order $order;
 
-    public function mount(Order $order)
-    {
-        // 🔐 Auth check
-        abort_if(! auth()->check(), 403);
+   public function mount($id)
+{
+    abort_if(!auth()->check(), 403);
 
-        // 🔐 Ownership check (CORRECT column)
-        abort_if(
-            (int) $order->userId !== (int) auth()->id(),
-            403
-        );
+    $order = Order::where('id', $id)->firstOrFail();
 
-        // 🔄 Load relations (plan → zone, iccid)
-        $this->order = $order->load([
-            'plan.zone',
-            'iccid',
-        ]);
-    }
+    abort_if(
+        (int) $order->userId !== (int) auth()->id(),
+        403
+    );
+
+    $this->order = $order->load([
+        'plan.zone',
+        'iccid',
+    ]);
+}
 
     public function render()
     {

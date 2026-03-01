@@ -31,7 +31,7 @@ class Order extends Model
      * Mass assignable fields
      * (sirf commonly used fields rakhe gaye hain)
      */
- protected $fillable = [
+    protected $fillable = [
         'userId',
         'email',
         'plan_id',
@@ -100,35 +100,40 @@ class Order extends Model
     ];
 
     protected $casts = [
-        'userid'          => 'integer',
-        'plan_id'         => 'integer',
-        'USD'             => 'float',
-        'date'            => 'datetime',
+        'userid' => 'integer',
+        'plan_id' => 'integer',
+        'USD' => 'float',
+        'date' => 'datetime',
         'plan_start_date' => 'datetime',
-        'plan_end_date'   => 'datetime',
-        'loc_update_at'   => 'datetime',
-        'activationBy'    => 'integer',
-        'activation_alert'  => 'boolean',
-        'alert_70'          => 'boolean',
-        'alert_100'         => 'boolean',
-        'alert_data_70'     => 'boolean',
-        'alert_data_100'    => 'boolean',
-        'alert_bonus_70'    => 'boolean',
-        'alert_bonus_100'   => 'boolean',
-        'alert_tt_70'       => 'boolean',
-        'alert_tt_in_70'    => 'boolean',
-        'alert_tt_in_100'   => 'boolean',
-        'alert_tt_out_70'   => 'boolean',
-        'alert_tt_out_100'  => 'boolean',
-        'alert_expiry'      => 'boolean',
-        'alert_ft_70'       => 'boolean',
-        'alert_ft_100'      => 'boolean',
+        'plan_end_date' => 'datetime',
+        'loc_update_at' => 'datetime',
+        'activationBy' => 'integer',
+        'activation_alert' => 'boolean',
+        'alert_70' => 'boolean',
+        'alert_100' => 'boolean',
+        'alert_data_70' => 'boolean',
+        'alert_data_100' => 'boolean',
+        'alert_bonus_70' => 'boolean',
+        'alert_bonus_100' => 'boolean',
+        'alert_tt_70' => 'boolean',
+        'alert_tt_in_70' => 'boolean',
+        'alert_tt_in_100' => 'boolean',
+        'alert_tt_out_70' => 'boolean',
+        'alert_tt_out_100' => 'boolean',
+        'alert_expiry' => 'boolean',
+        'alert_ft_70' => 'boolean',
+        'alert_ft_100' => 'boolean',
     ];
     /*
     |--------------------------------------------------------------------------
     | Relationships
     |--------------------------------------------------------------------------
     */
+
+    public function getRouteKeyName()
+    {
+        return 'msisdn';
+    }
 
     /**
      * Order belongs to User
@@ -166,29 +171,29 @@ class Order extends Model
     protected function dateFormatted(): Attribute
     {
         return Attribute::make(
-            get: fn () =>
-                optional($this->date)->format('d M Y')
+            get: fn() =>
+            optional($this->date)->format('d M Y')
         );
     }
 
     protected function usdFormatted(): Attribute
     {
         return Attribute::make(
-            get: fn () =>
-                '$' . number_format($this->USD, 2)
+            get: fn() =>
+            '$' . number_format($this->USD, 2)
         );
     }
 
 
     public function plan()
-{
-    return $this->belongsTo(Plans::class, 'plan_id');
-}
+    {
+        return $this->belongsTo(Plans::class, 'plan_id');
+    }
 
-public function iccid()
-{
-    return $this->belongsTo(ICCID::class, 'inventoryId', 'id');
-}
+    public function iccid()
+    {
+        return $this->belongsTo(ICCID::class, 'inventoryId', 'id');
+    }
 
 
 }

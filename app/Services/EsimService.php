@@ -453,6 +453,74 @@ class EsimService
         return ['success' => true, 'customerId' => $customerId, 'subscriberId' => $subscriberId];
     }
 
+
+public function rechargeEsim(int $orderId): array
+{
+    $order = DB::table('orders')->where('id', $orderId)->first();
+
+Log::info('order:', ['order' => $order]);
+    if (!$order) {
+        throw new \RuntimeException("Recharge order not found: {$orderId}");
+    }
+
+    if ($order->orderType !== 'recharge') {
+        throw new \RuntimeException("Order {$orderId} is not recharge type");
+    }
+
+    if (empty($order->subscriberId)) {
+        throw new \RuntimeException("subscriberId missing for order {$orderId}");
+    }
+
+    $subscriberId = $order->subscriberId;
+
+    $plan = DB::table('plans')->where('id', $order->plan_id)->first();
+
+    if (!$plan) {
+        throw new \RuntimeException("Plan not found for order {$orderId}");
+    }
+
+    $planMoniker = $plan->Moniker;
+
+    Log::info('[eSIM Recharge] START', [
+        'order_id'     => $orderId,
+        'subscriberId' => $subscriberId,
+        'moniker'      => $planMoniker,
+        'mode'         => 'PRODUCTION',
+    ]);
+
+    // 🔥 Apply promotion (real BST call)
+    $req = $this->buildApplyPromoXml(
+        $subscriberId,
+        $planMoniker,
+        date('Y-m-d') . ' 00:00:00Z'
+    );
+
+    $res = $this->callBstApi($req);
+
+    Log::info('[eSIM Recharge] BST RESPONSE', [
+        'order_id' => $orderId,
+        'response' => substr($res, 0, 1000),
+    ]);
+
+    if ($this->hasError($res)) {
+        throw new \RuntimeException('BST Recharge Error: ' . $this->extractError($res));
+    }
+DB::table('orders')->where('id', $orderId)->update([
+    'status'          => 'ACTIVE',
+    'esimLive'        => '1',
+    'apiResponse'     => substr($res, 0, 5000),
+    'plan_start_date' => '0000-00-00 00:00:00',
+    'plan_end_date'   => '0000-00-00 00:00:00',
+    'loc_update_at'   => now(),
+]);
+
+    Log::info('[eSIM Recharge] SUCCESS', [
+        'order_id' => $orderId,
+    ]);
+
+    return ['success' => true];
+}
+
     // ═════════════════════════════════════════════════════════════════════════
     //  QR CODE — existing esim_qrcode.php ko call karta hai
     // ═════════════════════════════════════════════════════════════════════════

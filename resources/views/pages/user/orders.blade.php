@@ -48,6 +48,7 @@
                         <table class="table orders-table align-middle mb-0 w-100">
                             <thead>
                                 <tr>
+                                     <th>Order ID</th>
                                     <th>Order Type</th>
                                     <th>Plan</th>
                                     <th>Status</th>
@@ -62,6 +63,7 @@
                             <tbody>
                                 @forelse($orders as $o)
                                     <tr data-row>
+                                         <td>{{ $o->id }}</td>
                                         <td>{{ $o->orderType }}</td>
                                        
                                          <td>
@@ -106,16 +108,20 @@
                                                 <a href="{{ route('orders.detail', $o->id) }}" class="action-btn edit">
                                                     <i class="fa-solid fa-info"></i>
                                                 </a>
-                                                <a href="{{ route('orders.recharge', $o->id) }}"
-                                                    class="action-btn recharge">
-                                                    <i class="fa-solid fa-credit-card"></i>
-                                                </a>
+                                               @if(!empty($o->msisdn))
+                                                <a href="{{ route('orders.recharge', ['msisdn' => $o->msisdn]) }}"
+                                                class="action-btn recharge">
+                                                        <i class="fa-solid fa-credit-card"></i>
+                                                    </a>
+                                                @else
+                                                    <span class="text-muted small">N/A</span>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="8" class="text-center text-muted py-4">
+                                        <td colspan="9" class="text-center text-muted py-4">
                                             No orders found
                                         </td>
                                     </tr>
@@ -123,7 +129,7 @@
 
                                 {{-- NO DATA ROW (JS) --}}
                                 <tr id="noDataRow" style="display:none;">
-                                    <td colspan="8" class="text-center text-muted py-4">
+                                    <td colspan="9" class="text-center text-muted py-4">
                                         No data found
                                     </td>
                                 </tr>
