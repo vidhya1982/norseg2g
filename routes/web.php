@@ -82,7 +82,8 @@ Route::get('/orders/recharge/{msisdn}', RechargeOrder::class)
  
     Route::get('/orders/{id}/detail', OrderDetails::class)
     ->name('orders.detail');
-    Route::get('/orders/{order}/balance', Balance::class)->name('orders.balance');
+    Route::get('/orders/{id}/balance', \App\Livewire\User\Balance::class)
+    ->name('orders.balance');
 
     Route::get('/profile', Profile::class)->name('user.profile');
     Route::get('/password', Password::class)->name('user.password');

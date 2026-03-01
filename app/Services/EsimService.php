@@ -183,7 +183,7 @@ class EsimService
 
             // ✅ DEBUG — log the exact XML being sent so we can see what BST receives
             $this->log('info', 'Step 1 REQUEST XML', [
-                'name'  => $name,
+                'name' => $name,
                 'fname' => $fname,
                 'lname' => $lname,
                 'xml_preview' => substr($req, 0, 600),
@@ -206,11 +206,11 @@ class EsimService
             // Log raw XML structure for debugging unexpected BST response shapes
             $this->log('info', 'Step 1 XML structure', [
                 'root' => $xml->getName(),
-                'raw'  => substr($res, 0, 800),
+                'raw' => substr($res, 0, 800),
             ]);
 
             // Try attribute first (id="123"), then child element (<id>123</id>)
-            $customerId   = (string) ($xml->customer['id']   ?? $xml->customer->id   ?? '');
+            $customerId = (string) ($xml->customer['id'] ?? $xml->customer->id ?? '');
             $subscriberId = (string) ($xml->subscriber['id'] ?? $xml->subscriber->id ?? '');
 
             // Fallback: alternate node names BST might use
@@ -426,22 +426,22 @@ class EsimService
         // ════════════════════════════════════════════════════════════════
 
         DB::table('orders')->where('id', $orderId)->update([
-            'status'       => 'ACTIVE',
-            'customerId'   => $customerId,
+            'status' => 'ACTIVE',
+            'customerId' => $customerId,
             'subscriberId' => $subscriberId,
             'plan_moniker' => $planMoniker,
-            'stepCount'    => $stepCount,
+            'stepCount' => $stepCount,
         ]);
 
         // Testing ICCID — status ACTIVE mark nahi karte
         DB::table('ICCID')->where('id', $iccidRow->id)->update(['status' => 'ACTIVE']);
 
         $this->log('info', 'ACTIVATION SUCCESS ✅', [
-            'order_id'     => $orderId,
-            'ICCID'        => $ICCID,
-            'customerId'   => $customerId,
+            'order_id' => $orderId,
+            'ICCID' => $ICCID,
+            'customerId' => $customerId,
             'subscriberId' => $subscriberId,
-            'total_steps'  => $stepCount,
+            'total_steps' => $stepCount,
         ]);
 
         // Short URLs + QR code + Emails
@@ -454,72 +454,72 @@ class EsimService
     }
 
 
-public function rechargeEsim(int $orderId): array
-{
-    $order = DB::table('orders')->where('id', $orderId)->first();
+    public function rechargeEsim(int $orderId): array
+    {
+        $order = DB::table('orders')->where('id', $orderId)->first();
 
-Log::info('order:', ['order' => $order]);
-    if (!$order) {
-        throw new \RuntimeException("Recharge order not found: {$orderId}");
+        Log::info('order:', ['order' => $order]);
+        if (!$order) {
+            throw new \RuntimeException("Recharge order not found: {$orderId}");
+        }
+
+        if ($order->orderType !== 'recharge') {
+            throw new \RuntimeException("Order {$orderId} is not recharge type");
+        }
+
+        if (empty($order->subscriberId)) {
+            throw new \RuntimeException("subscriberId missing for order {$orderId}");
+        }
+
+        $subscriberId = $order->subscriberId;
+
+        $plan = DB::table('plans')->where('id', $order->plan_id)->first();
+
+        if (!$plan) {
+            throw new \RuntimeException("Plan not found for order {$orderId}");
+        }
+
+        $planMoniker = $plan->Moniker;
+
+        Log::info('[eSIM Recharge] START', [
+            'order_id' => $orderId,
+            'subscriberId' => $subscriberId,
+            'moniker' => $planMoniker,
+            'mode' => 'PRODUCTION',
+        ]);
+
+        // 🔥 Apply promotion (real BST call)
+        $req = $this->buildApplyPromoXml(
+            $subscriberId,
+            $planMoniker,
+            date('Y-m-d') . ' 00:00:00Z'
+        );
+
+        $res = $this->callBstApi($req);
+
+        Log::info('[eSIM Recharge] BST RESPONSE', [
+            'order_id' => $orderId,
+            'response' => substr($res, 0, 1000),
+        ]);
+
+        if ($this->hasError($res)) {
+            throw new \RuntimeException('BST Recharge Error: ' . $this->extractError($res));
+        }
+        DB::table('orders')->where('id', $orderId)->update([
+            'status' => 'ACTIVE',
+            'esimLive' => '1',
+            'apiResponse' => substr($res, 0, 5000),
+            'plan_start_date' => '0000-00-00 00:00:00',
+            'plan_end_date' => '0000-00-00 00:00:00',
+            'loc_update_at' => now(),
+        ]);
+
+        Log::info('[eSIM Recharge] SUCCESS', [
+            'order_id' => $orderId,
+        ]);
+
+        return ['success' => true];
     }
-
-    if ($order->orderType !== 'recharge') {
-        throw new \RuntimeException("Order {$orderId} is not recharge type");
-    }
-
-    if (empty($order->subscriberId)) {
-        throw new \RuntimeException("subscriberId missing for order {$orderId}");
-    }
-
-    $subscriberId = $order->subscriberId;
-
-    $plan = DB::table('plans')->where('id', $order->plan_id)->first();
-
-    if (!$plan) {
-        throw new \RuntimeException("Plan not found for order {$orderId}");
-    }
-
-    $planMoniker = $plan->Moniker;
-
-    Log::info('[eSIM Recharge] START', [
-        'order_id'     => $orderId,
-        'subscriberId' => $subscriberId,
-        'moniker'      => $planMoniker,
-        'mode'         => 'PRODUCTION',
-    ]);
-
-    // 🔥 Apply promotion (real BST call)
-    $req = $this->buildApplyPromoXml(
-        $subscriberId,
-        $planMoniker,
-        date('Y-m-d') . ' 00:00:00Z'
-    );
-
-    $res = $this->callBstApi($req);
-
-    Log::info('[eSIM Recharge] BST RESPONSE', [
-        'order_id' => $orderId,
-        'response' => substr($res, 0, 1000),
-    ]);
-
-    if ($this->hasError($res)) {
-        throw new \RuntimeException('BST Recharge Error: ' . $this->extractError($res));
-    }
-DB::table('orders')->where('id', $orderId)->update([
-    'status'          => 'ACTIVE',
-    'esimLive'        => '1',
-    'apiResponse'     => substr($res, 0, 5000),
-    'plan_start_date' => '0000-00-00 00:00:00',
-    'plan_end_date'   => '0000-00-00 00:00:00',
-    'loc_update_at'   => now(),
-]);
-
-    Log::info('[eSIM Recharge] SUCCESS', [
-        'order_id' => $orderId,
-    ]);
-
-    return ['success' => true];
-}
 
     // ═════════════════════════════════════════════════════════════════════════
     //  QR CODE — existing esim_qrcode.php ko call karta hai
@@ -572,6 +572,137 @@ DB::table('orders')->where('id', $orderId)->update([
         }
     }
 
+
+
+
+    public function getSubscriberBalance(string $subscriberId): array
+    {
+        // Load order data — we need msisdn + monikers, NOT just subscriberId
+        $order = DB::table('orders as o')
+            ->join('plans as p', 'o.plan_id', '=', 'p.id')
+            ->where('o.subscriberId', $subscriberId)
+            ->where('o.orderType', 'newsim')
+            ->orderByDesc('o.id')
+            ->select(
+                'o.msisdn',
+                'o.plan_moniker',
+                'o.bonus_data',
+                'o.Mins',
+                'p.Moniker',
+            )
+            ->first();
+
+        if (!$order) {
+            throw new \Exception("No order found for subscriber: {$subscriberId}");
+        }
+
+        $msisdn = $order->msisdn;
+        $monikerP = $order->Moniker;                              // primary plan
+        $monikerB = $this->getBonusMoniker((int) ($order->bonus_data ?? 0)); // bonus data
+        $monikerT = 'z1_100m';                                   // talktime moniker
+
+        // ── 3 BST calls (same pattern as old balanceapi()) ────────────────────
+        $primaryXml = $this->buildGetPromoStatusXml($msisdn, $monikerP);
+        $bonusXml = $monikerB ? $this->buildGetPromoStatusXml($msisdn, $monikerB) : null;
+        $talktimeXml = (int) ($order->Mins) === 100
+            ? $this->buildGetPromoStatusXml($msisdn, $monikerT)
+            : null;
+
+        $resP = $this->callBstApi($primaryXml);
+        $resB = $bonusXml ? $this->callBstApi($bonusXml) : null;
+        $resT = $talktimeXml ? $this->callBstApi($talktimeXml) : null;
+
+        Log::info('[eSIM] BALANCE RAW RESPONSES', [
+            'subscriberId' => $subscriberId,
+            'primary' => substr($resP, 0, 500),
+            'bonus' => substr($resB ?? '', 0, 300),
+            'talktime' => substr($resT ?? '', 0, 300),
+        ]);
+
+        // ── Parse primary plan ────────────────────────────────────────────────
+        $result = [
+            'data_total_gb' => 0,
+            'data_rem_gb' => 0,
+            'data_rem_mb' => 0,
+            'bonus_total_gb' => 0,
+            'bonus_rem_gb' => 0,
+            'call_out_total' => 0,
+            'call_out_rem' => 0,
+            'call_in_total' => 0,
+            'call_in_rem' => 0,
+            'sms_total' => 0,
+            'sms_rem' => 0,
+            'start_time' => '',
+            'end_time' => '',
+            'source' => 'bst_live',
+        ];
+
+        $xmlP = @simplexml_load_string($resP);
+        if ($xmlP) {
+            foreach ($xmlP->xpath('//offer') as $offer) {
+                $type = (string) $offer->{'call-type-group'};
+                if ($type === 'data') {
+                    $result['data_total_gb'] = round((int) $offer->{'initial-quantity'} / 1000, 2);
+                    $result['data_rem_gb'] = round((int) $offer->{'remaining-quantity'} / 1000, 2);
+                    $result['data_rem_mb'] = (int) $offer->{'remaining-quantity'};
+                    $result['start_time'] = (string) $offer->{'start-time'};
+                    $result['end_time'] = (string) $offer->{'end-time'};
+                }
+            }
+        }
+
+        // ── Parse bonus data ──────────────────────────────────────────────────
+        if ($resB) {
+            $xmlB = @simplexml_load_string($resB);
+            if ($xmlB) {
+                foreach ($xmlB->xpath('//offer') as $offer) {
+                    if ((string) $offer->{'call-type-group'} === 'data') {
+                        $result['bonus_total_gb'] = round((int) $offer->{'initial-quantity'} / 1000, 2);
+                        $result['bonus_rem_gb'] = round((int) $offer->{'remaining-quantity'} / 1000, 2);
+                    }
+                }
+            }
+        }
+
+        // ── Parse talktime ───────────────────────────────────────────────────
+        if ($resT) {
+            $xmlT = @simplexml_load_string($resT);
+            if ($xmlT) {
+                foreach ($xmlT->xpath('//offer') as $offer) {
+                    $type = (string) $offer->{'call-type-group'};
+                    if ($type === 'call-out') {
+                        $result['call_out_total'] = (int) $offer->{'initial-quantity'};
+                        $result['call_out_rem'] = (int) $offer->{'remaining-quantity'};
+                    }
+                    if ($type === 'call-in') {
+                        $result['call_in_total'] = (int) $offer->{'initial-quantity'};
+                        $result['call_in_rem'] = (int) $offer->{'remaining-quantity'};
+                    }
+                    if ($type === 'sms') {
+                        $result['sms_total'] = (int) $offer->{'initial-quantity'};
+                        $result['sms_rem'] = (int) $offer->{'remaining-quantity'};
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    // ── New XML builder for get-promotion-status ──────────────────────────────
+    private function buildGetPromoStatusXml(string $msisdn, string $moniker): string
+    {
+        $auth = $this->authXml();
+        $msisdn = $this->xe($msisdn);
+        $moniker = $this->xe($moniker);
+        return <<<XML
+<get-promotion-status version="1">
+  {$auth}
+  <number>{$msisdn}</number>
+  <promotion>{$moniker}</promotion>
+</get-promotion-status>
+XML;
+    }
     // ═════════════════════════════════════════════════════════════════════════
     //  USER SUCCESS EMAIL — SendGridService se
     // ═════════════════════════════════════════════════════════════════════════
@@ -882,7 +1013,7 @@ DB::table('orders')->where('id', $orderId)->update([
         // ✅ TEMP DEBUG — log FULL XML sent to BST
         Log::info('[eSIM] BST REQUEST FULL XML', [
             'order_id' => $this->currentOrderId,
-            'xml'      => $xml,
+            'xml' => $xml,
         ]);
 
         try {
@@ -941,7 +1072,8 @@ DB::table('orders')->where('id', $orderId)->update([
             if ($xml) {
                 // Check standard error child elements
                 $msg = (string) ($xml->error ?? $xml->{'error-message'} ?? '');
-                if ($msg) return $msg;
+                if ($msg)
+                    return $msg;
 
                 // ✅ BST root tag IS the error — read its text content
                 $rootName = $xml->getName();
@@ -976,32 +1108,99 @@ DB::table('orders')->where('id', $orderId)->update([
         $code = strtoupper(trim($code));
 
         // Already alpha-3 — return as-is
-        if (strlen($code) === 3) return $code;
+        if (strlen($code) === 3)
+            return $code;
 
         // Alpha-2 → Alpha-3 map (common countries)
         $map = [
-            'AF' => 'AFG', 'AL' => 'ALB', 'DZ' => 'DZA', 'AR' => 'ARG',
-            'AM' => 'ARM', 'AU' => 'AUS', 'AT' => 'AUT', 'AZ' => 'AZE',
-            'BH' => 'BHR', 'BD' => 'BGD', 'BY' => 'BLR', 'BE' => 'BEL',
-            'BR' => 'BRA', 'BG' => 'BGR', 'CA' => 'CAN', 'CN' => 'CHN',
-            'CO' => 'COL', 'HR' => 'HRV', 'CY' => 'CYP', 'CZ' => 'CZE',
-            'DK' => 'DNK', 'EG' => 'EGY', 'EE' => 'EST', 'ET' => 'ETH',
-            'FI' => 'FIN', 'FR' => 'FRA', 'GE' => 'GEO', 'DE' => 'DEU',
-            'GH' => 'GHA', 'GR' => 'GRC', 'HK' => 'HKG', 'HU' => 'HUN',
-            'IN' => 'IND', 'ID' => 'IDN', 'IE' => 'IRL', 'IL' => 'ISR',
-            'IT' => 'ITA', 'JP' => 'JPN', 'JO' => 'JOR', 'KZ' => 'KAZ',
-            'KE' => 'KEN', 'KW' => 'KWT', 'KG' => 'KGZ', 'LV' => 'LVA',
-            'LB' => 'LBN', 'LT' => 'LTU', 'LU' => 'LUX', 'MY' => 'MYS',
-            'MV' => 'MDV', 'MX' => 'MEX', 'MD' => 'MDA', 'MA' => 'MAR',
-            'NP' => 'NPL', 'NL' => 'NLD', 'NZ' => 'NZL', 'NG' => 'NGA',
-            'NO' => 'NOR', 'OM' => 'OMN', 'PK' => 'PAK', 'PH' => 'PHL',
-            'PL' => 'POL', 'PT' => 'PRT', 'QA' => 'QAT', 'RO' => 'ROU',
-            'RU' => 'RUS', 'SA' => 'SAU', 'SG' => 'SGP', 'SK' => 'SVK',
-            'SI' => 'SVN', 'ZA' => 'ZAF', 'ES' => 'ESP', 'LK' => 'LKA',
-            'SE' => 'SWE', 'CH' => 'CHE', 'TW' => 'TWN', 'TZ' => 'TZA',
-            'TH' => 'THA', 'TN' => 'TUN', 'TR' => 'TUR', 'UA' => 'UKR',
-            'AE' => 'ARE', 'GB' => 'GBR', 'US' => 'USA', 'UZ' => 'UZB',
-            'VN' => 'VNM', 'YE' => 'YEM', 'ZM' => 'ZMB', 'ZW' => 'ZWE',
+            'AF' => 'AFG',
+            'AL' => 'ALB',
+            'DZ' => 'DZA',
+            'AR' => 'ARG',
+            'AM' => 'ARM',
+            'AU' => 'AUS',
+            'AT' => 'AUT',
+            'AZ' => 'AZE',
+            'BH' => 'BHR',
+            'BD' => 'BGD',
+            'BY' => 'BLR',
+            'BE' => 'BEL',
+            'BR' => 'BRA',
+            'BG' => 'BGR',
+            'CA' => 'CAN',
+            'CN' => 'CHN',
+            'CO' => 'COL',
+            'HR' => 'HRV',
+            'CY' => 'CYP',
+            'CZ' => 'CZE',
+            'DK' => 'DNK',
+            'EG' => 'EGY',
+            'EE' => 'EST',
+            'ET' => 'ETH',
+            'FI' => 'FIN',
+            'FR' => 'FRA',
+            'GE' => 'GEO',
+            'DE' => 'DEU',
+            'GH' => 'GHA',
+            'GR' => 'GRC',
+            'HK' => 'HKG',
+            'HU' => 'HUN',
+            'IN' => 'IND',
+            'ID' => 'IDN',
+            'IE' => 'IRL',
+            'IL' => 'ISR',
+            'IT' => 'ITA',
+            'JP' => 'JPN',
+            'JO' => 'JOR',
+            'KZ' => 'KAZ',
+            'KE' => 'KEN',
+            'KW' => 'KWT',
+            'KG' => 'KGZ',
+            'LV' => 'LVA',
+            'LB' => 'LBN',
+            'LT' => 'LTU',
+            'LU' => 'LUX',
+            'MY' => 'MYS',
+            'MV' => 'MDV',
+            'MX' => 'MEX',
+            'MD' => 'MDA',
+            'MA' => 'MAR',
+            'NP' => 'NPL',
+            'NL' => 'NLD',
+            'NZ' => 'NZL',
+            'NG' => 'NGA',
+            'NO' => 'NOR',
+            'OM' => 'OMN',
+            'PK' => 'PAK',
+            'PH' => 'PHL',
+            'PL' => 'POL',
+            'PT' => 'PRT',
+            'QA' => 'QAT',
+            'RO' => 'ROU',
+            'RU' => 'RUS',
+            'SA' => 'SAU',
+            'SG' => 'SGP',
+            'SK' => 'SVK',
+            'SI' => 'SVN',
+            'ZA' => 'ZAF',
+            'ES' => 'ESP',
+            'LK' => 'LKA',
+            'SE' => 'SWE',
+            'CH' => 'CHE',
+            'TW' => 'TWN',
+            'TZ' => 'TZA',
+            'TH' => 'THA',
+            'TN' => 'TUN',
+            'TR' => 'TUR',
+            'UA' => 'UKR',
+            'AE' => 'ARE',
+            'GB' => 'GBR',
+            'US' => 'USA',
+            'UZ' => 'UZB',
+            'VN' => 'VNM',
+            'YE' => 'YEM',
+            'ZM' => 'ZMB',
+            'ZW' => 'ZWE',
         ];
 
         return $map[$code] ?? 'ISR'; // unknown fallback → ISR
@@ -1107,11 +1306,11 @@ XML;
         $auth = $this->authXml();
         $dist = $this->xe($this->distributorId);
         $iccid = $this->xe((string) $i->ICCID);
-        $pin1  = $this->xe((string) $i->PIN1);
-        $pin2  = $this->xe((string) $i->PIN2);
-        $puk1  = $this->xe((string) $i->PUK1);
-        $puk2  = $this->xe((string) $i->PUK2);
-        $imsi  = $this->xe((string) $i->Camel_IMSI);
+        $pin1 = $this->xe((string) $i->PIN1);
+        $pin2 = $this->xe((string) $i->PIN2);
+        $puk1 = $this->xe((string) $i->PUK1);
+        $puk2 = $this->xe((string) $i->PUK2);
+        $imsi = $this->xe((string) $i->Camel_IMSI);
         $msisdn = $this->xe((string) $i->Camel_MSISDN);
         return <<<XML
 <create-sim version="1">
@@ -1151,8 +1350,8 @@ XML;
 
     private function buildAddDirXml(string $sub, string $m): string
     {
-        $auth   = $this->authXml();
-        $sub    = $this->xe($sub);
+        $auth = $this->authXml();
+        $sub = $this->xe($sub);
         $msisdn = $this->xe($m);
         return <<<XML
 <add-subscriber-directory-number version="1">
@@ -1166,8 +1365,8 @@ XML;
 
     private function buildSetCliXml(string $sub, string $m): string
     {
-        $auth   = $this->authXml();
-        $sub    = $this->xe($sub);
+        $auth = $this->authXml();
+        $sub = $this->xe($sub);
         $msisdn = $this->xe($m);
         return <<<XML
 <set-subscriber-cli version="1">
@@ -1180,8 +1379,8 @@ XML;
 
     private function buildAddSimXml(string $sub, string $iccid): string
     {
-        $auth  = $this->authXml();
-        $sub   = $this->xe($sub);
+        $auth = $this->authXml();
+        $sub = $this->xe($sub);
         $iccid = $this->xe($iccid);
         return <<<XML
 <add-subscriber-sim version="1">
@@ -1194,8 +1393,8 @@ XML;
 
     private function buildSetPasswordXml(string $sub, string $m): string
     {
-        $auth   = $this->authXml();
-        $sub    = $this->xe($sub);
+        $auth = $this->authXml();
+        $sub = $this->xe($sub);
         $msisdn = $this->xe($m);
         return <<<XML
 <set-subscriber-password version="1">
@@ -1211,8 +1410,8 @@ XML;
     {
         if (!$startTime)
             $startTime = date('Y-m-d') . ' 00:00:00Z';
-        $auth    = $this->authXml();
-        $sub     = $this->xe($sub);
+        $auth = $this->authXml();
+        $sub = $this->xe($sub);
         $moniker = $this->xe($moniker);
         $startTime = $this->xe($startTime);
         return <<<XML

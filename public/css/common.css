@@ -19,43 +19,37 @@
     --highlight-background: linear-gradient(135deg, #6693d4, #acd972);
 } */
 
+
+
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap');
+
 :root {
-  /* Primary Norse Dark Navy */
---primary-color: #0d294b;
-     /* Deep navy */
-  --secondary-color: #111111;      /* Almost black */
-  
-  /* Norse Accent Red */
-  --accent-color: #E10600;         /* Strong airline red */
-  
-  /* Text Colors */
+  --primary-color: #0d294b;
+  --secondary-color: #111111;
+  --accent-color: #E10600;
   --text-color: #1A1A1A;
   --text-secondary-color: #6B7280;
   --text-light: #9CA3AF;
-  
-  /* Backgrounds */
-  --background-color: #F4F6F9;     /* Soft grey background */
-  --page-background: #FFFFFF;      /* Clean white */
+  --background-color: #F4F6F9;
+  --page-background: #FFFFFF;
   --header-bg: #FFFFFF;
-  
-  /* Buttons */
-  --btn-background-color: #FFD795; /* Red CTA */
-  --plan-btn-bg: #0A1F44;          /* Navy button */
-  
-  /* Utility */
+  --btn-background-color: #FFD795;
+  --plan-btn-bg: #0A1F44;
   --white: #FFFFFF;
   --blue: #0A1F44;
-  
-  /* Replace green theme */
-  --primary-green: #E10600;        /* Remove green vibe */
-  
-  /* Remove gradient look */
- --highlight-background: linear-gradient(135deg, #081c34, #0f2a52);
-
-  --bs-deep-blue:#172744;
+  --primary-green: #E10600;
+  --highlight-background: linear-gradient(135deg, #081c34, #0f2a52);
+  --bs-deep-blue: #172744;
   --base-blue: #003dbd;
   --base-green: #15773b;
 
+  /* Extended design tokens */
+  --card-radius: 20px;
+  --card-shadow: 0 4px 32px rgba(13, 41, 75, 0.10);
+  --card-shadow-hover: 0 12px 48px rgba(13, 41, 75, 0.18);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
 }
 
 
