@@ -457,6 +457,7 @@ class Checkout extends Component
             $this->intentId     = null;
 
             $this->dispatch('toast', type: 'success', message: 'Payment successful! Your eSIM is being activated.');
+            $this->redirect(route('user.orders'));
 
         } catch (\Exception $e) {
             DB::rollBack();
