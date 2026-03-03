@@ -43,7 +43,7 @@
         <!-- DESKTOP MENU + RIGHT SECTION (visible on lg and up) -->
         <div class="collapse navbar-collapse d-none d-lg-flex justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="{{ url('/#topPlans') }}">{{ __('menu.plans') }}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('plans') }}">{{ __('menu.plans') }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">{{ __('menu.guide') }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('faq') }}">{{ __('menu.faq') }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('business') }}">{{ __('menu.postpaid') }}</a>
@@ -76,7 +76,7 @@
 
         <div class="sidebar-content">
             <ul class="mobile-nav-list">
-                <li><a href="{{ url('/#topPlans') }}">Plans</a></li>
+                <li><a href="{{ route('plans') }}">Plans</a></li>
                 <li><a href="{{ route('guide') }}">Guide</a></li>
                 <li><a href="{{ route('faq') }}">FAQ</a></li>
                 <li><a href="{{ route('business') }}">For Business</a></li>

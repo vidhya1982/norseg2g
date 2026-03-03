@@ -47,7 +47,7 @@
                     <div class="table-responsive">
                         <table class="table orders-table align-middle mb-0 w-100">
                             <thead>
-                                <tr>
+                                <tr class="text-center">
                                      <th>Order ID</th>
                                     <th>Order Type</th>
                                     <th>Plan</th>
@@ -62,31 +62,35 @@
 
                             <tbody>
                                 @forelse($orders as $o)
-                                    <tr data-row>
+                                    <tr data-row class="text-center">
                                          <td>{{ $o->id }}</td>
                                         <td>{{ $o->orderType }}</td>
                                        
                                          <td>
- {{ $o->plan?->zone?->zone_name ?? 'N/A' }},
-{{ $o->plan?->GB ?? $o->GB }} GB,
-{{ $o->plan?->Days ?? $o->Days }} Days
-
-</td>
-
-
+                                        {{ $o->plan?->zone?->zone_name ?? 'N/A' }},
+                                        {{ $o->plan?->GB ?? $o->GB }} GB,
+                                        {{ $o->plan?->Days ?? $o->Days }} Days
 
                                         </td>
 
-                                        <td>
-                                            @if(in_array(strtolower($o->paymentStatus), ['completed', 'paid']))
-                                                <span class="status-pill status-success">Completed</span>
-                                            @elseif(strtolower($o->paymentStatus) === 'pending')
-                                                <span class="status-pill status-pending">Pending</span>
+                                       <td>
+                                            @if(strtolower($o->status) === 'active')
+                                                <span class="status-pill status-success">Active</span>
+
+                                            @elseif(strtolower($o->status) === 'in progress')
+                                                <span class="status-pill status-pending">In Progress</span>
+
+                                            @elseif(in_array(strtolower($o->status), ['failed', 'reclaimed']))
+                                                <span class="status-pill status-failed">
+                                                    {{ ucfirst($o->status) }}
+                                                </span>
+
                                             @else
-                                                <span class="status-pill status-failed">Failed</span>
+                                                <span class="status-pill status-failed">
+                                                    {{ ucfirst($o->status) }}
+                                                </span>
                                             @endif
                                         </td>
-
                                         <td>
                                             <span class="auto-toggle {{ $o->autorenew ? 'on' : 'off' }}"
                                                 wire:click="toggleAutoTopup({{ $o->id }})">

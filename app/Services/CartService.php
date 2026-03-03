@@ -26,15 +26,28 @@ class CartService
         session()->put('cart', $cart);
     }
 
- public static function update(string $key, array $data)
-    {
-        $cart = self::get();
-        if (!isset($cart[$key])) return;
+public static function update(string $key, array $data)
+{
+    $cart = self::get();
+    if (!isset($cart[$key])) return;
 
-        $cart[$key] = array_replace_recursive($cart[$key], $data);
+    $cart[$key] = array_replace_recursive($cart[$key], $data);
 
-        session()->put('cart', $cart);
+    // ✅ Recalculate total after every update
+    $item = $cart[$key];
+
+    $planTotal = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
+
+    $addonTotal = 0;
+    if (!empty($item['addons']['talk_time']['enabled'])) {
+        $addonTotal = ($item['addons']['talk_time']['price'] ?? 10)
+                    * ($item['addons']['talk_time']['qty'] ?? 1);
     }
+
+    $cart[$key]['total'] = $planTotal + $addonTotal;
+
+    session()->put('cart', $cart);
+}
 
     public static function remove(string $key)
     {

@@ -199,12 +199,14 @@
                                 <i class="fa-brands fa-apple me-1"></i> Continue with Apple
                             </button>
                         </div>
+                         <div class="auth-footer mt-4 text-center">
+            <p class="mb-2">Don’t have an account?</p>
+            <a href="{{ route('sign-up') }}" class="btn login-btn w-100">
+              Create an Account
+            </a>
+          </div>
                     @endif
 
-                    <p class="checkout-terms-text mt-3">
-                        By clicking to pay now, you agreed with all our
-                        <strong class="d-block">Terms and Conditions</strong>
-                    </p>
                 </div>
             </div>
         </div>

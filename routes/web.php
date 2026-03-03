@@ -1,6 +1,7 @@
 <?php
 
 use App\Livewire\GallerySlideshow;
+use App\Livewire\Plans;
 use App\Livewire\User\RechargeLookup;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\{
@@ -96,6 +97,7 @@ Route::get('/orders/recharge/{msisdn}', RechargeOrder::class)
 |--------------------------------------------------------------------------
 */
 Route::get('/about', About::class)->name('about');
+Route::get('/plans', Plans::class)->name('plans');
 Route::get('/business', Business::class)->name('business');
 Route::get('/faq', Faq::class)->name('faq');
 Route::get('/guide', Guide::class)->name('guide');

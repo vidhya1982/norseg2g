@@ -13,9 +13,9 @@
 
                     <input type="text" class="search-input" placeholder="Search for destination" autocomplete="off"
                         id="countrySearch" wire:loading.attr="disabled">
-<button type="button" class="search-clear-btn" id="clearBtn">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+                    <button type="button" class="search-clear-btn" id="clearBtn">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                     <!-- Loader -->
                     <div class="loader search-button" wire:loading wire:target="loadZonesByCountry">
                         <i class="fa fa-spinner fa-spin"></i> Loading...
@@ -62,237 +62,166 @@
     </div>
 </div>
 
-<!-- topPlans section -->
-<section id="topPlans">
-    <div class="container top-plans">
-        <div class="row display-flex align-items-center justify-content-center pt-5">
 
-            <div class="col-6 title-container">
-                <!-- <h5 class="title">{{ __('home.know_us') }}</h5>-->
-                <h2 class="title-header">{{ __('home.top_plans') }}</h2>
-            </div>
+<section class="offer-section">
+    <div class="container">
 
-            <div class="col-6 text-end position-relative view-btn">
+        <div class="title-container text-center">
+            <h2 class="title-header">Welcome, Norse Atlantic customers</h2>
+            <p class="title-content">Grab exclusive deals on selected plans</p>
+        </div>
 
-            </div>
+        <div class="row g-4">
 
-            <div class="row justify-content-center mt-3">
+            <!-- Card 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="offer-card">
+                    <div class="offer-image">
+                        <img src="{{ asset('images/offers/city-tile-ath.jpg') }}" alt="Free eSIM Offer">
+                    </div>
 
-                @forelse ($zones as $zone)
-                    <div class="col-12 col-md-6 col-lg-4" data-countries="{{ $zone->countries }}">
-                        <a href="{{ route('plans-details', $zone->id) }}" class="planCard">
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <h4>Get a Free eSIM</h4>
+                            <span class="tc">*T&Cs apply</span>
+                        </div>
 
-                            <div class="plan-card">
-                                <!-- SAME IMAGE STRUCTURE -->
-                                <img src="{{ asset('images/continent/' . $zone->image) }}" alt="{{ $zone->name }} Plan" />
+                        <p class="offer-desc">
+                            Free eSIM with unlimited data on selected plans.
+                        </p>
 
-                                <div class="card-overlay">
-                                    <button class="explore-btn">
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </button>
-                                </div>
+                        <div class="coupon-box">
+                            FLYNORSEEU
+                        </div>
 
-                                <div class="plan-label">
-                                    <img src="{{ asset('images/' . $zone->zone_flag) }}" alt="{{ $zone->name }} Flag" />
-
-                                    <span>{{ $zone->name }}</span>
-                                    | from {{ number_format($zone->starting_price, 2) }} USD
-                                </div>
-                                <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
-                                    onclick="event.preventDefault(); event.stopPropagation();">
-                                    eSIM Specifications ›
-                                </div>
-                            </div>
+                        <a href="#" class="offer-btn">
+                            GET A FREE ESIM NOW
                         </a>
                     </div>
-                    <div class="modal fade" id="specsModal" tabindex="-1">
-                        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content specs-modal">
-
-                                <!-- HEADER -->
-                                <div class="modal-header specs-header">
-                                    <h4 class="modal-title">Europe eSIM Specifications</h4>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
-                                    </button>
-                                </div>
-
-                                <!-- BODY (Scrollable Area) -->
-                                <div class="modal-body specs-body">
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Format</div>
-                                        <div class="spec-value">eSIM (eUICC Profile)</div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Compatibility</div>
-                                        <div class="spec-value link">See Compatibility List</div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Installation</div>
-                                        <div class="spec-value">
-                                            QR Code<br>
-                                            Manual Activation Code<br>
-                                            Automatic (iOS 17+)
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Multiple Devices</div>
-                                        <div class="spec-value">
-                                            No - eSIM Locked to First IMEI
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Data Activation</div>
-                                        <div class="spec-value">
-                                            Activation Date Selected on Checkout
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Data Speed</div>
-                                        <div class="spec-value">
-                                            5G and 4G LTE (Where available)
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Available Networks</div>
-                                        <div class="spec-value">
-                                            Various (See Individual Country Plans)
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Max Validity</div>
-                                        <div class="spec-value">
-                                            5 Days - 180 Days
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Wi-Fi Hotspot</div>
-                                        <div class="spec-value">
-                                            Available on all eSIM Plans<br>
-                                            No restrictions
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Voice / SMS</div>
-                                        <div class="spec-value">
-                                            Available with Wi-Fi Calling
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">APN</div>
-                                        <div class="spec-value">
-                                            Automatic
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Usage Policy</div>
-                                        <div class="spec-value">
-                                            Personal cellular use only.<br>
-                                            Use as fixed line or router is prohibited.<br>
-                                            <span class="link">View AUP ›</span>
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Refund Policy</div>
-                                        <div class="spec-value highlight">
-                                            100% Money Back Guarantee
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Lost Phone Policy</div>
-                                        <div class="spec-value">
-                                            $5 eSIM Replacement Charge
-                                        </div>
-                                    </div>
-
-                                    <div class="spec-row">
-                                        <div class="spec-title">Technical Support</div>
-                                        <div class="spec-value">
-                                            <span>24/7/365 Helpdesk</span><br>
-                                            <span>24/7/365 cs@gsm2go.com</span>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!-- FOOTER -->
-                                <div class="modal-footer specs-footer">
-                                    <button class="close-modal-btn" data-bs-dismiss="modal">
-                                        Close
-                                    </button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <h5>We don’t currently have plans for this destination.</h5>
-                    </div>
-                @endforelse
-
+                </div>
             </div>
+
+            <!-- Card 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="offer-card">
+                    <div class="offer-image">
+                        <img src="{{ asset('images/offers/city-tile-fco.jpg') }}" alt="Bonus Data Offer">
+                    </div>
+
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <h4>Get Bonus Data</h4>
+                            <span class="tc">*T&Cs apply</span>
+                        </div>
+
+                        <p class="offer-desc">
+                            Enjoy extra data with every eligible plan.
+                        </p>
+
+                        <div class="coupon-box">
+                            FLYNORSE2GB 
+                        </div>
+
+                        <a href="#" class="offer-btn">
+                            CLAIM BONUS DATA NOW
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="offer-card">
+                    <div class="offer-image">
+                        <img src="{{ asset('images/offers/londonparliament.jpg') }}" alt="BOGO Offer">
+                    </div>
+
+                    <div class="offer-content">
+                        <div class="offer-header">
+                            <h4>Buy One Get One</h4>
+                            <span class="tc">*T&Cs apply</span>
+                        </div>
+
+                        <p class="offer-desc">
+                            Get two eSIMs for the price of one (3GB+ plans).
+                        </p>
+
+                        <div class="coupon-box">
+                            FLYNORSEBOGO
+                        </div>
+
+                        <a href="#" class="offer-btn">
+                            CLAIM BOGO OFFER NOW
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
+
     </div>
 </section>
-
 <!-- tableCompare section -->
-<section>
+<section class="bg-secondary-custom compare-section">
     <div class="container compare-table-section">
 
         <div class="title-container text-center">
-            <!-- <h5 class="title">{{ __('home.compare') }}</h5>-->
             <h2 class="title-header">
                 {{ $compare['heading'] }}
             </h2>
-            <!-- <p class="title-content">
-                {!! nl2br(e($compare['description'])) !!}
-            </p>-->
         </div>
 
         <div class="row justify-content-center">
             <div class="col-12">
-                <div class="table-compare">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="highlight-row">
-                                    {{ $compare['data'][0][0] }}
-                                </th>
-                                <th>
-                                    {{ $compare['data'][0][1] }}
-                                </th>
-                                <th>
-                                    {{ $compare['data'][0][2] }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($compare['data'] as $index => $row)
-                                @if ($index > 0)
-                                    <tr>
-                                        <td>{{ $row[0] }}</td>
-                                        <td>{{ $row[1] }}</td>
-                                        <td>{{ $row[2] ?: '-' }}</td>
-                                    </tr>
-                                @endif
+               <div class="compare-wrapper">
+
+    {{-- Desktop Table --}}
+    <div class="desktop-view">
+        <table class="compare-table">
+            <thead>
+                <tr>
+                    @foreach ($compare['data'][0] as $heading)
+                        <th>{{ $heading }}</th>
+                    @endforeach
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($compare['data'] as $index => $row)
+                    @if ($index > 0)
+                        <tr>
+                            @foreach ($row as $col)
+                                <td>{!! $col ?: '-' !!}</td>
                             @endforeach
-                        </tbody>
-                    </table>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Mobile Cards --}}
+    <div class="mobile-view">
+        @foreach ($compare['data'] as $index => $row)
+            @if ($index > 0)
+                <div class="compare-card">
+                    <h4 class="feature-title">{{ $row[0] }}</h4>
+
+                    <div class="compare-item winner">
+                        <span class="label">{{ $compare['data'][0][1] }}</span>
+                        <p>{!! $row[1] ?: '-' !!}</p>
+                    </div>
+
+                    <div class="compare-item other">
+                        <span class="label">{{ $compare['data'][0][2] }}</span>
+                        <p>{!! $row[2] ?: '-' !!}</p>
+                    </div>
                 </div>
+            @endif
+        @endforeach
+    </div>
+
+</div>
             </div>
         </div>
 
@@ -301,7 +230,7 @@
 
 
 <!-- pricingTable section -->
-<section class="pricing-table-section bg-secondary-custom">
+<section class="pricing-table-section ">
     <div class="container">
 
         <div class="title-container text-center">
@@ -314,40 +243,35 @@
             </p>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="table-compare">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="highlight-row">
-                                    {{ $pricingCompare['data'][0][0] }}
-                                </th>
-                                <th>{{ $pricingCompare['data'][0][1] }}</th>
-                                <th>{{ $pricingCompare['data'][0][2] }}</th>
-                                <th>{{ $pricingCompare['data'][0][3] }}</th>
-                                <th>{{ $pricingCompare['data'][0][4] }}</th>
-                            </tr>
-                        </thead>
+      <div class="table-compare pricing-compare-wrapper">
+    <div class="table-scroll">
+        <table class="table compare-table">
+            <thead>
+                <tr>
+                    @foreach ($pricingCompare['data'][0] as $headIndex => $heading)
+                        <th class="{{ $headIndex == 0 ? 'feature-head' : '' }}">
+                            {{ $heading }}
+                        </th>
+                    @endforeach
+                </tr>
+            </thead>
 
-                        <tbody>
-                            @foreach ($pricingCompare['data'] as $index => $row)
-                                @if ($index > 0)
-                                    <tr>
-                                        <td>{{ $row[0] }}</td>
-                                        <td>{{ $row[1] }}</td>
-                                        <td>{{ $row[2] }}</td>
-                                        <td>{{ $row[3] }}</td>
-                                        <td>{{ $row[4] }}</td>
-                                    </tr>
-                                @endif
+            <tbody>
+                @foreach ($pricingCompare['data'] as $index => $row)
+                    @if ($index > 0)
+                        <tr>
+                            @foreach ($row as $colIndex => $col)
+                                <td class="{{ $colIndex == 0 ? 'feature-col' : '' }}">
+                                    {{ $col ?: '-' }}
+                                </td>
                             @endforeach
-                        </tbody>
-
-                    </table>
-                </div>
-            </div>
-        </div>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 
     </div>
 </section>
@@ -357,8 +281,8 @@
 @include('commons.plansworking')
 
 <!-- staySafe section  -->
-<section>
-    <div class="container plans-working text-center text-md-start">
+<section class="bg-secondary-custom">
+    <div class="container plans-working text-center text-md-start ">
         <div class="row ">
             <div class="col-12 col-md-4">
                 <div class="title-container ">
@@ -382,7 +306,7 @@
                 <h2 class="title-header">{{ __('home.instant_purchase') }}</h2>
                 <p class="title-content">{{ __('home.get_qr') }}</p>
                 <div class="position-relative view-dest">
-                    <a href="{{ url('/#topPlans') }}">
+                    <a href="{{ route('plans') }}">
                         <button type="submit" class="view-button">
                             {{ __('home.get_start') }}<i class="fa-solid fa-arrow-right"></i>
                         </button>
@@ -396,7 +320,7 @@
 
 <!-- whyGsm secyion  -->
 
-<section class="why-gsm-section bg-secondary-custom">
+<section class="why-gsm-section">
     <div class="container">
         <div class="row display-flex align-items-end justify-content-between py-5">
             <div class="col-6 title-container">
@@ -404,7 +328,7 @@
                 <h2 class="title-header">{{ __('home.stay_conn') }}</h2>
             </div>
             <div class="col-6 position-relative view-dest">
-                <a href="{{ url('/#topPlans') }}">
+                <a href="{{ route('plans') }}">
                     <button type="submit" class="view-button">
                         {{ __('home.choose_plan') }}<i class="fa-solid fa-arrow-right"></i>
                     </button>

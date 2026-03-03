@@ -36,7 +36,7 @@ return [
       'view_plan' => 'View Plan',
       'limited_time' => ' * Limited time only.',
     'cwb' => 'Connection without boundaries',
-    'get_conn' => 'Get Connected wherever life takes you',
+    'get_conn' => 'Welcome Norse Atlantic Travellers',
     'discount_line' => 'Get 6% off 10GB & 20GB plans with the code GSMSPRING',
     'know_us' => 'Get To Know Us',
     'top_plans' => 'Top Plans',
