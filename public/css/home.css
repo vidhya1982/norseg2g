@@ -45,7 +45,6 @@
 
 .banner-title-content {
     font-family: "Montserrat", sans-serif;
-    font-size: 14px;
     color: var(--text-color);
 }
 .title {
@@ -160,8 +159,8 @@
 
 /* Badge */
 .country-badge {
-    background: #f2f2f2;
-    padding: 6px 14px;
+    /* background: #f2f2f2; */
+    padding: 6px 20px;
     border-radius: 20px;
     font-size: 14px;
     color: #444;
@@ -218,6 +217,14 @@
 .view-button:hover {
     background: #e7ac7f;
 }
+
+.no-zones-message {
+    display: none;
+    padding: 60px 0;
+    text-align: center;
+}
+
+
 
 
 /* ============================= */
@@ -317,6 +324,15 @@
     background: var(--btn-background-color);
     transition: 0.3s ease;
     margin-top: auto;
+}
+.country-badge {
+    position: relative;
+}
+.country-badge::before {
+    content: "✔";
+    color: var(--primary-green);
+    position: absolute;
+    left: 0;
 }
 
 .offer-btn:hover {

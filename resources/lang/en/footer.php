@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'text1' => 'The gsm2go eSIM – the only with data and voice: Comes with a real phone number for real phone calls, in and out.',
+    'text1' => 'The flynorse eSIM – the only with data and voice: Comes with a real phone number for real phone calls, in and out.',
     'text2' => 'Quick Links',
     'text3' => 'Terms and Conditions and GDPR',
     'text4' => 'GDPR',
@@ -9,7 +9,7 @@ return [
     'text6' => 'Contact Us',
     'text7' => 'Contact Information',
     'text8' => 'gsm2go eSIM',
-    'text9' => 'Call Us:',
+    'text9' => 'WhatsApp:',
     'text10' => '123-456-7898',
     'text11' => 'Email Us:',
     'text12' => 'cs@gsm2go.com',

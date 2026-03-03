@@ -10,7 +10,7 @@
         <div class="auth-card ">
           <div class=" auth-hero">
             <h1>
-              Create your <span class="gradient-text">gsm2go</span> Account
+              Create your <span class="gradient-text">gsm2go</span> account
             </h1>
             <p>Start roaming smarter with global eSIM access</p>
           </div>

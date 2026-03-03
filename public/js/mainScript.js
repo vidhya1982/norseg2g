@@ -141,10 +141,7 @@ $(function () {
     const $list  = $('#suggestions');
     const $clear = $('#clearBtn');
 
-    // Show dropdown on focus
-    $input.on('focus', function () {
-        $list.show();
-    });
+    // ❌ Focus pe dropdown open nahi hoga
 
     // Filtering
     $input.on('input', function () {
@@ -153,7 +150,7 @@ $(function () {
         const $items = $list.find('.suggestion-item');
 
         if (!val) {
-            $items.show();
+            $items.hide();     // empty pe hide
             $list.hide();
             return;
         }
@@ -175,6 +172,7 @@ $(function () {
             if (match) hasMatch = true;
         });
 
+        // ✅ Sirf match hone par dropdown open
         $list.toggle(hasMatch);
     });
 
@@ -190,7 +188,7 @@ $(function () {
         $list.hide();
     });
 
-    // ✅ CLEAR BUTTON FIX
+    // Clear button
     $clear.on('click', function (e) {
         e.stopPropagation();
         $input.val('');
@@ -212,11 +210,17 @@ $(function () {
 
 
 $(document).on('click', '.suggestion-item', function () {
+
     const selectedCountryId = $(this).data('country');
     let visibleCount = 0;
 
     $('[data-countries]').each(function () {
-        const countryArray = $(this).data('countries').toString().split(',');
+
+        const countryArray = $(this)
+            .data('countries')
+            .toString()
+            .split(',')
+            .map(id => id.trim());
 
         if (countryArray.includes(selectedCountryId.toString())) {
             $(this).show();
@@ -226,17 +230,31 @@ $(document).on('click', '.suggestion-item', function () {
         }
     });
 
-    $('#noZonesMessage').toggle(visibleCount === 0);
+    if (visibleCount === 0) {
 
-    // Scroll to topPlans section
-    $('#topPlans')[0]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // ✅ Show message
+        $('#noZonesMessage').fadeIn();
+
+        // ❌ DO NOT SCROLL
+    } else {
+
+        $('#noZonesMessage').hide();
+
+        // ✅ Scroll ONLY if zones found
+        $('#topPlans')[0]?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
 });
 
 $('#countrySearch').on('input', function () {
+
     const value = $(this).val().trim();
 
     if (value === '') {
-        $('[data-countries]').show();   //  ALL ZONES
+        $('[data-countries]').show();   // show all
         $('#noZonesMessage').hide();    // hide message
     }
 });

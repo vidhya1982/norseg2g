@@ -39,7 +39,40 @@
 /* =========================
    PLAN ROW (FIRST SCREENSHOT STYLE)
 ========================= */
+.promo-applied-under-plan {
+    font-size: 13px;
+    padding: 6px 12px 6px 12px;
+    margin: 4px 0 8px 0;
+    border-left: 3px solid #198754;
+    background: #f0faf4;
+    border-radius: 0 6px 6px 0;
+}
 
+.promo-applied-badge-box {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+.promo-discount {
+    background: #f0faf4;
+    border: 1px solid #a3d9b1;
+}
+
+.promo-bonus {
+    background: #fffbeb;
+    border: 1px solid #f0c000;
+}
+
+.promo-free {
+    background: #f0faf4;
+    border: 1px solid #a3d9b1;
+}
+
+.promo-b1g1 {
+    background: #fff5f5;
+    border: 1px solid #f5a0a0;
+}
 .checkout-plan-row {
     display: grid;
     grid-template-columns: 1fr 40px 70px;

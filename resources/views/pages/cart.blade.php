@@ -253,7 +253,7 @@
 
                             <label class="form-check-label" for="esimConsent">
                                 I understand that in order to use an eSIM, I need an eSIM compatible phone
-                                (<a href="#" target="_blank">please see list here</a>).
+                                (<a href="{{ route('esim-compatible') }}" class="text-decoration-none">please see list here</a>).
                                 I am ok with the
                                 <a href="#" target="_blank">gsm2go eSIM Terms and Conditions</a>
                                 and
@@ -269,7 +269,7 @@
                     </div>
                 </div>
 
-                <div class="text-center pt-4">
+               {{-- <div class="text-center pt-4">
                     <strong class="border-bottom border-black">
                         Satisfaction Guaranteed
                     </strong>
@@ -277,7 +277,7 @@
                         If you're not completely happy with your purchase, contact our Guides 24/7/365,
                         and we'll make it right.
                     </p>
-                </div>
+                </div> --}}
 
             </div>
         </div>

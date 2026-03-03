@@ -1,21 +1,21 @@
+{{-- 
 @php
     $country = session('country');
 
     $languages =
-        $country === 'Israel' ? ['en' => 'English', 'he' => 'Hebrew', 'ar' => 'Arabic'] : ['en' => 'English', 'ar' => 'Arabic'];
+        $country === 'Israel'
+            ? ['en' => 'English', 'he' => 'Hebrew', 'ar' => 'Arabic']
+            : ['en' => 'English', 'ar' => 'Arabic'];
 @endphp
 
-
-
-<!-- TOP STRIP -->
 <div class="fluid-container header-top py-2 text-center">
-
-    <!-- <span class="text-white">{{ __('home.get_upto') }}</span>
-        {{ __('home.newacc') }}
-        <button class="plan-btn text-white">{{ __('home.view_plan') }}</button>
-        {{ __('home.limited_time') }} -->
-    <span class="">Roaming Professionals Since 2009</span>
+    <span class="text-white">{{ __('home.get_upto') }}</span>
+    {{ __('home.newacc') }}
+    <button class="plan-btn text-white">{{ __('home.view_plan') }}</button>
+    {{ __('home.limited_time') }}
+    <span>Roaming Professionals Since 2009</span>
 </div>
+--}}
 
 
 <!-- MAIN HEADER -->
@@ -30,7 +30,7 @@
 
         <!-- LOGO: will be centered on mobile -->
         <a class="navbar-brand logo-center-mobile" href="{{ url('/') }}">
-            <img src="{{ asset('images/gsmLogo.png') }}" alt="logo" class="logo-img">
+            <img src="{{ asset('images/NorseLogoWhite.svg') }}" alt="logo" class="logo-img">
         </a>
 
         
@@ -46,7 +46,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('plans') }}">{{ __('menu.plans') }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('guide') }}">{{ __('menu.guide') }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('faq') }}">{{ __('menu.faq') }}</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('business') }}">{{ __('menu.postpaid') }}</a>
+               {{--<li class="nav-item"><a class="nav-link" href="{{ route('business') }}">{{ __('menu.postpaid') }}</a>--}}
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">{{ __('menu.aboutus') }}</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('contact') }}">{{ __('menu.contact') }}</a>

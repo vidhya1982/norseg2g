@@ -4,15 +4,15 @@
             <div class="col-12 col-md-6 text-center title-container">
                 <!-- <h5 class="banner-title">{{ __('home.cwb') }}</h5>-->
                 <h2 class="banner-title-header">{{ __('home.get_conn') }}</h2>
-                <!-- <p class="banner-title-content">{{ __('home.discount_line') }}</p>-->
+                <h4 class="banner-title-content">We cover the globe.</h4>
 
                 <div class="search-container">
                     <div class="search-left">
                         <i class="fa-solid fa-location-dot search-icon"></i>
                     </div>
 
-                    <input type="text" class="search-input" placeholder="Search for destination" autocomplete="off"
-                        id="countrySearch" wire:loading.attr="disabled">
+                    <input type="text" class="search-input" placeholder="Check if your destination is included"
+                        autocomplete="off" id="countrySearch" wire:loading.attr="disabled">
                     <button type="button" class="search-clear-btn" id="clearBtn">
                         <i class="fa-solid fa-xmark"></i>
                     </button>
@@ -21,12 +21,13 @@
                         <i class="fa fa-spinner fa-spin"></i> Loading...
                     </div>
 
+
                     <ul class="suggestions-list" id="suggestions" wire:loading.remove>
 
                         <!-- Header Row -->
                         <div class="dropdown-header">
                             <span>DESTINATIONS</span>
-                            <span class="results-count">{{ count($countries) }} RESULTS</span>
+                            <!-- <span class="results-count">{{ count($countries) }} RESULTS</span> -->
                         </div>
 
                         @foreach ($countries as $country)
@@ -39,13 +40,20 @@
                                     <span>{{ $country->country_name }}</span>
                                 </div>
 
-                                <span class="country-badge">Country</span>
+                                <span class="country-badge">covered</span>
 
                             </li>
                         @endforeach
 
                     </ul>
+
                 </div>
+                <div id="noZonesMessage" class="no-zones-message ">
+                    <div class="no-zones-box text-danger">
+                        <h5>sorry, this country is not yet covered</h5>
+                    </div>
+                </div>
+
 
 
             </div>
@@ -67,7 +75,7 @@
     <div class="container">
 
         <div class="title-container text-center">
-            <h2 class="title-header">Special Deals for Norse Atlantic Flyers</h2>
+            <h2 class="title-header">Choose your Fly Norse eSIM Promo</h2>
             <p class="title-content">Grab exclusive deals on selected plans</p>
         </div>
 
@@ -77,21 +85,21 @@
             <div class="col-lg-4 col-md-6">
                 <div class="offer-card">
                     <div class="offer-image">
-                        <img src="{{ asset('images/offers/city-tile-ath.jpg') }}" alt="Free eSIM Offer">
+                        <img src="{{ asset('images/gallery/Central Park2.jpg') }}" alt="Free eSIM Offer">
                     </div>
 
                     <div class="offer-content">
                         <div class="offer-header">
-                            <h4>Get a Free eSIM</h4>
+                            <h4>Get a Free 1 GB eSIM</h4>
                             <span class="tc">*T&Cs apply</span>
                         </div>
 
                         <p class="offer-desc">
-                            Free eSIM with unlimited data on selected plans.
+                            FlyNorse Promo Code: FlyNorse1GB.
                         </p>
 
                         <div class="coupon-box">
-                            FLYNORSEEU
+                            FlyNorse1GB
                         </div>
 
                         <a href="#" class="offer-btn">
@@ -105,7 +113,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="offer-card">
                     <div class="offer-image">
-                        <img src="{{ asset('images/offers/city-tile-fco.jpg') }}" alt="Bonus Data Offer">
+                        <img src="{{ asset('images/gallery/Freedom Tower.jpg') }}" alt="Bonus Data Offer">
                     </div>
 
                     <div class="offer-content">
@@ -115,11 +123,11 @@
                         </div>
 
                         <p class="offer-desc">
-                            Enjoy extra data with every eligible plan.
+                            Get 2 GB extra data for free (on GB Data Plans).
                         </p>
 
                         <div class="coupon-box">
-                            FLYNORSE2GB 
+                            FlyNorse2GB
                         </div>
 
                         <a href="#" class="offer-btn">
@@ -133,7 +141,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="offer-card">
                     <div class="offer-image">
-                        <img src="{{ asset('images/offers/londonparliament.jpg') }}" alt="BOGO Offer">
+                        <img src="{{ asset('images/gallery/Amsterdam.jpg') }}" alt="BOGO Offer">
                     </div>
 
                     <div class="offer-content">
@@ -143,7 +151,7 @@
                         </div>
 
                         <p class="offer-desc">
-                            Get two eSIMs for the price of one (3GB+ plans).
+                            Get two eSIMs for the price of one (15 days plans or more).
                         </p>
 
                         <div class="coupon-box">
@@ -360,55 +368,55 @@
 
         <div class="row justify-content-center">
             <div class="col-12">
-               <div class="compare-wrapper">
+                <div class="compare-wrapper">
 
-    {{-- Desktop Table --}}
-    <div class="desktop-view">
-        <table class="compare-table">
-            <thead>
-                <tr>
-                    @foreach ($compare['data'][0] as $heading)
-                        <th>{{ $heading }}</th>
-                    @endforeach
-                </tr>
-            </thead>
+                    {{-- Desktop Table --}}
+                    <div class="desktop-view">
+                        <table class="compare-table">
+                            <thead>
+                                <tr>
+                                    @foreach ($compare['data'][0] as $heading)
+                                        <th>{{ $heading }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
 
-            <tbody>
-                @foreach ($compare['data'] as $index => $row)
-                    @if ($index > 0)
-                        <tr>
-                            @foreach ($row as $col)
-                                <td>{!! $col ?: '-' !!}</td>
-                            @endforeach
-                        </tr>
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-
-    {{-- Mobile Cards --}}
-    <div class="mobile-view">
-        @foreach ($compare['data'] as $index => $row)
-            @if ($index > 0)
-                <div class="compare-card">
-                    <h4 class="feature-title">{{ $row[0] }}</h4>
-
-                    <div class="compare-item winner">
-                        <span class="label">{{ $compare['data'][0][1] }}</span>
-                        <p>{!! $row[1] ?: '-' !!}</p>
+                            <tbody>
+                                @foreach ($compare['data'] as $index => $row)
+                                    @if ($index > 0)
+                                        <tr>
+                                            @foreach ($row as $col)
+                                                <td>{!! $col ?: '-' !!}</td>
+                                            @endforeach
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
 
-                    <div class="compare-item other">
-                        <span class="label">{{ $compare['data'][0][2] }}</span>
-                        <p>{!! $row[2] ?: '-' !!}</p>
+                    {{-- Mobile Cards --}}
+                    <div class="mobile-view">
+                        @foreach ($compare['data'] as $index => $row)
+                            @if ($index > 0)
+                                <div class="compare-card">
+                                    <h4 class="feature-title">{{ $row[0] }}</h4>
+
+                                    <div class="compare-item winner">
+                                        <span class="label">{{ $compare['data'][0][1] }}</span>
+                                        <p>{!! $row[1] ?: '-' !!}</p>
+                                    </div>
+
+                                    <div class="compare-item other">
+                                        <span class="label">{{ $compare['data'][0][2] }}</span>
+                                        <p>{!! $row[2] ?: '-' !!}</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
                     </div>
+
                 </div>
-            @endif
-        @endforeach
-    </div>
-
-</div>
             </div>
         </div>
 
@@ -430,35 +438,35 @@
             </p>
         </div>
 
-      <div class="table-compare pricing-compare-wrapper">
-    <div class="table-scroll">
-        <table class="table compare-table">
-            <thead>
-                <tr>
-                    @foreach ($pricingCompare['data'][0] as $headIndex => $heading)
-                        <th class="{{ $headIndex == 0 ? 'feature-head' : '' }}">
-                            {{ $heading }}
-                        </th>
-                    @endforeach
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach ($pricingCompare['data'] as $index => $row)
-                    @if ($index > 0)
+        <div class="table-compare pricing-compare-wrapper">
+            <div class="table-scroll">
+                <table class="table compare-table">
+                    <thead>
                         <tr>
-                            @foreach ($row as $colIndex => $col)
-                                <td class="{{ $colIndex == 0 ? 'feature-col' : '' }}">
-                                    {{ $col ?: '-' }}
-                                </td>
+                            @foreach ($pricingCompare['data'][0] as $headIndex => $heading)
+                                <th class="{{ $headIndex == 0 ? 'feature-head' : '' }}">
+                                    {{ $heading }}
+                                </th>
                             @endforeach
                         </tr>
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($pricingCompare['data'] as $index => $row)
+                            @if ($index > 0)
+                                <tr>
+                                    @foreach ($row as $colIndex => $col)
+                                        <td class="{{ $colIndex == 0 ? 'feature-col' : '' }}">
+                                            {{ $col ?: '-' }}
+                                        </td>
+                                    @endforeach
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     </div>
 </section>
@@ -495,7 +503,7 @@
                 <div class="position-relative view-dest">
                     <a href="{{ route('plans') }}">
                         <button type="submit" class="view-button">
-                            {{ __('home.get_start') }}<i class="fa-solid fa-arrow-right"></i>
+                            Choose the plan that works for you <i class="fa-solid fa-arrow-right"></i>
                         </button>
                     </a>
                 </div>
@@ -513,6 +521,7 @@
             <div class="col-6 title-container">
                 <!--  <h5 class="title">{{ __('home.why') }}</h5>-->
                 <h2 class="title-header">{{ __('home.stay_conn') }}</h2>
+                <p class="title-header">we covers the globe</p>
             </div>
             <div class="col-6 position-relative view-dest">
                 <a href="{{ route('plans') }}">

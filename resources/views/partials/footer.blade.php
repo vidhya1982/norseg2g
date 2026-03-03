@@ -1,8 +1,18 @@
+@php
+    use Illuminate\Support\Facades\File;
+
+    $path = public_path('images/gallery');
+
+    $images = collect(File::files($path))
+        ->filter(fn($file) => in_array(strtolower($file->getExtension()), ['jpg', 'jpeg', 'png']))
+        ->take(9); // 👈 Sirf 9 images
+@endphp
+
 <footer class=" pt-5 pb-3">
     <div class="container">
         <div class="row footer-info">
             <!-- Logo & Contact -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-5 mb-4">
                 <img src="{{ asset('images/logo.png') }}" alt="gsm2go" class="img-fluid mb-3" style="width: 150px;">
 
                 <p class="mb-3">{{ __('footer.text1') }}</p>
@@ -32,7 +42,7 @@
             </div>
 
             <!-- Useful Links -->
-            <div class="col-md-3 mb-4 footer-links">
+            <!-- <div class="col-md-3 mb-4 footer-links">
                 <h6 class="fw-bold">{{ __('footer.text2') }}</h6>
                 <ul class="list-unstyled">
                     <li><a href="#" class="text-decoration-none ">{{ __('footer.link_text_uk') }}</a></li>
@@ -42,10 +52,10 @@
                     <li><a href="#" class="text-decoration-none ">{{ __('footer.link_text_eu') }}</a></li>
                     <li><a href="#" class="text-decoration-none ">{{ __('footer.link_text_world') }}</a></li>
                 </ul>
-            </div>
+            </div> -->
 
             <!-- About ESIM -->
-            <div class="col-md-2 mb-4 footer-links">
+            <div class="col-md-4 mb-4 footer-links">
                 <h6 class="fw-bold">{!! __('footer.text8') !!}</h6>
                 <ul class="list-unstyled">
                     <li>
@@ -80,11 +90,12 @@
             <div class="col-md-3 mb-4">
                 <h6 class="fw-bold">gsm2go travellers gallery</h6>
                 <div class="gallery">
-                    @for ($i = 1; $i <= 9; $i++)
-                       <a href="{{ route('gallery') }}">
-                            <img src="{{ asset('images/gallery-img' . $i . '.png') }}" class="img-fluid rounded" alt="">
+                    @foreach($images as $image)
+                        <a href="{{ route('gallery') }}">
+                            <img src="{{ asset('images/gallery/' . $image->getFilename()) }}" class="img-fluid rounded"
+                                alt="">
                         </a>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
         </div>
