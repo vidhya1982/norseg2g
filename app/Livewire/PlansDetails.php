@@ -19,15 +19,15 @@ class PlansDetails extends Component
     public $quantity = 1;
 
     public $addons = [
-        'talk_time' => [
-            'enabled' => true,
-            'qty' => 1,
-            'price' => 10
-        ],
-        'auto_topup' => [
-            'enabled' => false
-        ]
-    ];
+    'talk_time' => [
+        'enabled' => false,  // ✅ correct default
+        'qty' => 1,
+        'price' => 10
+    ],
+    'auto_topup' => [
+        'enabled' => false
+    ]
+];
 
     public function mount(Zone $zone)
     {

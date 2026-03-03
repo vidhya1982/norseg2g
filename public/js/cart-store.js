@@ -162,7 +162,7 @@ document.addEventListener("alpine:init", () => {
         resetPlan() {
             this.qty = 1;
             this.addons.auto_topup.enabled = false;
-            this.addons.talk_time.enabled = true;
+            this.addons.talk_time.enabled = false;
             this.addons.talk_time.qty = 1;
         },
     });
