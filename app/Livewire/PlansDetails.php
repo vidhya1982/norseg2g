@@ -33,7 +33,10 @@ class PlansDetails extends Component
     {
         $this->zone = $zone;
         // Plans
-        $this->plans = Plans::active()->byZone($zone->id)->get();
+     $this->plans = Plans::active()
+    ->byZone($zone->id)
+    ->nonReseller()
+    ->get();
 
         //  Zone ke country IDs
         $countryIds = array_filter(

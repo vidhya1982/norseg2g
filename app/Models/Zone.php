@@ -40,9 +40,10 @@ class Zone extends Model
 
     // Minimum price
     public function getStartingPriceAttribute()
-    {
-        return $this->plans()
-            ->active()
-            ->min('USD');
-    }
+{
+    return $this->plans()
+        ->where('status', 'A')
+        ->where('reseller', 0)
+        ->min('USD');
+}
 }

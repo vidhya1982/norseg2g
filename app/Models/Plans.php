@@ -43,6 +43,10 @@ class Plans extends Model
         return $query->where('zone_id', $zoneId);
     }
 
+    public function scopeNonReseller($query)
+{
+    return $query->where('reseller', 0);
+}
     /* =====================
      |  Multilang Plan Name
      ===================== */

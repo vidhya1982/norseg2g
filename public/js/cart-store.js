@@ -135,7 +135,7 @@ document.addEventListener("alpine:init", () => {
 
         addons: {
             talk_time: {
-                enabled: true,
+                enabled: false,
                 qty: 1,
                 price: 10,
             },
