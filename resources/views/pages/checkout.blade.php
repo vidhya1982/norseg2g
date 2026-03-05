@@ -13,22 +13,36 @@
                     @foreach($groupedCart as $zoneItems)
                         <div class="package-box mb-4">
                             <div class="head-line">
-                                <h3 class="checkout-zone-title">{{ $zoneItems[0]['zone_name'] ?? 'Zone' }}</h3>
+                            <h3 class="checkout-zone-title">
+    @if(isset($zoneItems[0]['is_unlimited']) && $zoneItems[0]['is_unlimited'])
+        Unlimited Plans
+    @else
+        {{ $zoneItems[0]['gb'] ?? '' }} GB
+    @endif
+</h3>
                                 <a href="{{ route('cart') }}"><i class="fa-solid fa-pen-to-square"></i></a>
                             </div>
 
                             @foreach($zoneItems as $item)
+
+                                {{-- Helper: display name --}}
+                                @php
+                                    $displayName = (isset($item['is_unlimited']) && $item['is_unlimited'])
+                                        ? 'Unlimited Data, ' . ($item['days'] ?? '') . ' Days'
+                                        : $item['plan_name'];
+                                @endphp
+
                                 <div>
                                     {{-- ── Plan row ── --}}
                                     <div class="package-item checkout-plan-row">
                                         <div class="checkout-plan-info">
-                                            <strong class="checkout-plan-name">{{ $item['plan_name'] }}</strong>
+                                            <strong class="checkout-plan-name">{{ $displayName }}</strong>
                                             <div class="checkout-plan-meta">
                                                 {{-- FREE badge for injected freeEsim item --}}
                                                 @if(!empty($item['is_promo_free']))
                                                     <span class="badge bg-success me-1">FREE</span>
                                                 @endif
-                                                <span><i class="fa-solid fa-check"></i> {{ $item['plan_name'] }}</span>
+                                                <span><i class="fa-solid fa-check"></i> {{ $displayName }}</span>
                                             </div>
                                         </div>
 
@@ -62,12 +76,9 @@
                                         </div>
                                     </div>
 
-                                    {{-- ── PROMO APPLIED INFO UNDER PLAN ─────────────────────────
-                                         Yahan har plan ke neeche dikhega promo ka effect
-                                    ──────────────────────────────────────────────────────── --}}
+                                    {{-- ── PROMO APPLIED INFO UNDER PLAN ── --}}
                                     @if(!empty($appliedPromo) && empty($item['is_promo_free']))
 
-                                        {{-- discount: saving amount dikhao --}}
                                         @if($appliedPromo['type'] === 'discount')
                                             @php
                                                 $itemBase    = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
@@ -82,15 +93,15 @@
                                                 </span>
                                             </div>
 
-                                        {{-- bonusData: sirf pehle item pe (is_bonus_item=true) --}}
                                         @elseif($appliedPromo['type'] === 'bonusData' && !empty($item['is_bonus_item']))
-    <div class="promo-applied-under-plan bonus-highlight">
-        <i class="fa-solid fa-bolt me-1"></i>
-        <span>
-            <strong>+{{ $appliedPromo['bonus_label'] ?? ($appliedPromo['amount'].'GB') }}</strong>
-            Bonus Data will be added to this eSIM on activation
-        </span>
-    </div>
+                                            <div class="promo-applied-under-plan bonus-highlight">
+                                                <i class="fa-solid fa-bolt me-1"></i>
+                                                <span>
+                                                    <strong>+{{ $appliedPromo['bonus_label'] ?? ($appliedPromo['amount'].'GB') }}</strong>
+                                                    Bonus Data will be added to this eSIM on activation
+                                                </span>
+                                            </div>
+
                                         @elseif(
                                             $appliedPromo['type'] === 'buy1get1'
                                             && (
@@ -142,7 +153,7 @@
                                         <h4 class="head-line">AUTO-TOPUP</h4>
                                         <div class="auto-topup-row d-flex justify-content-between align-items-center">
                                             <div>
-                                                <strong>{{ $item['plan_name'] }}</strong>
+                                                <strong>{{ $displayName }}</strong>
                                                 <p class="small text-muted mb-0">Automatic recharge when data runs out</p>
                                             </div>
                                             @if(data_get($item, 'addons.auto_topup.enabled'))
@@ -324,7 +335,6 @@
                             @elseif(($appliedPromo['type'] ?? '') === 'bonusData')
                                 @php
                                     $bonusLabel = ($appliedPromo['bonus_label'] ?? $appliedPromo['amount'].'GB');
-
                                 @endphp
                                 <div class="promo-applied-badge-box promo-bonus">
                                     <div class="d-flex justify-content-between align-items-start">
@@ -489,7 +499,7 @@
                         </div>
                         <div class="auth-footer mt-4 text-center">
                             <p class="mb-2">Don't have an account?</p>
-                            <a href="{{ route('sign-up') }}" class="btn btn-outline-success  w-100">Create an account</a>
+                            <a href="{{ route('sign-up') }}" class="btn btn-outline-success w-100">Create an account</a>
                         </div>
                     @endif
                 </div>

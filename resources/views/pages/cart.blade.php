@@ -51,7 +51,13 @@
                         <div class="cart-item mb-4">
 
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h5 class="mb-0">{{ $item['zone_name'] }}</h5>
+  <h5 class="mb-0">
+    @if(!empty($item['is_unlimited']))
+        eSIM for {{ $item['days'] ?? '?' }} Days
+    @else
+        eSIM for {{ $item['gb'] ?? trim(explode(',', $item['plan_name'])[0]) }} GB
+    @endif
+</h5>
 
                                 <div class="d-flex align-items-center gap-2">
 
@@ -78,8 +84,13 @@
                                 <div class="d-flex justify-content-between align-items-center p-3 rounded mb-2 cart-details">
 
                                     <div>
-                                        <h5>{{ $item['plan_name'] }}</h5>
-
+                                       <h5>
+    @if(isset($item['is_unlimited']) && $item['is_unlimited'])
+        Unlimited Data, {{ $item['days'] }} Days
+    @else
+        {{ $item['plan_name'] }}
+    @endif
+</h5>
                                         <div class="text-muted small d-flex align-items-center">
                                             <div class="me-3 d-flex align-items-center">
                                                 <i class="fa-solid fa-check"></i>

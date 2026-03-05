@@ -97,7 +97,10 @@ class PlansDetails extends Component
                 'zone_id' => $this->zone->id,
                 'zone_name' => $this->zone->name,
                 'plan_id' => $plan->id,
-                'plan_name' => $plan->name,
+                 'plan_name' => $plan->name,
+    'is_unlimited' => (bool) $plan->is_unlimited,  // ✅ add this
+    'days' => $plan->Days,                          // ✅ add this
+    'gb' => $plan->GB,  
                 'price' => $plan->USD,
                 'quantity' => $this->quantity,
                 'addons' => $this->addons,

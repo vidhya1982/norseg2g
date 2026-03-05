@@ -64,7 +64,11 @@ class Checkout extends Component
     {
         $this->cart        = CartService::get();
         $this->grandTotal  = round(collect($this->cart)->sum('total'), 2);
-        $this->groupedCart = collect($this->cart)->groupBy('zone_id')->toArray();
+        $this->groupedCart = collect($this->cart)
+    ->groupBy(fn($item) => isset($item['is_unlimited']) && $item['is_unlimited'] ? 'unlimited' : 'budget')
+    ->values()
+    ->map(fn($group) => $group->values()->toArray())
+    ->toArray();
     }
 
     private function loadSavedCards(): void
