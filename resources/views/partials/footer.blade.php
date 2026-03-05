@@ -27,7 +27,7 @@
                         </div>
                         <div class="contact-content">
                             <small class="">{{ __('footer.text9') }}</small><br>
-                            <a href="https://api.whatsapp.com/send?phone=447624041999">
+                            <a href="https://api.whatsapp.com/send?phone=447624044444">
                                 <strong>+447624044444</strong></a>
                         </div>
                     </div>
