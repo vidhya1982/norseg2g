@@ -50,7 +50,7 @@
     </section>
     <section class="gallery-description pb-0 pt-5">
         <div class="desc-container p-5 text-start border">
-            <h3>Explore. Connect. Experience.</h3>
+            <h3 class="text-center">Explore. Connect. Experience.</h3>
             <p> From the charming streets of Europe to vibrant city skylines and serene lakes, our travellers stay
                 connected across the globe with GSM2GO eSIM solutions. Every journey becomes smoother when connectivity
                 is seamless. </p>
