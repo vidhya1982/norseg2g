@@ -4,7 +4,7 @@
         <div class="gallery-header">
             <h1>Norse Travellers Gallery</h1>
             <p class="gallery-subtitle">
-                Win a Free Unlimited Data eSIM when sharing your travel photos 
+                Win a Free Unlimited Data eSIM when sharing your travel photos
                 <br>One winner per month
             </p>
         </div>
@@ -56,6 +56,10 @@
                 is seamless. </p>
             <p> Whether you're traveling for business or leisure, GSM2GO ensures reliable data and voice coverage in
                 multiple countries worldwide. </p>
+            <p class="fw-bold mt-3 text-start">
+                Send your email to
+                <span class="text-success">norse-gallery@gsm2go.com</span>
+            </p>
         </div>
     </section>
 
