@@ -19,36 +19,63 @@ class PlansDetails extends Component
     public $quantity = 1;
 
     public $addons = [
-    'talk_time' => [
-        'enabled' => false,  // ✅ correct default
-        'qty' => 1,
-        'price' => 10
-    ],
-    'auto_topup' => [
-        'enabled' => false
-    ]
-];
+        'talk_time' => [
+            'enabled' => false,  // ✅ correct default
+            'qty' => 1,
+            'price' => 10
+        ],
+        'auto_topup' => [
+            'enabled' => false
+        ]
+    ];
 
     public function mount(Zone $zone)
-    {
-        $this->zone = $zone;
-        // Plans
-     $this->plans = Plans::active()
-    ->byZone($zone->id)
-    ->nonReseller()
-    ->get();
+{
+    $this->zone = $zone;
 
-        //  Zone ke country IDs
-        $countryIds = array_filter(
-            array_map('trim', explode(',', $zone->countries))
-        );
+    $type = request()->get('type');
 
-        //  Countries table flags + names
-        $this->countries = Country::activeCountries($countryIds)->get();
+    $query = Plans::active()
+        ->byZone($zone->id)
+        ->nonReseller();
 
-        $this->selectedPlanId = $this->plans->first()?->id;
-
+    if ($type === 'unlimited') {
+        $query->where('is_unlimited', 1);
+    } else {
+        $query->where('is_unlimited', 0);
     }
+
+    $this->plans = $query->get();
+
+    $this->selectedPlanId = $this->plans->first()?->id;
+
+    $countryIds = array_filter(
+        array_map('trim', explode(',', $zone->countries))
+    );
+
+    $this->countries = Country::activeCountries($countryIds)->get();
+}
+
+    // public function mount(Zone $zone)
+    // {
+    //     $this->zone = $zone;
+    //     // Plans
+    //  $this->plans = Plans::active()
+    // ->byZone($zone->id)
+    // ->nonReseller()
+    // ->get();
+
+    //     //  Zone ke country IDs
+    //     $countryIds = array_filter(
+    //         array_map('trim', explode(',', $zone->countries))
+    //     );
+
+    //     //  Countries table flags + names
+    //     $this->countries = Country::activeCountries($countryIds)->get();
+
+    //     $this->selectedPlanId = $this->plans->first()?->id;
+
+    // }
 
     public function continue($total)
     {

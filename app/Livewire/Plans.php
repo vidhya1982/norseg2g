@@ -10,7 +10,7 @@ class Plans extends Component
 
     public function mount()
     {
-        $this->zones = Zone::where('status', 'A')
+        $this->zones = Zone::where('status', 'A',)
             ->orderBy('position')
             ->get();
     }

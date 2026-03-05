@@ -37,6 +37,7 @@ class Plans extends Model
     {
         return $query->where('status', 'A');
     }
+   
 
     public function scopeByZone($query, $zoneId)
     {

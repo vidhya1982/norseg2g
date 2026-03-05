@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'text1' => 'The flynorse eSIM – the only with data and voice: Comes with a real phone number for real phone calls, in and out.',
+    'text1' => 'The flynorse gsm2go eSIM – the only with data and voice: Comes with a real phone number for real phone calls, in and out.',
     'text2' => 'Quick Links',
     'text3' => 'Terms and Conditions and GDPR',
     'text4' => 'GDPR',

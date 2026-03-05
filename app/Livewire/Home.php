@@ -14,11 +14,20 @@ class Home extends Component
     public $pricingCompare;
 
     public $countries;
+    public $is_unlimited;
+
 
 
     public function mount()
     {
         $this->zones = Zone::where('status', 'A')
+            ->orderBy('position')
+            ->get();
+
+         $this->is_unlimited = Zone::where('status', 'A')
+            ->whereHas('plans', function($q){
+                    $q->where('is_unlimited',1);
+            })
             ->orderBy('position')
             ->get();
 

@@ -13,8 +13,11 @@
         <div class="row footer-info">
             <!-- Logo & Contact -->
             <div class="col-md-5 mb-4">
-                <img src="{{ asset('images/logo.png') }}" alt="gsm2go" class="img-fluid mb-3" style="width: 150px;">
+                <div class="d-flex align-items-center ">
+                    <img src="{{ asset('images/NorseLogoWhite.svg') }}" alt="gsm2go" class="img-fluid me-3" style="width: 150px;">
+                    <img src="{{ asset('images/logo.png') }}" alt="gsm2go" class="img-fluid " style="width: 150px;">
 
+                </div>
                 <p class="mb-3">{{ __('footer.text1') }}</p>
 
                 <div class="d-md-flex contact-info-footer">

@@ -117,7 +117,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="offer-card">
                     <div class="offer-image">
-                        <img src="{{ asset('images/gallery/Freedom Tower.jpg') }}" alt="Bonus Data Offer">
+                        <img src="{{ asset('images/gallery/Regent Street London 1.jpg') }}" alt="Bonus Data Offer">
                     </div>
 
                     <div class="offer-content">
@@ -145,7 +145,7 @@
             <div class="col-lg-4 col-md-6">
                 <div class="offer-card">
                     <div class="offer-image">
-                        <img src="{{ asset('images/gallery/Amsterdam.jpg') }}" alt="BOGO Offer">
+                        <img src="{{ asset('images/city-tile-fco.jpg') }}" alt="BOGO Offer">
                     </div>
 
                     <div class="offer-content">
@@ -190,9 +190,9 @@
 
             <div class="row justify-content-center mt-3">
 
-                @forelse ($zones as $zone)
+                @forelse ($is_unlimited as $zone)
                     <div class="col-12 col-md-6 col-lg-4" data-countries="{{ $zone->countries }}">
-                        <a href="{{ route('plans-details', $zone->id) }}" class="planCard">
+                     <a href="{{ route('plans-details', ['zone' => $zone->id, 'type' => 'unlimited']) }}" class="planCard">
 
                             <div class="plan-card">
                                 <!-- SAME IMAGE STRUCTURE -->
@@ -212,7 +212,7 @@
                                 </div>
                                 <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
                                     onclick="event.preventDefault(); event.stopPropagation();">
-                                    eSIM Specifications ›
+                                   <i class="fa-solid fa-info"></i>
                                 </div>
                             </div>
                         </a>
@@ -316,12 +316,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="spec-row">
+                                    <!-- <div class="spec-row">
                                         <div class="spec-title">Refund Policy</div>
                                         <div class="spec-value highlight">
                                             100% Money Back Guarantee
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="spec-row">
                                         <div class="spec-title">Lost Phone Policy</div>
@@ -377,8 +377,7 @@
 
                 @forelse ($zones as $zone)
                     <div class="col-12 col-md-6 col-lg-4" data-countries="{{ $zone->countries }}">
-                        <a href="{{ route('plans-details', $zone->id) }}" class="planCard">
-
+                       <a href="{{ route('plans-details', ['zone' => $zone->id]) }}" class="planCard">
                             <div class="plan-card">
                                 <!-- SAME IMAGE STRUCTURE -->
                                 <img src="{{ asset('images/continent/' . $zone->image) }}" alt="{{ $zone->name }} Plan" />
@@ -397,7 +396,7 @@
                                 </div>
                                 <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
                                     onclick="event.preventDefault(); event.stopPropagation();">
-                                    eSIM Specifications ›
+                                   <i class="fa-solid fa-info"></i>
                                 </div>
                             </div>
                         </a>
@@ -501,12 +500,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="spec-row">
+                                    <!-- <div class="spec-row">
                                         <div class="spec-title">Refund Policy</div>
                                         <div class="spec-value highlight">
                                             100% Money Back Guarantee
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="spec-row">
                                         <div class="spec-title">Lost Phone Policy</div>
@@ -546,6 +545,7 @@
     </div>
 </section>
 <!-- tableCompare section -->
+{{-- 
 <section class="bg-secondary-custom compare-section">
     <div class="container compare-table-section">
 
@@ -559,7 +559,6 @@
             <div class="col-12">
                 <div class="compare-wrapper">
 
-                    {{-- Desktop Table --}}
                     <div class="desktop-view">
                         <table class="compare-table">
                             <thead>
@@ -583,8 +582,6 @@
                             </tbody>
                         </table>
                     </div>
-
-                    {{-- Mobile Cards --}}
                     <div class="mobile-view">
                         @foreach ($compare['data'] as $index => $row)
                             @if ($index > 0)
@@ -610,11 +607,11 @@
         </div>
 
     </div>
-</section>
+</section>  --}} 
 
 
 <!-- pricingTable section -->
-<section class="pricing-table-section ">
+ {{--  <section class="pricing-table-section ">
     <div class="container">
 
         <div class="title-container text-center">
@@ -658,7 +655,8 @@
         </div>
 
     </div>
-</section>
+</section> --}}
+
 
 
 

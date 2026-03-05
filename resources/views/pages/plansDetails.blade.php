@@ -102,7 +102,7 @@
                     Get an eSIM card for {{ $zone->name }} and enjoy reliable and affordable internet access.
                 </p>
 
-                <h6>Select your eSim Package</h6>
+                <h6>{{ $plans->contains('is_unlimited',1) ? 'Select your unlimited eSim plan' : 'Select your eSim plan' }}</h6>
                 {{-- ================= PLANS LOOP ================= --}}
                 @forelse ($plans as $index => $plan)
 
@@ -114,11 +114,12 @@
 
                         <div class="d-flex justify-content-between">
                             <div>
-                                <h5>{{ $plan->Days }} Days Pack</h5>
+                                <h5>{{ $plan->Days }} Days Plan</h5>
 
                                 <div class="text-muted small d-flex align-items-center">
                                     <div class="me-3">
-                                        <i class="fa-solid fa-check"></i> {{ $plan->GB }} GB
+                                      <i class="fa-solid fa-check"></i>
+{{ $plan->is_unlimited ? 'Unlimited Data*' : $plan->GB.' GB' }}
                                     </div>
                                     <div>
                                         <i class="fa-solid fa-check"></i> {{ $plan->Days }} Days
