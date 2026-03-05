@@ -1,13 +1,26 @@
-{{-- 
+
 @php
     $country = session('country');
 
-    $languages =
-        $country === 'Israel'
-            ? ['en' => 'English', 'he' => 'Hebrew', 'ar' => 'Arabic']
-            : ['en' => 'English', 'ar' => 'Arabic'];
+    if ($country === 'Israel') {
+        $languages = [
+            'en' => 'English',
+            'he' => 'Hebrew',
+            'ar' => 'Arabic'
+        ];
+    } elseif ($country === 'other') {
+        $languages = [
+            'en' => 'English',
+        ];
+    } else {
+        $languages = [
+            'en' => 'English',
+            'ar' => 'Arabic'
+        ];
+    }
 @endphp
 
+{{-- 
 <div class="fluid-container header-top py-2 text-center">
     <span class="text-white">{{ __('home.get_upto') }}</span>
     {{ __('home.newacc') }}

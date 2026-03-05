@@ -130,80 +130,108 @@ class Login extends Component
     /* =========================
         SOCIAL CALLBACK HANDLER
     ========================== */
-    private function handleSocialCallback(string $provider)
-    {
-        $social = Socialite::driver($provider)->stateless()->user();
+  private function handleSocialCallback(string $provider)
+{
+    $social = Socialite::driver($provider)->stateless()->user();
 
-        $email = $social->getEmail();
-        $oauthId = $social->getId();
+    $email = $social->getEmail();
+    $oauthId = $social->getId();
 
-        // Apple Hide-My-Email block (same as old CI)
-        if ($provider === 'apple' && str_contains($email, 'privaterelay.appleid.com')) {
-            session()->flash(
-                'error',
-                'For safety of our eSIM services we do not accept Hide My Email addresses.'
-            );
+    if ($provider === 'apple' && str_contains($email, 'privaterelay.appleid.com')) {
+        session()->flash(
+            'error',
+            'For safety of our eSIM services we do not accept Hide My Email addresses.'
+        );
+        return redirect()->route('login');
+    }
+
+    $user = User::where('email', $email)->first();
+
+    $update = [
+        'oauth_provider' => $provider,
+        'oauth_uid' => $oauthId,
+        'oauth_modified' => now(),
+        'last_login' => now(),
+        'login_type' => 'SSO-' . strtoupper($provider),
+    ];
+
+    if ($provider === 'google') {
+        $update['picture'] = $social->getAvatar();
+    }
+
+    if ($user) {
+
+        if ($user->status !== 'A') {
+            session()->flash('error', 'Your account is inactive.');
             return redirect()->route('login');
         }
 
-        $user = User::where('email', $email)->first();
+        $user->update($update);
 
-        $update = [
-            'oauth_provider' => $provider,
-            'oauth_uid' => $oauthId,
-            'oauth_modified' => now(),
-            'last_login' => now(),
-            'login_type' => 'SSO-' . strtoupper($provider),
-        ];
+    } else {
 
-        if ($provider === 'google') {
-            $update['picture'] = $social->getAvatar();
-        }
+        $user = User::create(array_merge($update, [
+            'fname' => $social->user['given_name'] ?? '',
+            'lname' => $social->user['family_name'] ?? '',
+            'email' => $email,
 
-        if ($user) {
-            if ($user->status !== 'A') {
-                session()->flash('error', 'Your account is inactive.');
-                return redirect()->route('login');
-            }
+            'mobile' => '',
+            'company' => '',
+            'password' => '',
+            'emailCode' => '',
+            'mobileCode' => '',
+            'isdcode' => '',
+            'emailMsg' => '',
+            'verifyMobile' => 'NO',
 
-            $user->update($update);
-        } else {
-            $user = User::create(array_merge($update, [
-                'fname' => $social->user['given_name'] ?? '',
-                'lname' => $social->user['family_name'] ?? '',
-                'email' => $email,
+            'country' => '',
+            'role' => 'U',
+            'status' => 'A',
+            'verifyEmail' => 'YES',
+        ]));
 
-                'mobile' => '',
-                'company' => '',
-                'password' => '',
-                'emailCode' => '',
-                'mobileCode' => '',
-                'isdcode' => '',
-                'emailMsg' => '',          // ADD THIS
-                'verifyMobile' => 'NO',
-
-                'country' => '',
-                'role' => 'U',
-                'status' => 'A',
-                'verifyEmail' => 'YES',
-            ]));
-
-
-        }
-
-        Auth::login($user);
-
-
-        if (session()->get('redirect_after_login') === 'checkout') {
-            session()->forget('redirect_after_login');
-            return redirect()->route('checkout');
-        }
-
-        return redirect()->route('user.dashboard');
+        // ✅ Signup email only for new users
+        // $this->sendSignupEmail($user);
     }
 
+    Auth::login($user);
+
+    // ✅ Login alert email
+    $this->sendLoginEmail($user);
+
+    if (session()->get('redirect_after_login') === 'checkout') {
+        session()->forget('redirect_after_login');
+        return redirect()->route('checkout');
+    }
+
+    return redirect()->route('user.dashboard');
+}
 
 
+    // private function sendSignupEmail(User $user): void
+    // {
+    //     try {
+
+    //         SendGridService::send(
+    //             $user->email,
+    //             'd-SIGNUP-TEMPLATE-ID',   // SendGrid template id
+    //             [
+    //                 'firstname' => $user->fname ?? '',
+    //                 'lastname' => $user->lname ?? '',
+    //                 'email' => $user->email,
+    //             ]
+    //         );
+
+    //     } catch (\Throwable $e) {
+
+    //         Log::warning('Signup email failed', [
+    //             'user_id' => $user->id ?? null,
+    //             'email' => $user->email ?? null,
+    //             'error' => $e->getMessage(),
+    //         ]);
+
+    //     }
+    // }
     private function sendLoginEmail(User $user): void
     {
         try {

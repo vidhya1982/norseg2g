@@ -44,9 +44,13 @@ class DetectLanguage
                 $locale = 'en';
             }
 
+            // session([
+            //     'locale' => $locale,
+            //     'country' => $country
+            // ]);
             session([
-                'locale' => $locale,
-                'country' => $country
+                'locale' => 'en',
+                'country' => 'other'
             ]);
         }
 

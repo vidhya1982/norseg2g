@@ -133,13 +133,17 @@
 
           <!-- SOCIAL -->
           <div class="social-auth">
-            <button class="btn social-btn apple auth-btn-outline">
-              <i class="fab fa-apple"></i> Sign up with Apple
-            </button>
+            <button type="button"
+        wire:click="apple"
+        class="btn social-btn apple auth-btn-outline">
+    <i class="fab fa-apple"></i> Sign up with Apple
+</button>
 
-            <button class="btn social-btn google auth-btn-outline">
-              <i class="fab fa-google"></i> Sign up with Google
-            </button>
+           <button type="button"
+        wire:click="google"
+        class="btn social-btn google auth-btn-outline">
+    <i class="fab fa-google"></i> Sign up with Google
+</button>
           </div>
 
           <!-- FOOTER -->

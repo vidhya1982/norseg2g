@@ -40,6 +40,8 @@ return [
     'discount_line' => 'Get 6% off 10GB & 20GB plans with the code GSMSPRING',
     'know_us' => 'Get To Know Us',
     'top_plans' => 'Top Plans',
+    'Budget' => 'Budget',
+    'unlimited_plans' => 'Unlimited plans',
     'view_dest' => 'View Destination',
     'compare' => 'Compare',
     'pricing' => 'Pricing',

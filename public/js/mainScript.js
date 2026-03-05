@@ -211,36 +211,46 @@ $(function () {
 
 $(document).on('click', '.suggestion-item', function () {
 
-    const selectedCountryId = $(this).data('country');
+    const selectedCountryId = $(this).data('country').toString().trim();
     let visibleCount = 0;
 
     $('[data-countries]').each(function () {
 
-        const countryArray = $(this)
-            .data('countries')
-            .toString()
+        const countriesAttr = $(this).attr('data-countries');
+
+        if (!countriesAttr) return;
+
+        const countryArray = countriesAttr
             .split(',')
             .map(id => id.trim());
 
-        if (countryArray.includes(selectedCountryId.toString())) {
+        if (countryArray.includes(selectedCountryId)) {
+
             $(this).show();
             visibleCount++;
+
         } else {
+
             $(this).hide();
+
         }
     });
 
     if (visibleCount === 0) {
 
-        // ✅ Show message
-        $('#noZonesMessage').fadeIn();
+        // $('#noZonesMessage').fadeIn();
 
-        // ❌ DO NOT SCROLL
+        // show default zones
+        $('[data-countries]').show();
+         $('#topPlans')[0]?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+
     } else {
 
         $('#noZonesMessage').hide();
 
-        // ✅ Scroll ONLY if zones found
         $('#topPlans')[0]?.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
@@ -257,6 +267,43 @@ $('#countrySearch').on('input', function () {
         $('[data-countries]').show();   // show all
         $('#noZonesMessage').hide();    // hide message
     }
+});
+$('#countrySearch').on('keypress', function (e) {
+
+    if (e.which === 13) { // Enter key
+
+        const val = $(this).val().toLowerCase().trim();
+        const $items = $('#suggestions .suggestion-item');
+
+        let valid = false;
+
+        $items.each(function () {
+
+            const text = $(this)
+                .find('.suggestion-left span')
+                .text()
+                .toLowerCase()
+                .trim();
+
+            if (text === val) {
+                valid = true;
+                return false;
+            }
+        });
+
+        if (!valid && val !== '') {
+            $('#noZonesMessage').fadeIn();
+            $('#suggestions').hide();
+        } else {
+            $('#noZonesMessage').hide();
+             $('#topPlans')[0]?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+        }
+
+    }
+
 });
 
 // FAQ search functionality
