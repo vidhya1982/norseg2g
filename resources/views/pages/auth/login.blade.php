@@ -77,7 +77,7 @@
           <!-- SIGNUP LINK -->
           <div class="auth-footer mt-4 text-center">
             <p class="mb-2">Don’t have an account?</p>
-            <a href="{{ route('sign-up') }}" class="btn login-btn w-50">
+            <a href="{{ route('sign-up') }}" class="btn login-btn w-100">
               Create an Account
             </a>
           </div>
