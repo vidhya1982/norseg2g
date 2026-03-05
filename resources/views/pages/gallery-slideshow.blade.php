@@ -2,9 +2,10 @@
 
     <section class="gallery-hero">
         <div class="gallery-header">
-            <h1>Travel Moments Gallery</h1>
+            <h1>Norse Travellers Gallery</h1>
             <p class="gallery-subtitle">
-                Discover the beauty of destinations experienced by GSM2GO travellers
+                Win a Free Unlimited Data eSIM when sharing your travel photos 
+                <br>One winner per month
             </p>
         </div>
     </section>

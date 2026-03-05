@@ -23,7 +23,6 @@
     <div class="container">
 
         {{-- ================= ZONE TITLE ================= --}}
-        <h3>{{ $zone->name }}</h3>
 
         <div class="row gy-4">
 
@@ -94,12 +93,25 @@
             <div class="col-lg-6">
 
                 <h4 class="plans-package-title">
-                    <i class="fa-solid fa-globe"></i>
-                    eSIM for {{ $zone->name }}
-                </h4>
+    <i class="fa-solid fa-globe"></i>
+
+    @if($plans->first()->is_unlimited)
+        eSIM for {{ $plans->first()->Days }} Days Plan
+    @else
+        eSIM for {{ $plans->first()->GB }} GB Plan
+    @endif
+
+</h4>
 
                 <p class="text-muted">
-                    Get an eSIM card for {{ $zone->name }} and enjoy reliable and affordable internet access.
+                    Get an eSIM card for 
+
+    @if($plans->first()->is_unlimited)
+      {{ $plans->first()->Days }} Days Plan
+    @else
+        {{ $plans->first()->GB }} GB Plan
+    @endif
+ and enjoy reliable and affordable internet access.
                 </p>
 
                 <h6>{{ $plans->contains('is_unlimited',1) ? 'Select your unlimited eSim plan' : 'Select your eSim plan' }}</h6>
@@ -108,7 +120,7 @@
 
                     <div class="package-option" :class="{ 'active': selectedPlan === {{ $plan->id }} }" @click="
                                                                     selectedPlan = {{ $plan->id }};
-                                                                    $store.cart.setPlanPrice({{ $plan->USD }});
+                                                                    $store.cart.setPlanPrice({{ number_format($plan->USD, 2) }});
                                                                     $wire.set('selectedPlanId', {{ $plan->id }}, false);
                                                                 ">
 
@@ -119,7 +131,7 @@
                                 <div class="text-muted small d-flex align-items-center">
                                     <div class="me-3">
                                       <i class="fa-solid fa-check"></i>
-{{ $plan->is_unlimited ? 'Unlimited Data*' : $plan->GB.' GB' }}
+                                        {{ $plan->is_unlimited ? 'Unlimited Data*' : $plan->GB.' GB' }}
                                     </div>
                                     <div>
                                         <i class="fa-solid fa-check"></i> {{ $plan->Days }} Days
@@ -127,7 +139,7 @@
                                 </div>
                             </div>
 
-                            <strong class="price">{{ __('currency.symbol') }}{{ $plan->USD }}</strong>
+                            <strong class="price">{{ __('currency.symbol') }}{{ number_format($plan->USD, 2) }}</strong>
                         </div>
                     </div>
                 @empty
@@ -281,7 +293,7 @@
                             wire:target="continue">
                             {{-- Normal state --}}
                             <span wire:loading.remove wire:target="continue">
-                                Continue ({{ __('currency.symbol') }}<span x-text="$store.cart.total"></span>)
+                                Continue ({{ __('currency.symbol') }}<span x-text="$store.cart.total.toFixed(2)"></span>)
                             </span>
 
                             {{-- Loading state --}}

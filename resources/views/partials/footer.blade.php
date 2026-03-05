@@ -28,7 +28,7 @@
                         <div class="contact-content">
                             <small class="">{{ __('footer.text9') }}</small><br>
                             <a href="https://api.whatsapp.com/send?phone=447624041999">
-                                <strong>+447624041999</strong></a>
+                                <strong>+447624044444</strong></a>
                         </div>
                     </div>
 
@@ -91,7 +91,7 @@
 
             <!-- Gallery -->
             <div class="col-md-3 mb-4">
-                <h6 class="fw-bold">gsm2go travellers gallery</h6>
+                <h6 class="fw-bold">Norse Travellers Gallery</h6>
                 <div class="gallery">
                     @foreach($images as $image)
                         <a href="{{ route('gallery') }}">

@@ -91,7 +91,7 @@
                                     <div class="d-flex align-items-center gap-3">
 
                                         <div class="fw-bold">
-                                            {{ __('currency.symbol') }}{{ $item['price'] }}
+                                           {{ __('currency.symbol') }}{{ number_format($item['price'],2) }}
                                         </div>
 
                                         {{-- PLAN QUANTITY (ALWAYS EDITABLE ON CART PAGE) --}}
@@ -110,7 +110,7 @@
                                         </div>
 
                                         <div class="fw-bold">
-                                            {{ __('currency.symbol') }}<span x-text="$store.cart.planTotal($store.cart.items['{{ $key }}'])"></span>
+                                            {{ __('currency.symbol') }}<span x-text="$store.cart.planTotal($store.cart.items['{{ $key }}']).toFixed(2)"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                         <div class="d-flex align-items-center gap-3">
 
                                             <strong>
-                                                {{ __('currency.symbol') }}{{ $item['addons']['talk_time']['price'] }}
+                                               {{ __('currency.symbol') }}{{ number_format($item['addons']['talk_time']['price'],2) }}
                                             </strong>
 
                                             {{-- TALK TIME QTY (ALWAYS EDITABLE ON CART PAGE) --}}
@@ -197,10 +197,11 @@
                                 </div>
 
                                 <!-- ================= PLAN TOTAL ================= -->
-                                <div class="fw-bold text-end m-2">
-                                    Plan Total:
-                                    {{ __('currency.symbol') }}<span x-text="$store.cart.itemTotal($store.cart.items['{{ $key }}'])"></span>
-                                </div>
+                               <div class="fw-bold text-end m-2">
+    Plan Total:
+    {{ __('currency.symbol') }}
+    <span x-text="$store.cart.itemTotal($store.cart.items['{{ $key }}']).toFixed(2)"></span>
+</div>
 
                             </div>
                         </div>
@@ -222,7 +223,7 @@
                         <div class="d-flex justify-content-between mb-2 sub-total">
                             <p>Subtotal <span>({{ __('currency.code') }})</span></p>
                             <h4 class="fw-bold text-primary">
-                                {{ __('currency.symbol') }}<span x-text="$store.cart.subtotal"></span>
+                                {{ __('currency.symbol') }}<span x-text="$store.cart.subtotal.toFixed(2)"></span>
                             </h4>
                         </div>
 
@@ -248,7 +249,7 @@
 
                         {{-- CONSENT --}}
                         <div class="form-check mt-3 small">
-                            <input class="form-check-input" type="checkbox" id="esimConsent"
+                            <input class="form-check-input border-primary" type="checkbox" id="esimConsent"
                                 wire:model="consentAccepted">
 
                             <label class="form-check-label" for="esimConsent">

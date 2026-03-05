@@ -34,6 +34,8 @@ class PlansDetails extends Component
     $this->zone = $zone;
 
     $type = request()->get('type');
+    $days = request()->get('days');
+    $gb = request()->get('gb');
 
     $query = Plans::active()
         ->byZone($zone->id)
@@ -41,8 +43,17 @@ class PlansDetails extends Component
 
     if ($type === 'unlimited') {
         $query->where('is_unlimited', 1);
+
+        if ($days) {
+            $query->where('Days', $days);
+        }
+
     } else {
         $query->where('is_unlimited', 0);
+
+        if ($gb) {
+            $query->where('GB', $gb);
+        }
     }
 
     $this->plans = $query->get();
