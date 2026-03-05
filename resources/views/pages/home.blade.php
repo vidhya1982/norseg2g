@@ -4,9 +4,13 @@
             <div class="col-12 col-md-6 text-center title-container">
                 <!-- <h5 class="banner-title">{{ __('home.cwb') }}</h5>-->
                 <h2 class="banner-title-header">{{ __('home.get_conn') }}</h2>
-                <h4 class="banner-title-content">We cover the globe.</h4>
+                
+                <div class="mt-5 text-start">
+                <h5 class="banner-title-content">We cover the globe.</h5>
 
+                </div>
                 <div class="search-container">
+
                     <div class="search-left">
                         <i class="fa-solid fa-location-dot search-icon"></i>
                     </div>
@@ -204,7 +208,7 @@
                                     <img src="{{ asset('images/' . $zone->zone_flag) }}" alt="{{ $zone->name }} Flag" />
 
                                     <span>{{ $zone->name }}</span>
-                                    | from {{ number_format($zone->starting_price, 2) }} USD
+                                    | from {{ number_format($zone->starting_price, 2) }} {{ __('currency.code') }}
                                 </div>
                                 <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
                                     onclick="event.preventDefault(); event.stopPropagation();">
@@ -322,7 +326,7 @@
                                     <div class="spec-row">
                                         <div class="spec-title">Lost Phone Policy</div>
                                         <div class="spec-value">
-                                            $5 eSIM Replacement Charge
+                                             {{ __('currency.symbol') }}5 eSIM Replacement Charge
                                         </div>
                                     </div>
 

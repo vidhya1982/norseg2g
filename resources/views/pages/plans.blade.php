@@ -32,7 +32,7 @@
                                     <img src="{{ asset('images/' . $zone->zone_flag) }}" alt="{{ $zone->name }} Flag" />
 
                                     <span>{{ $zone->name }}</span>
-                                    | from {{ number_format($zone->starting_price, 2) }} USD
+                                    | from {{ number_format($zone->starting_price, 2) }} {{ __('currency.code') }}
                                 </div>
                                 <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
                                     onclick="event.preventDefault(); event.stopPropagation();">

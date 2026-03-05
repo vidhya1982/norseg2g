@@ -51,13 +51,13 @@
                                                     $discountedPrice = round($originalPrice * (1 - ($appliedPromo['discount'] / 100)), 2);
                                                 @endphp
                                                 <span class="text-muted text-decoration-line-through me-1" style="font-size:12px;">
-                                                    ${{ number_format($originalPrice, 2) }}
+                                                    {{ __('currency.symbol') }}{{ number_format($originalPrice, 2) }}
                                                 </span>
                                                 <span class="text-success fw-bold">
-                                                    ${{ number_format($discountedPrice, 2) }}
+                                                    {{ __('currency.symbol') }}{{ number_format($discountedPrice, 2) }}
                                                 </span>
                                             @else
-                                                ${{ number_format(($item['price'] ?? 0), 2) }}
+                                                {{ __('currency.symbol') }}{{ number_format(($item['price'] ?? 0), 2) }}
                                             @endif
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                                 <span class="text-success">
                                                     Promo <strong>{{ $appliedPromo['code'] }}</strong>
                                                     — {{ $appliedPromo['discount'] }}% off
-                                                    <strong>(saving ${{ number_format($itemSaving, 2) }})</strong>
+                                                    <strong>(saving {{ __('currency.symbol') }}{{ number_format($itemSaving, 2) }})</strong>
                                                 </span>
                                             </div>
 
@@ -129,7 +129,7 @@
                                             </div>
                                             <div class="checkout-addon-qty">{{ $item['addons']['talk_time']['qty'] }}</div>
                                             <div class="checkout-addon-price">
-                                                ${{ number_format($item['addons']['talk_time']['price'], 2) }}
+                                                {{ __('currency.symbol') }}{{ number_format($item['addons']['talk_time']['price'], 2) }}
                                                 @if(($appliedPromo['type'] ?? '') === 'discount')
                                                     <small class="text-muted d-block" style="font-size:10px;">No discount on add-ons</small>
                                                 @endif
@@ -168,7 +168,7 @@
                     <div class="subtotal border-top py-2">
                         <span class="checkout-summary-label">Subtotal</span>
                         <span class="checkout-summary-amount">
-                            ${{ number_format(
+                            {{ __('currency.symbol') }} {{ number_format(
                                 collect($cart)
                                     ->filter(fn($i) => empty($i['is_promo_free']))
                                     ->sum(fn($i) => ($i['price'] ?? 0) * ($i['quantity'] ?? 1)),
@@ -184,7 +184,7 @@
                                 <i class="fa-solid fa-tag me-1"></i>
                                 {{ $appliedPromo['code'] ?? '' }} ({{ $appliedPromo['discount'] ?? '' }}% off plans)
                             </span>
-                            <span class="text-success fw-bold">-${{ number_format($discountAmount, 2) }}</span>
+                            <span class="text-success fw-bold">-{{ __('currency.symbol') }}{{ number_format($discountAmount, 2) }}</span>
                         </div>
                     @endif
 
@@ -225,8 +225,8 @@
 
                     {{-- Total --}}
                     <div class="total border-top py-2">
-                        <strong class="checkout-summary-label">Total (USD)</strong>
-                        <strong class="checkout-summary-total">${{ number_format($grandTotal, 2) }}</strong>
+                        <strong class="checkout-summary-label">Total ({{ __('currency.code') }})</strong>
+                        <strong class="checkout-summary-total">{{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }}</strong>
                     </div>
                 </div>
             </div>
@@ -310,7 +310,7 @@
                                             <div class="mt-1">
                                                 <span class="badge bg-success">{{ $appliedPromo['discount'] }}% OFF</span>
                                                 <span class="text-success ms-2 small">
-                                                    You save <strong>${{ number_format($discountAmount, 2) }}</strong> on plans
+                                                    You save <strong>{{ __('currency.symbol') }}{{ number_format($discountAmount, 2) }}</strong> on plans
                                                 </span>
                                             </div>
                                             <small class="text-muted">Add-ons charged at full price</small>
@@ -461,7 +461,7 @@
                         >
                             <span wire:loading.remove wire:target="payNow">
                                 <i class="fa-solid fa-lock me-1"></i>
-                                Pay Now (${{ number_format($grandTotal, 2) }})
+                                Pay Now ({{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }})
                             </span>
                             <span wire:loading wire:target="payNow">
                                 <span class="spinner-border spinner-border-sm me-1"></span>
@@ -473,7 +473,7 @@
                         </p>
                     @else
                         <button class="pay-now-btn w-100" disabled>
-                            Pay Now (${{ number_format($grandTotal, 2) }})
+                            Pay Now ({{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }})
                         </button>
                         <div class="mt-3 text-center">
                             <p class="small text-danger mb-2">Please login to complete payment</p>

@@ -19,7 +19,7 @@ return [
     'text16' => 'You have 90 days to start using your plan.',
     'text17' => 'With the Talk Time add-on option.',
     'text18' => 'Many other countries’ numbers available upon request',
-    'usd_symbol' => '$',
+    'usd_symbol' => '€',
     'search' => 'Enter',
     'promotext' => 'Please enter your promo code, if available',
     'promoinput' => 'Promo Code',

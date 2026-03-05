@@ -105,7 +105,7 @@
                                         </td>
 
                                         <td>{{ optional($o->date)->format('d-m-Y') }}</td>
-                                        <td>${{ number_format($o->USD, 2) }}</td>
+                                        <td>{{ __('currency.symbol') }}{{ number_format($o->USD, 2) }}</td>
 
                                         <td class="text-end">
                                             <div class="action-icons">

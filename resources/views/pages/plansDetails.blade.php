@@ -126,7 +126,7 @@
                                 </div>
                             </div>
 
-                            <strong class="price">${{ $plan->USD }}</strong>
+                            <strong class="price">{{ __('currency.symbol') }}{{ $plan->USD }}</strong>
                         </div>
                     </div>
                 @empty
@@ -231,7 +231,7 @@
                                         <strong>Talk Time Options</strong>
                                     </label>
                                 </div>
-                                <div class="d-flex align-items-center gap-3"> <strong> $10</strong>
+                                <div class="d-flex align-items-center gap-3"> <strong> {{ __('currency.symbol') }}10</strong>
                                     <div class="ms-3 item-count addon-qty">
 
                                         <div class="item-count addon-qty">
@@ -280,7 +280,7 @@
                             wire:target="continue">
                             {{-- Normal state --}}
                             <span wire:loading.remove wire:target="continue">
-                                Continue ($<span x-text="$store.cart.total"></span>)
+                                Continue ({{ __('currency.symbol') }}<span x-text="$store.cart.total"></span>)
                             </span>
 
                             {{-- Loading state --}}

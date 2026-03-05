@@ -44,6 +44,7 @@
 }
 
 .banner-title-content {
+    margin-top: 10px ;
     font-family: "Montserrat", sans-serif;
     color: var(--text-color);
 }
@@ -71,6 +72,7 @@
     position: relative;
 
     margin: 3rem auto;
+     margin-top: 10px; 
 }
 
 .search-icon {

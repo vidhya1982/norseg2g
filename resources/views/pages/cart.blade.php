@@ -91,7 +91,7 @@
                                     <div class="d-flex align-items-center gap-3">
 
                                         <div class="fw-bold">
-                                            ${{ $item['price'] }}
+                                            {{ __('currency.symbol') }}{{ $item['price'] }}
                                         </div>
 
                                         {{-- PLAN QUANTITY (ALWAYS EDITABLE ON CART PAGE) --}}
@@ -110,7 +110,7 @@
                                         </div>
 
                                         <div class="fw-bold">
-                                            $<span x-text="$store.cart.planTotal($store.cart.items['{{ $key }}'])"></span>
+                                            {{ __('currency.symbol') }}<span x-text="$store.cart.planTotal($store.cart.items['{{ $key }}'])"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +139,7 @@
                                         <div class="d-flex align-items-center gap-3">
 
                                             <strong>
-                                                ${{ $item['addons']['talk_time']['price'] }}
+                                                {{ __('currency.symbol') }}{{ $item['addons']['talk_time']['price'] }}
                                             </strong>
 
                                             {{-- TALK TIME QTY (ALWAYS EDITABLE ON CART PAGE) --}}
@@ -158,14 +158,14 @@
                                             </div>
 
                                             <strong>
-                                                $<span x-text="$store.cart.addonTotal($store.cart.items['{{ $key }}'])"></span>
+                                                {{ __('currency.symbol') }}<span x-text="$store.cart.addonTotal($store.cart.items['{{ $key }}'])"></span>
                                             </strong>
                                         </div>
 
                                     @else
                                         {{-- DISABLED STATE --}}
                                         <button class="addon-add-btn" @click="$store.cart.enableAddon('{{ $key }}','talk_time')">
-                                            + Add Talk Time ($10)
+                                            + Add Talk Time ({{ __('currency.symbol') }}10)
                                         </button>
                                     @endif
                                 </div>
@@ -199,7 +199,7 @@
                                 <!-- ================= PLAN TOTAL ================= -->
                                 <div class="fw-bold text-end m-2">
                                     Plan Total:
-                                    $<span x-text="$store.cart.itemTotal($store.cart.items['{{ $key }}'])"></span>
+                                    {{ __('currency.symbol') }}<span x-text="$store.cart.itemTotal($store.cart.items['{{ $key }}'])"></span>
                                 </div>
 
                             </div>
@@ -220,9 +220,9 @@
                         <hr>
 
                         <div class="d-flex justify-content-between mb-2 sub-total">
-                            <p>Subtotal <span>(USD)</span></p>
+                            <p>Subtotal <span>({{ __('currency.code') }})</span></p>
                             <h4 class="fw-bold text-primary">
-                                $<span x-text="$store.cart.subtotal"></span>
+                                {{ __('currency.symbol') }}<span x-text="$store.cart.subtotal"></span>
                             </h4>
                         </div>
 

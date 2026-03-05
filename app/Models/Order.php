@@ -176,13 +176,13 @@ class Order extends Model
         );
     }
 
-    protected function usdFormatted(): Attribute
-    {
-        return Attribute::make(
-            get: fn() =>
-            '$' . number_format($this->USD, 2)
-        );
-    }
+   protected function usdFormatted(): Attribute
+{
+    return Attribute::make(
+        get: fn() =>
+        '€' . number_format($this->USD, 2)
+    );
+}
 
 
     public function plan()

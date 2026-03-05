@@ -116,7 +116,7 @@
                                 </div>
                                 <span class="fw-semibold small flex-grow-1">{{ $plan['label'] }}</span>
                                 <span style="font-weight:600;color:#198754;white-space:nowrap;">
-                                    ${{ number_format($plan['price'], 2) }}
+                                    {{ __('currency.symbol') }}{{ number_format($plan['price'], 2) }}
                                 </span>
                             </div>
                         @endforeach
@@ -138,7 +138,7 @@
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <div>
                         <span class="fw-semibold small">Talk Time</span>
-                        <span class="text-muted small ms-1">+${{ number_format($talkTimePrice, 2) }}</span>
+                        <span class="text-muted small ms-1">+{{ __('currency.symbol') }}{{ number_format($talkTimePrice, 2) }}</span>
                     </div>
                     <div class="form-check form-switch mb-0">
                         <input class="form-check-input" type="checkbox" id="addon-talkt" wire:model="addonTalkTime"
@@ -221,6 +221,7 @@
     }
 
     function updateFooter() {
+    const CURRENCY = "{{ __('currency.symbol') }}";
 
         if (!selectedPlan.id) return;
 
@@ -236,7 +237,7 @@
         if (lbl) lbl.textContent = selectedPlan.label;
 
         const prc = document.getElementById('selected-price');
-        if (prc) prc.textContent = '$' + total.toFixed(2);
+        if (prc) prc.textContent = CURRENCY + total.toFixed(2);
 
         const btn = document.getElementById('confirm-plan-btn');
         if (btn) {
@@ -245,7 +246,7 @@
         }
 
         const txt = document.getElementById('confirm-btn-text');
-        if (txt) txt.textContent = 'Confirm & Pay — $' + total.toFixed(2);
+        if (txt) txt.textContent = 'Confirm & Pay — ' + CURRENCY + total.toFixed(2);
     }
 
     function filterPlans(query) {

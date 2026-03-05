@@ -70,7 +70,7 @@ class AirwallexService
         $payload = [
             'request_id'        => uniqid('req_', true),
             'amount'            => round($amount, 2),
-            'currency'          => 'USD',
+            'currency'          => 'EUR',
             'merchant_order_id' => (string) $orderId,
         ];
 
