@@ -1,6 +1,6 @@
 <section id="topPlans">
     <div class="container top-plans">
-        <div class="row display-flex align-items-center justify-content-center pt-5">
+        <div class="row display-flex align-items-center justify-content-center ">
 
             <div class="col-6 title-container">
                 <!-- <h5 class="title">{{ __('home.know_us') }}</h5>-->
@@ -185,7 +185,7 @@
 </section>
 <section id="topPlans">
     <div class="container top-plans">
-        <div class="row display-flex align-items-center justify-content-center pt-5">
+        <div class="row display-flex align-items-center justify-content-center">
 
             <div class="col-6 title-container">
                 <!-- <h5 class="title">{{ __('home.know_us') }}</h5>-->
