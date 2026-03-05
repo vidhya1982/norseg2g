@@ -49,14 +49,14 @@
         </div>
     </section>
     <section class="gallery-description pb-0 pt-5">
-        <div class="desc-container p-5">
+        <div class="desc-container p-5 text-start border">
             <h3>Explore. Connect. Experience.</h3>
             <p> From the charming streets of Europe to vibrant city skylines and serene lakes, our travellers stay
                 connected across the globe with GSM2GO eSIM solutions. Every journey becomes smoother when connectivity
                 is seamless. </p>
             <p> Whether you're traveling for business or leisure, GSM2GO ensures reliable data and voice coverage in
                 multiple countries worldwide. </p>
-            <p class="fw-bold mt-3 text-start">
+            <p class="fw-bold mt-3 ">
                 Send your email to
                 <span class="text-success">norse-gallery@gsm2go.com</span>
             </p>
