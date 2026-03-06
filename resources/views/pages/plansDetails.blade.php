@@ -1,3 +1,4 @@
+
 <section class="plan-details" x-data="{ selectedPlan: {{ $selectedPlanId }} }" x-init="
         // plan price
         // initial sync ONLY ONCE
@@ -20,8 +21,22 @@
         $watch('$store.cart.addons.talk_time.qty', value =>
             $wire.set('addons.talk_time.qty', value)
         );">
+        
+    
     <div class="container">
-
+@if($hasBonusPromo || $hasBOGOPromo)
+<div class="promo-plans-banner">
+    <div class="container">
+        <div class="promo-banner-inner">
+            <span class="promo-banner-icon">{{ $hasBOGOPromo ? '🎁' : '⚡' }}</span>
+            <div>
+                <strong>{{ $hasBOGOPromo ? 'Buy 1 Get 1 Free!' : 'Bonus Data Promo Active!' }}</strong>
+                <p>{{ $promoBannerText }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
         {{-- ================= ZONE TITLE ================= --}}
 
         <div class="row gy-4">
@@ -109,7 +124,7 @@
     @if($plans->first()->is_unlimited)
       {{ $plans->first()->Days }} Days Plan
     @else
-        {{ $plans->first()->GB }} GB Plan
+        eSIM for {{ $plans->first()->GB }} GB Plan
     @endif
  and enjoy reliable and affordable internet access.
                 </p>

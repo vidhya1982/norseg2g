@@ -12,6 +12,9 @@ class Cart extends Component
     public array $cart = [];
     public bool $consentAccepted = false;
     public string $errorMessage = '';
+   public bool $hasBonusPromo = false;
+public bool $hasBOGOPromo  = false;
+public string $promoBannerText = '';
 
     protected $listeners = [
         'cart-sync' => 'syncCart',
@@ -21,6 +24,16 @@ class Cart extends Component
     public function mount(): void
     {
         $this->cart = CartService::get();
+         // ── Promo indicator ──────────────────────────────────────────
+   $this->hasBonusPromo = session('pending_promo') === 'NORSETEST';
+    $this->hasBOGOPromo  = session('pending_promo') === 'NORSEBOGO';
+
+    if ($this->hasBonusPromo) {
+        $this->promoBannerText = '+2GB bonus data will be added to your plan on activation!';
+    }
+    if ($this->hasBOGOPromo) {
+        $this->promoBannerText = 'Buy 1 Get 1 Free active! You\'ll get 2 eSIMs for the price of 1 at checkout.';
+    }
     }
 
     /* ===============================
@@ -61,32 +74,26 @@ class Cart extends Component
     /* ===============================
      | REMOVE ITEM
      =============================== */
-    public function removeItem(string $key): void
-    {
-        try {
-            CartService::remove($key);
-            $this->cart = CartService::get();
+   public function removeItem(string $key): void
+{
+    try {
+        CartService::remove($key);
+        $this->cart = CartService::get();
 
-            $this->dispatch(
-                'toast',
-                type: 'success',
-                message: 'Item removed from cart'
-            );
+        // Cart empty ho gayi toh promo bhi clear karo
+       if (empty($this->cart)) {
+    session()->forget('pending_promo');
+    $this->hasBonusPromo   = false;
+    $this->hasBOGOPromo    = false;
+    $this->promoBannerText = '';
+}
+        $this->dispatch('toast', type: 'success', message: 'Item removed from cart');
 
-        } catch (Throwable $e) {
-
-            logger()->error('Remove item failed', [
-                'key' => $key,
-                'error' => $e->getMessage(),
-            ]);
-
-            $this->dispatch(
-                'toast',
-                type: 'error',
-                message: 'Unable to remove item'
-            );
-        }
+    } catch (Throwable $e) {
+        logger()->error('Remove item failed', ['key' => $key, 'error' => $e->getMessage()]);
+        $this->dispatch('toast', type: 'error', message: 'Unable to remove item');
     }
+}
 
     /* ===============================
      | GO TO CHECKOUT

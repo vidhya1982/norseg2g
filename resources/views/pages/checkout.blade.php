@@ -14,13 +14,15 @@
                         <div class="package-box mb-4">
                             <div class="head-line">
                             <h3 class="checkout-zone-title">
-    @if(isset($zoneItems[0]['is_unlimited']) && $zoneItems[0]['is_unlimited'])
-        Unlimited Plans
-    @else
-        {{ $zoneItems[0]['gb'] ?? '' }} GB
-    @endif
-</h3>
+                                @if(isset($zoneItems[0]['is_unlimited']) && $zoneItems[0]['is_unlimited'])
+                                    Unlimited Plans
+                                @else
+                                    {{ $zoneItems[0]['gb'] ?? '' }} GB
+                                @endif
+                            </h3>
+                            @if(collect($zoneItems)->contains(fn($i) => empty($i['is_promo_free'])))
                                 <a href="{{ route('cart') }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                            @endif
                             </div>
 
                             @foreach($zoneItems as $item)
@@ -326,9 +328,15 @@
                                             </div>
                                             <small class="text-muted">Add-ons charged at full price</small>
                                         </div>
-                                        <button wire:click="removePromo" class="btn btn-link btn-sm text-danger p-0 ms-2">
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </button>
+                       <button 
+    @if(!$isAutoPromo)
+        wire:click="removePromo"
+    @endif
+    class="btn btn-link btn-sm text-danger p-0 ms-2"
+    @if($isAutoPromo) disabled style="opacity:0.4;cursor:not-allowed;" @endif
+>
+    <i class="fa-solid fa-xmark"></i>
+</button>
                                     </div>
                                 </div>
 

@@ -17,7 +17,9 @@ class PlansDetails extends Component
 
     public $selectedPlanId;
     public $quantity = 1;
-
+public bool $hasBonusPromo = false;
+public bool $hasBOGOPromo  = false;
+public string $promoBannerText = '';
     public $addons = [
         'talk_time' => [
             'enabled' => false,  // ✅ correct default
@@ -31,6 +33,15 @@ class PlansDetails extends Component
 
     public function mount(Zone $zone)
 {
+   $this->hasBonusPromo = session('pending_promo') === 'NORSETEST';
+    $this->hasBOGOPromo  = session('pending_promo') === 'NORSEBOGO';
+
+    if ($this->hasBonusPromo) {
+        $this->promoBannerText = '+2GB bonus data will be added to this plan on activation!';
+    }
+    if ($this->hasBOGOPromo) {
+        $this->promoBannerText = 'Buy 1 Get 1 Free! Add this plan — you\'ll get 2 eSIMs for the price of 1.';
+    }
     $this->zone = $zone;
 
     $type = request()->get('type');

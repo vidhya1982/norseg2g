@@ -1269,7 +1269,7 @@ XML;
     <status>{$d['custStatus']}</status>
     <credit-basis>pre-paid</credit-basis><credit-limit>0</credit-limit>
     <warning-trigger>0</warning-trigger>
-    <customer-group>eSIM2</customer-group>
+    <customer-group>norse</customer-group>
     <email-address>{$d['email']}</email-address>
     <contact-number>{$d['phone']}</contact-number>
     <address-line-1>{$d['displayPlan']}</address-line-1>

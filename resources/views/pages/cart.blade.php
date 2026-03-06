@@ -13,7 +13,19 @@
 <div class="container-fluid page-background py-5" x-data x-init="$store.cart.init(@js($cart))">
 
     <div class="container cart-container">
-
+@if($hasBonusPromo || $hasBOGOPromo)
+<div class="promo-plans-banner">
+    <div class="container">
+        <div class="promo-banner-inner">
+            <span class="promo-banner-icon">{{ $hasBOGOPromo ? '🎁' : '⚡' }}</span>
+            <div>
+                <strong>{{ $hasBOGOPromo ? 'Buy 1 Get 1 Free!' : 'Bonus Data Promo Active!' }}</strong>
+                <p>{{ $promoBannerText }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
         <h4 class="mb-4"> Your Cart ({{ count($cart) }}) </h4>
 
         <div class="row">
@@ -97,6 +109,21 @@
                                                 {{ $item['quantity'] }} × Plan
                                             </div>
                                         </div>
+                                        @if(session('pending_promo') === 'NORSETEST' && empty($item['is_promo_free']))
+    <div class="promo-applied-under-plan" style="border-left-color: #f0c000; background: #fffbeb;">
+        <i class="fa-solid fa-bolt" style="color:#b45309;"></i>
+        <span style="color:#b45309;">
+            <strong>+2GB Bonus Data</strong> will be added to this eSIM on activation
+        </span>
+    </div>
+@elseif(session('pending_promo') === 'NORSEBOGO' && empty($item['is_promo_free']))
+    <div class="promo-applied-under-plan" style="border-left-color: #dc3545; background: #fff5f5;">
+        <i class="fa-solid fa-gift" style="color:#dc3545;"></i>
+        <span style="color:#dc3545;">
+            <strong>Buy 1 Get 1 Free!</strong> — You'll receive 2 eSIMs at checkout for the price of 1
+        </span>
+    </div>
+@endif
                                     </div>
 
                                     <div class="d-flex align-items-center gap-3">
@@ -144,7 +171,7 @@
                                         </span>
                                     </div>
 
-                                    @if ($item['addons']['talk_time']['enabled'])
+                                   @if (!empty($item['addons']['talk_time']['enabled']))
 
                                         {{-- ENABLED STATE --}}
                                         <div class="d-flex align-items-center gap-3">
@@ -191,7 +218,7 @@
                                         </p>
                                     </div>
 
-                                    @if ($item['addons']['auto_topup']['enabled'])
+                                  @if (!empty($item['addons']['auto_topup']['enabled']))
 
                                         <span class="badge bg-success">Enabled</span>
 

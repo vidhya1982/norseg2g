@@ -90,3 +90,95 @@
   font-weight: 700;
   color: #111111;
 }
+.promo-plans-banner {
+    background: linear-gradient(135deg, #f0faf4, #e6f7ee);
+    border-bottom: 2px solid #a3d9b1;
+    padding: 16px 0;
+    margin-bottom: 32px;
+}
+
+.promo-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    background: #fff;
+    border: 1.5px solid #a3d9b1;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(25, 135, 84, 0.08);
+}
+
+.promo-banner-icon {
+    font-size: 38px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.promo-banner-inner strong {
+    font-size: 15px;
+    color: #155724;
+    display: block;
+    margin-bottom: 4px;
+    letter-spacing: 0.01em;
+}
+
+.promo-banner-inner p {
+    margin: 0;
+    font-size: 13px;
+    color: #2d6a4f;
+    line-height: 1.5;
+}
+
+/* ══ UNLIMITED PLANS — BLUR WHEN PROMO ACTIVE ══════════════════════ */
+.promo-disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+    display: block;
+}
+.promo-disabled .plan-card {
+    opacity: 0.5;
+    position: relative;
+}
+.promo-disabled .plan-card::after {
+    content: 'Not available with this promo';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    z-index: 10;
+}
+.promo-disabled .explore-btn {
+    opacity: 0;
+    pointer-events: none;
+}
+.bogo-badge {
+    background: #c6e3d2;
+    border: 2px solid #a3d9b1;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    margin-left: 6px;
+    letter-spacing: 0.05em;
+}
+
+/* ══ BUDGET PLANS — HIGHLIGHT WHEN PROMO ACTIVE ════════════════════ */
+.promo-active-section .title-header::after {
+    content: ' — Promo Eligible ✓';
+    font-size: 14px;
+    color: #198754;
+    font-weight: 500;
+}
+
+.promo-active-section .plan-card {
+    border: 2px solid #a3d9b1;
+    box-shadow: 0 4px 16px rgba(25, 135, 84, 0.15);
+}

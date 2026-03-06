@@ -107,9 +107,9 @@
                             FlyNorse1GB
                         </div>
 
-                        <a href="#" class="offer-btn">
-                            GET A FREE ESIM NOW
-                        </a>
+                       <a href="{{ route('checkout') }}?promo=NORSEFREE" class="offer-btn">
+    GET A FREE ESIM NOW
+</a>
                     </div>
                 </div>
             </div>
@@ -135,9 +135,9 @@
                             FlyNorse2GB
                         </div>
 
-                        <a href="#" class="offer-btn">
-                            CLAIM BONUS DATA NOW
-                        </a>
+                        <a href="{{ route('plans') }}?promo=NORSETEST" class="offer-btn">
+    CLAIM BONUS DATA NOW
+</a>
                     </div>
                 </div>
             </div>
@@ -163,9 +163,9 @@
                             FLYNORSEBOGO
                         </div>
 
-                        <a href="#" class="offer-btn">
-                            CLAIM BOGO OFFER NOW
-                        </a>
+             <a href="{{ route('plans') }}?promo=NORSEBOGO" class="offer-btn">
+    CLAIM BOGO OFFER NOW
+</a>
                     </div>
                 </div>
             </div>
