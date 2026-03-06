@@ -1,4 +1,4 @@
-<div class="container py-5 about">
+<div class="container py-5 about ">
 
     {{-- HERO --}}
     <div class="about-hero text-center">
@@ -18,7 +18,7 @@
     {{-- NORSE ATLANTIC --}}
     <div class="about-section row align-items-center">
 
-        <div class="col-md-6">
+        <div class="col-md-6 text-justify">
             <h2 class="fw-bold mb-3">
                 {{ __('staticpages/about.norse.title') }}
             </h2>
