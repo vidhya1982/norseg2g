@@ -32,7 +32,7 @@
         </div>
 
         <div class="col-md-6 d-flex justify-content-end">
-            <img src="{{ asset('images/about-esim.png') }}" class="img-fluid shadow">
+            <img src="{{ asset('images/about-norse.jpeg') }}" class="img-fluid shadow">
         </div>
 
     </div>
