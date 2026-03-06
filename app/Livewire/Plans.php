@@ -66,12 +66,13 @@ public string $promoBannerText = '';
             ->get();
 
         $this->budgetPlans = PlanModel::where('zone_id', 1)
-            ->where('is_unlimited', 0)
-            ->whereIn('GB', [3, 5, 10, 20])
-            ->selectRaw('MIN(id) as id, GB, MIN(Days) as Days')
-            ->groupBy('GB')
-            ->orderByRaw("FIELD(GB,3,5,10,20)")
-            ->get();
+    ->where('is_unlimited', 0)
+    ->where('USD', '>', 0)   // ✅ free esim hata diya
+    ->whereIn('GB', [3, 5, 10, 20])
+    ->selectRaw('MIN(id) as id, GB, MIN(Days) as Days, MIN(USD) as USD')
+    ->groupBy('GB')
+    ->orderByRaw("FIELD(GB,3,5,10,20)")
+    ->get();
     }
 
     public function render()

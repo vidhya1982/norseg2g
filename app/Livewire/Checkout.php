@@ -125,8 +125,8 @@ class Checkout extends Component
 
     private function loadCart(): void
     {
-        $this->cart       = CartService::get();
-        $this->grandTotal = round(collect($this->cart)->sum('total'), 2);
+        $this->cart        = CartService::get();
+        $this->grandTotal  = round(collect($this->cart)->sum('total'), 2);
         $this->groupedCart = collect($this->cart)
             ->groupBy(fn($item) => isset($item['is_unlimited']) && $item['is_unlimited'] ? 'unlimited' : 'budget')
             ->values()
@@ -562,6 +562,7 @@ class Checkout extends Component
                         'alert_tt_out_70'  => 0,
                         'alert_tt_out_100' => 0,
                         'alert_expiry'     => 0,
+                        // freeEsim promo — free item has no bonus data
                         'bonus_data'       => 0,
                         'bonus_type'       => '',
                         'promocode'        => $this->appliedPromo['code'] ?? '',
@@ -680,6 +681,11 @@ class Checkout extends Component
             $isRecharge       = $this->isRechargeOrder();
             $isB1G1           = ($this->appliedPromo['type'] ?? '') === 'buy1get1';
 
+            // ── bonus_data sirf PEHLE item pe lagega — baaki sab pe 0 ──────────
+            // Yeh flag ensure karta hai ki multi-item cart mein bonus ek hi
+            // order row mein save ho, chahe promo type koi bhi ho.
+            $bonusApplied = false;
+
             foreach ($this->cart as $item) {
                 $qty = (int) ($item['quantity'] ?? 1);
 
@@ -734,6 +740,9 @@ class Checkout extends Component
                     $rowCost      = $isFreeRow  ? 0.00 : $perCost;
                     $rowMins      = $isFreeB1G1 ? 0    : $Mins;
                     $rowAutorenew = $isFreeB1G1 ? '0'  : $autorenew;
+
+                    // ── bonus_data: sirf pehli baar is_bonus_item wale item pe lagao ──
+                    $isBonusRow = !empty($item['is_bonus_item']) && !$bonusApplied;
 
                     $newId = DB::table('orders')->insertGetId([
                         'userid'           => $user->id,
@@ -792,9 +801,9 @@ class Checkout extends Component
                         'alert_tt_out_70'  => 0,
                         'alert_tt_out_100' => 0,
                         'alert_expiry'     => 0,
-                        'bonus_data'       => !empty($item['is_bonus_item'])
-                            ? ($this->appliedPromo['amount'] ?? 0) : 0,
-                        'bonus_type'       => !empty($item['is_bonus_item']) ? 'promo' : '',
+                        // ── bonus_data sirf pehle flagged item pe, baaki sab 0 ──
+                        'bonus_data'       => $isBonusRow ? ($this->appliedPromo['amount'] ?? 0) : 0,
+                        'bonus_type'       => $isBonusRow ? ($this->appliedPromo['type']   ?? '') : '',
                         'promocode'        => $this->appliedPromo['code'] ?? '',
                         'network'          => '',
                         'lang'             => app()->getLocale(),
@@ -802,6 +811,11 @@ class Checkout extends Component
                         'esim_status'      => '',
                         'last_location'    => '',
                     ]);
+
+                    // ── Flag flip: bonus pehle item ke baad lock ho jaata hai ──────
+                    if ($isBonusRow) {
+                        $bonusApplied = true;
+                    }
 
                     $insertedOrderIds[] = [
                         'id'         => $newId,
@@ -828,12 +842,13 @@ class Checkout extends Component
             DB::commit();
 
             Log::info('[Checkout] Payment completed', [
-                'master_uid'  => $orderId,
-                'intent_id'   => $intentId,
-                'amount'      => $paidAmount,
-                'order_count' => count($insertedOrderIds),
-                'is_recharge' => $isRecharge,
-                'promo_type'  => $this->appliedPromo['type'] ?? 'none',
+                'master_uid'   => $orderId,
+                'intent_id'    => $intentId,
+                'amount'       => $paidAmount,
+                'order_count'  => count($insertedOrderIds),
+                'is_recharge'  => $isRecharge,
+                'promo_type'   => $this->appliedPromo['type'] ?? 'none',
+                'bonus_applied'=> $bonusApplied,
             ]);
 
             foreach ($insertedOrderIds as $row) {

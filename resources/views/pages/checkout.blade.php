@@ -264,23 +264,40 @@
             {{-- ═══════════ RIGHT SIDE ═══════════ --}}
             <div class="checkout-right page-background">
 
-                {{-- Saved cards — hide on free-only cart --}}
-                @if(!$isFreeOnlyCart && Auth::check() && Auth::user()->hasSavedCard())
+                {{-- Saved cards — Airwallex consent-based, hide on free-only cart --}}
+                @if(!$isFreeOnlyCart && !empty($savedCards))
                     <div class="saved-cards-section mb-3">
-                        <h5>Saved Cards</h5>
-                        @foreach(Auth::user()->savedCards as $card)
-                            <div class="payment-option-row">
-                                <label>
-                                    <input type="radio" wire:model="selectedCardMethodId" value="{{ $card->payment_method_id }}">
-                                    <img src="{{ asset($card->brand_icon) }}" height="22">
-                                    {{ $card->display_label }}
+                        <h5 class="mb-2">Saved Cards</h5>
+                        @foreach($savedCards as $card)
+                            <div class="payment-option-row {{ $selectedConsentId === $card['consent_id'] ? 'payment-option-selected' : '' }}">
+                                <label class="checkout-payment-label d-flex align-items-center gap-2 w-100" style="cursor:pointer;">
+                                    <input
+                                        type="radio"
+                                        wire:model="selectedConsentId"
+                                        wire:click="selectSavedCard('{{ $card['consent_id'] }}')"
+                                        value="{{ $card['consent_id'] }}"
+                                        {{ $selectedConsentId === $card['consent_id'] ? 'checked' : '' }}
+                                    >
+                                    <span>
+                                        @if(!empty($card['brand']))
+                                            <strong>{{ ucfirst($card['brand']) }}</strong>
+                                        @endif
+                                        •••• {{ $card['last4'] ?? '****' }}
+                                        @if(!empty($card['is_default']))
+                                            <span class="badge bg-secondary ms-1" style="font-size:10px;">Default</span>
+                                        @endif
+                                    </span>
                                 </label>
                             </div>
                         @endforeach
-                        <div class="payment-option-row">
-                            <label>
-                                <input type="radio" wire:model="selectedCardMethodId" value="">
-                                Use new card
+                        <div class="payment-option-row {{ !$usingSavedCard ? 'payment-option-selected' : '' }}">
+                            <label class="checkout-payment-label d-flex align-items-center gap-2 w-100" style="cursor:pointer;">
+                                <input
+                                    type="radio"
+                                    wire:click="useNewCard"
+                                    {{ !$usingSavedCard ? 'checked' : '' }}
+                                >
+                                <span><i class="fa-solid fa-plus me-1"></i> Use new card</span>
                             </label>
                         </div>
                     </div>
@@ -549,4 +566,42 @@
         </div>
     </div>
 </div>
+
+{{-- ══ PROMO BADGE STYLES ══ --}}
+<style>
+.promo-applied-under-plan {
+    font-size: 13px;
+    padding: 6px 12px 6px 12px;
+    margin: 4px 0 8px 0;
+    border-left: 3px solid #198754;
+    background: #f0faf4;
+    border-radius: 0 6px 6px 0;
+}
+
+.promo-applied-badge-box {
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+.promo-discount {
+    background: #f0faf4;
+    border: 1px solid #a3d9b1;
+}
+
+.promo-bonus {
+    background: #fffbeb;
+    border: 1px solid #f0c000;
+}
+
+.promo-free {
+    background: #f0faf4;
+    border: 1px solid #a3d9b1;
+}
+
+.promo-b1g1 {
+    background: #fff5f5;
+    border: 1px solid #f5a0a0;
+}
+</style>
 

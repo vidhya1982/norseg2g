@@ -54,7 +54,7 @@
         </div>
 
         <div class="col-md-6">
-            <img src="{{ asset('images/about-network.jpg') }}" class="img-fluid shadow">
+            <img src="{{ asset('images/Regent Street London 1.jpg') }}" class="img-fluid shadow">
         </div>
 
     </div>

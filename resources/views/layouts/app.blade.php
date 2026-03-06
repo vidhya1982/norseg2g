@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlyNorse eSIM</title>
 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFYD6SFJRF"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WFYD6SFJRF');
+    </script>
+    
     @include('includes.link')
 
     @livewireStyles

@@ -169,6 +169,14 @@
     margin-left: 6px;
     letter-spacing: 0.05em;
 }
+.plan-price{
+    background:#a0a9c9;
+    color:#000;
+    padding:2px 8px;
+    border-radius:6px;
+    font-weight:600;
+    margin-left:6px;
+}
 
 /* ══ BUDGET PLANS — HIGHLIGHT WHEN PROMO ACTIVE ════════════════════ */
 .promo-active-section .title-header::after {

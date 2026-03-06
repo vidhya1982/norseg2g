@@ -215,6 +215,7 @@
                                         <img src="{{ asset('images/' . $zone->zone_flag) }}">
 
                                         <span>{{ $plan->Days }} Days Plan</span>
+    <span class="plan-price">{{ __('currency.symbol') }}{{ number_format($plan->USD,2) }}</span>
 
 
                                     </div>
@@ -405,10 +406,13 @@
                                         <img src="{{ asset('images/' . $zone->zone_flag) }}">
 
                                         <span>{{ $plan->GB }} GB Plan</span>
+    <span class="plan-price">{{ __('currency.symbol') }}{{ number_format($plan->USD,2) }}</span>
 
 
 
                                     </div>
+
+                                
                                     <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
                                         onclick="event.preventDefault(); event.stopPropagation();">
                                         <i class="fa-solid fa-info"></i>

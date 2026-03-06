@@ -41,10 +41,8 @@
 
                            <div class="plan-label">
     <img src="{{ asset('images/' . $zone->zone_flag) }}">
-    <span>{{ $plan->GB }} GB Plan</span>
-    @if($hasBOGOPromo)
-        <span class="bogo-badge">2×FREE</span>
-    @endif
+    <span>{{ $plan->Days }} Days Plan</span>
+    <span class="plan-price">{{ __('currency.symbol') }}{{ number_format($plan->USD,2) }}</span>
 </div>
 
                             <div class="spec-link" data-bs-toggle="modal" data-bs-target="#specsModal"
@@ -123,6 +121,8 @@
                            <div class="plan-label">
     <img src="{{ asset('images/' . $zone->zone_flag) }}">
     <span>{{ $plan->GB }} GB Plan</span>
+    <span class="plan-price">{{ __('currency.symbol') }}{{ number_format($plan->USD,2) }}</span>
+
     @if($hasBOGOPromo)
         <span class="bogo-badge">2×FREE</span>
     @endif
