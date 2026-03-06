@@ -4,56 +4,61 @@ return [
 
     /* ================= HERO ================= */
     'hero' => [
-        'title' => 'Connecting the World with',
-        'highlight' => 'Trustworthy Roaming',
-        'subtitle' => 'gsm2go has been providing global cellular roaming since 2009 — built for travelers who value quality, reliability, and transparency',
+        'title' => 'Connecting Travel with',
+        'highlight' => 'Global Connectivity',
+        'subtitle' => 'In partnership with Norse Atlantic Airways, gsm2go provides seamless roaming solutions for travelers around the world.',
     ],
 
-    /* ================= WHO WE ARE ================= */
-    'who' => [
-        'title' => 'Who We Are',
-        'text' => 'gsm2go, Inc provides global cellular roaming since 2009. Our switching infrastructure and network operations center is located in the UK. gsm2go INC is a Delaware, USA company',
+    /* ================= NORSE ATLANTIC ================= */
+    'norse' => [
+        'title' => 'About Norse Atlantic Airways',
+
+        'text1' => 'Founded in March 2021, Norse Atlantic Airways is redefining air travel with affordable, direct flights to exciting destinations across the globe. Our mission is to give travelers the freedom to explore the world without breaking the bank – enabling more people to connect with continents and cultures.',
+
+        'text2' => 'For travellers, we offer a perfect blend of affordable fares, seamless flights, and exceptional service. Whether you’re traveling for business or pleasure, our Dreamliners provide a comfortable and efficient journey. With a big smile!',
+
+        'text3' => 'For our team, Norse is more than just an airline — it’s a community of passionate individuals working together to create memorable experiences for every passenger.',
+
+        'text4' => 'We have embraced a model that allows us to operate efficiently without sacrificing quality. With a lean team and a fresh start, we’re building an airline designed for the future—one that balances affordability with excellence.',
+
+        'text5' => 'Norse currently operates six Dreamliners and carries around 1.2m passengers per year.',
+
+        'text6' => 'Further information about the airline can be found at https://flynorse.com/',
     ],
 
-    /* ================= JOURNEY ================= */
-    'journey' => [
-        'title' => 'Our Journey to eSIM',
-        'text' => 'Up until recently, we distributed SIM cards to distributors, resellers and end users. During 2020, we completed extensive testing of our new eSIM. In 2021, we proudly launched it — right here, right now',
-    ],
+    /* ================= GSM2GO ================= */
+    'gsm2go' => [
+        'title' => 'About gsm2go',
 
-    /* ================= BELIEF ================= */
-    'belief' => [
-        'title' => 'What We Believe In',
-        'text' => 'We always shied away from the buy-and-dispose Travel SIMs market. We never tried to be the cheapest offer out there either. We believe that when you pay peanuts, you get monkeys, and we are not in the peanuts nor monkeys business. We are here to provide you with trustworthy connectivity while you travel - for a cost effective, competitive price (often times, generating savings of approximately 70% when compared to your home service).',
+        'text1' => 'GSM2GO is a distributor for Blue Sky Telecom (IoM) Limited, a Manx MVNO.',
+
+        'text2' => 'Founded in 2010, GSM2GO INC, a Delaware USA Company.',
+
+        'text3' => 'We provide global roaming solutions for enterprise, SMBs and end users.',
+
+        'text4' => 'We cover the globe – over 170 countries, 600 roaming agreements.',
+
+        'text5' => 'This website is in partnership with Norse Atlantic Airlines.',
     ],
 
     /* ================= WHY GSM2GO ================= */
     'why' => [
         'title' => 'Why gsm2go',
-        'items' => [
-            'Multiple roaming agreements in most countries',
-            'Real 4G data speeds — not fake',
-            'World-class voice quality with minimal latency',
-            'Real caller ID on outgoing calls — no spoofing',
-            'Trusted roaming partners like AT&T (US) and Vodafone (EU)',
-        ],
-    ],
 
-    /* ================= RELATIONSHIPS ================= */
-    'relationships' => [
-        'title' => 'Built on Long-Term Relationships',
-        'subtitle' => 'Our customers stay with us for years because we believe in:',
-        'points' => [
-            'Hard work',
-            'Real customer service',
-            'Never-give-up tech support',
+        'items' => [
+            'Global coverage across more than 170 countries',
+            'Over 600 international roaming agreements',
+            'Reliable voice and high-speed data connectivity',
+            'Solutions for enterprises, SMBs and individual travellers',
+            'Trusted partnerships with global telecom providers',
+            'Seamless connectivity while travelling worldwide',
         ],
     ],
 
     /* ================= CTA ================= */
     'cta' => [
-        'title' => 'Join Thousands of Loyal gsm2go Customers',
-        'text' => 'We invite you to become a loyal customer and experience roaming done right',
+        'title' => 'Stay Connected Wherever You Travel',
+        'text' => 'Explore our global roaming solutions and enjoy seamless connectivity during your journey.',
         'button' => 'View Plans',
     ],
 

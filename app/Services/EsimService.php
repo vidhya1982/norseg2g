@@ -89,9 +89,9 @@ class EsimService
         //     return $row;
         // });
         //*********testing — ICCID 6632 status kabhi mat badlo ──────────────
-        $iccidRow = DB::table('ICCID')->where('id', 6632)->first();
+        $iccidRow = DB::table('ICCID')->where('id', 6639 )->first();
         if (!$iccidRow) {
-            throw new \RuntimeException('Testing ICCID 6632 not found in DB');
+            throw new \RuntimeException('Testing ICCID 6639  not found in DB');
         }
 
         // ── Variables ─────────────────────────────────────────────────────────

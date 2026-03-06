@@ -5,6 +5,13 @@
             <h4 class="text-success">Checkout</h4>
         </div>
 
+        {{-- ── Compute free-only cart flag once, used throughout ── --}}
+        @php
+            $isFreeOnlyCart = ($appliedPromo['type'] ?? '') === 'freeEsim'
+                && $grandTotal == 0
+                && collect($cart)->every(fn($i) => !empty($i['is_promo_free']));
+        @endphp
+
         <div class="container checkout-container">
 
             {{-- ═══════════ LEFT SIDE ═══════════ --}}
@@ -13,16 +20,17 @@
                     @foreach($groupedCart as $zoneItems)
                         <div class="package-box mb-4">
                             <div class="head-line">
-                            <h3 class="checkout-zone-title">
-                                @if(isset($zoneItems[0]['is_unlimited']) && $zoneItems[0]['is_unlimited'])
-                                    Unlimited Plans
-                                @else
-                                    {{ $zoneItems[0]['gb'] ?? '' }} GB
+                                <h3 class="checkout-zone-title">
+                                    @if(isset($zoneItems[0]['is_unlimited']) && $zoneItems[0]['is_unlimited'])
+                                        Unlimited Plans
+                                    @else
+                                        {{-- Fix 1: support both 'GB' and 'gb' keys --}}
+                                        {{ $zoneItems[0]['GB'] ?? $zoneItems[0]['gb'] ?? '' }} GB
+                                    @endif
+                                </h3>
+                                @if(collect($zoneItems)->contains(fn($i) => empty($i['is_promo_free'])))
+                                    <a href="{{ route('cart') }}"><i class="fa-solid fa-pen-to-square"></i></a>
                                 @endif
-                            </h3>
-                            @if(collect($zoneItems)->contains(fn($i) => empty($i['is_promo_free'])))
-                                <a href="{{ route('cart') }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                            @endif
                             </div>
 
                             @foreach($zoneItems as $item)
@@ -61,7 +69,6 @@
                                             @if(!empty($item['is_promo_free']))
                                                 <span class="text-success fw-bold">FREE</span>
                                             @elseif(($appliedPromo['type'] ?? '') === 'discount' && empty($item['is_promo_free']))
-                                                {{-- Show original strikethrough + discounted price --}}
                                                 @php
                                                     $originalPrice   = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
                                                     $discountedPrice = round($originalPrice * (1 - ($appliedPromo['discount'] / 100)), 2);
@@ -83,8 +90,8 @@
 
                                         @if($appliedPromo['type'] === 'discount')
                                             @php
-                                                $itemBase    = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
-                                                $itemSaving  = round($itemBase * ($appliedPromo['discount'] / 100), 2);
+                                                $itemBase   = ($item['price'] ?? 0) * ($item['quantity'] ?? 1);
+                                                $itemSaving = round($itemBase * ($appliedPromo['discount'] / 100), 2);
                                             @endphp
                                             <div class="promo-applied-under-plan">
                                                 <i class="fa-solid fa-tag text-success me-1"></i>
@@ -122,7 +129,7 @@
 
                                     @endif
 
-                                    {{-- freeEsim injected item ka label --}}
+                                    {{-- freeEsim injected item label --}}
                                     @if(!empty($item['is_promo_free']))
                                         <div class="promo-applied-under-plan">
                                             <i class="fa-solid fa-circle-check text-success me-1"></i>
@@ -150,22 +157,26 @@
                                         </div>
                                     @endif
 
-                                    {{-- Auto Topup --}}
-                                    <div class="checkout-auto-topup">
-                                        <h4 class="head-line">AUTO-TOPUP</h4>
-                                        <div class="auto-topup-row d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <strong>{{ $displayName }}</strong>
-                                                <p class="small text-muted mb-0">Automatic recharge when data runs out</p>
+                                    {{-- Fix 4: Auto Topup — free promo items pe hide karo --}}
+                                    @if(empty($item['is_promo_free']))
+                                        <div class="checkout-auto-topup">
+                                            <h4 class="head-line">AUTO-TOPUP</h4>
+                                            <div class="auto-topup-row d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>{{ $displayName }}</strong>
+                                                    <p class="small text-muted mb-0">Automatic recharge when data runs out</p>
+                                                </div>
+                                                @if(data_get($item, 'addons.auto_topup.enabled'))
+                                                    <span class="badge bg-success">Enabled</span>
+                                                @else
+                                                    <span class="badge bg-secondary">Not enabled</span>
+                                                @endif
                                             </div>
-                                            @if(data_get($item, 'addons.auto_topup.enabled'))
-                                                <span class="badge bg-success">Enabled</span>
-                                            @else
-                                                <span class="badge bg-secondary">Not enabled</span>
-                                            @endif
+                                            <p class="small text-muted">Auto-topup preferences can be changed from the cart.</p>
                                         </div>
-                                        <p class="small text-muted">Auto-topup preferences can be changed from the cart.</p>
-                                    </div>
+                                    @endif
+                                    {{-- End Fix 4 --}}
+
                                 </div>
                             @endforeach
                         </div>
@@ -175,7 +186,13 @@
                 {{-- ══ ORDER SUMMARY ══ --}}
                 <div class="summary-box">
                     <h4 class="checkout-section-title">Order Summary</h4>
-                    <p class="checkout-meta-text">{{ count($cart) }} item(s)</p>
+
+                    {{-- Fix 2: exclude is_promo_free items from count (user-added items only) --}}
+                    @php
+                        $userItemCount = collect($cart)->filter(fn($i) => empty($i['is_promo_free']))->count();
+                        $displayCount  = $userItemCount ?: count($cart);
+                    @endphp
+                    <p class="checkout-meta-text">{{ $displayCount }} item(s)</p>
 
                     {{-- Subtotal (original) --}}
                     <div class="subtotal border-top py-2">
@@ -247,8 +264,8 @@
             {{-- ═══════════ RIGHT SIDE ═══════════ --}}
             <div class="checkout-right page-background">
 
-                {{-- Saved cards --}}
-                @if(Auth::check() && Auth::user()->hasSavedCard())
+                {{-- Saved cards — hide on free-only cart --}}
+                @if(!$isFreeOnlyCart && Auth::check() && Auth::user()->hasSavedCard())
                     <div class="saved-cards-section mb-3">
                         <h5>Saved Cards</h5>
                         @foreach(Auth::user()->savedCards as $card)
@@ -277,7 +294,6 @@
                         </h6>
 
                         @if(empty($appliedPromo))
-                            {{-- Input state --}}
                             <div class="d-flex gap-2">
                                 <input
                                     type="text"
@@ -328,15 +344,13 @@
                                             </div>
                                             <small class="text-muted">Add-ons charged at full price</small>
                                         </div>
-                       <button 
-    @if(!$isAutoPromo)
-        wire:click="removePromo"
-    @endif
-    class="btn btn-link btn-sm text-danger p-0 ms-2"
-    @if($isAutoPromo) disabled style="opacity:0.4;cursor:not-allowed;" @endif
->
-    <i class="fa-solid fa-xmark"></i>
-</button>
+                                        <button
+                                            @if(!$isAutoPromo) wire:click="removePromo" @endif
+                                            class="btn btn-link btn-sm text-danger p-0 ms-2"
+                                            @if($isAutoPromo) disabled style="opacity:0.4;cursor:not-allowed;" @endif
+                                        >
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
                                     </div>
                                 </div>
 
@@ -381,7 +395,11 @@
                                             </div>
                                             <small class="text-muted">Free eSIM shown in cart above</small>
                                         </div>
-                                        <button wire:click="removePromo" class="btn btn-link btn-sm text-danger p-0 ms-2">
+                                        <button
+                                            @if(!$isAutoPromo) wire:click="removePromo" @endif
+                                            class="btn btn-link btn-sm text-danger p-0 ms-2"
+                                            @if($isAutoPromo) disabled style="opacity:0.4;cursor:not-allowed;" @endif
+                                        >
                                             <i class="fa-solid fa-xmark"></i>
                                         </button>
                                     </div>
@@ -415,57 +433,60 @@
                 @endif
                 {{-- ══ END PROMO CODE ══ --}}
 
-                {{-- Payment method selector --}}
-                <div id="payment-method-selector" class="{{ $isGuest ? 'opacity-50 pointer-events-none' : '' }}">
-                    <div class="payment-option-row payment-option-selected" onclick="selectPayMethod('card')" id="method-card">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="card" checked onchange="selectPayMethod('card')" />
-                            Credit / Debit Card
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/visa.png') }}" alt="Visa" />
-                            <img src="{{ asset('images/mastercard.png') }}" alt="Mastercard" />
-                            <img src="{{ asset('images/amex.png') }}" alt="Amex" />
+                {{-- Fix 3: Payment method selector — hide on free-only cart --}}
+                @if(!$isFreeOnlyCart)
+                    <div id="payment-method-selector" class="{{ $isGuest ? 'opacity-50 pointer-events-none' : '' }}">
+                        <div class="payment-option-row payment-option-selected" onclick="selectPayMethod('card')" id="method-card">
+                            <label class="checkout-payment-label">
+                                <input type="radio" name="pay" value="card" checked onchange="selectPayMethod('card')" />
+                                Credit / Debit Card
+                            </label>
+                            <div class="pay-logo">
+                                <img src="{{ asset('images/visa.png') }}" alt="Visa" />
+                                <img src="{{ asset('images/mastercard.png') }}" alt="Mastercard" />
+                                <img src="{{ asset('images/amex.png') }}" alt="Amex" />
+                            </div>
+                        </div>
+                        <div class="payment-option-row" onclick="selectPayMethod('applepay')" id="method-applepay">
+                            <label class="checkout-payment-label">
+                                <input type="radio" name="pay" value="applepay" onchange="selectPayMethod('applepay')" />
+                                Apple Pay
+                            </label>
+                            <div class="pay-logo">
+                                <img src="{{ asset('images/applepay.png') }}" alt="Apple Pay" />
+                            </div>
+                        </div>
+                        <div class="payment-option-row" onclick="selectPayMethod('googlepay')" id="method-googlepay">
+                            <label class="checkout-payment-label">
+                                <input type="radio" name="pay" value="googlepay" onchange="selectPayMethod('googlepay')" />
+                                Google Pay
+                            </label>
+                            <div class="pay-logo">
+                                <img src="{{ asset('images/gpay.png') }}" alt="Google Pay" />
+                            </div>
+                        </div>
+                        <div class="payment-option-row" onclick="selectPayMethod('paypal')" id="method-paypal">
+                            <label class="checkout-payment-label">
+                                <input type="radio" name="pay" value="paypal" onchange="selectPayMethod('paypal')" />
+                                PayPal
+                            </label>
+                            <div class="pay-logo">
+                                <img src="{{ asset('images/paypal.png') }}" alt="PayPal" />
+                            </div>
                         </div>
                     </div>
-                    <div class="payment-option-row" onclick="selectPayMethod('applepay')" id="method-applepay">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="applepay" onchange="selectPayMethod('applepay')" />
-                            Apple Pay
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/applepay.png') }}" alt="Apple Pay" />
-                        </div>
-                    </div>
-                    <div class="payment-option-row" onclick="selectPayMethod('googlepay')" id="method-googlepay">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="googlepay" onchange="selectPayMethod('googlepay')" />
-                            Google Pay
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/gpay.png') }}" alt="Google Pay" />
-                        </div>
-                    </div>
-                    <div class="payment-option-row" onclick="selectPayMethod('paypal')" id="method-paypal">
-                        <label class="checkout-payment-label">
-                            <input type="radio" name="pay" value="paypal" onchange="selectPayMethod('paypal')" />
-                            PayPal
-                        </label>
-                        <div class="pay-logo">
-                            <img src="{{ asset('images/paypal.png') }}" alt="PayPal" />
-                        </div>
-                    </div>
-                </div>
 
-                {{-- Airwallex drop-in --}}
-                <div id="airwallex-element-wrapper" style="display:none;" class="mt-3 p-3 border rounded bg-white">
-                    <p class="small text-muted mb-2">
-                        <i class="fa-solid fa-lock text-success me-1"></i>
-                        Secure payment powered by Airwallex
-                    </p>
-                    <div id="airwallex-dropin" style="min-height:120px;"></div>
-                    <div id="airwallex-error" class="text-danger small mt-2" style="display:none;"></div>
-                </div>
+                    {{-- Airwallex drop-in — also hidden on free-only cart --}}
+                    <div id="airwallex-element-wrapper" style="display:none;" class="mt-3 p-3 border rounded bg-white">
+                        <p class="small text-muted mb-2">
+                            <i class="fa-solid fa-lock text-success me-1"></i>
+                            Secure payment powered by Airwallex
+                        </p>
+                        <div id="airwallex-dropin" style="min-height:120px;"></div>
+                        <div id="airwallex-error" class="text-danger small mt-2" style="display:none;"></div>
+                    </div>
+                @endif
+                {{-- End Fix 3 --}}
 
                 {{-- Pay Now / Guest --}}
                 <div class="pay-now p-4 bg-white">
@@ -477,13 +498,19 @@
                             class="pay-now-btn w-100"
                             {{ count($cart) === 0 ? 'disabled' : '' }}
                         >
+                            {{-- Fix 5: button text / icon changes on free-only cart --}}
                             <span wire:loading.remove wire:target="payNow">
-                                <i class="fa-solid fa-lock me-1"></i>
-                                Pay Now ({{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }})
+                                @if($isFreeOnlyCart)
+                                    <i class="fa-solid fa-gift me-1"></i>
+                                    Get My Free eSIM
+                                @else
+                                    <i class="fa-solid fa-lock me-1"></i>
+                                    Pay Now ({{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }})
+                                @endif
                             </span>
                             <span wire:loading wire:target="payNow">
                                 <span class="spinner-border spinner-border-sm me-1"></span>
-                                Initializing…
+                                @if($isFreeOnlyCart) Processing… @else Initializing… @endif
                             </span>
                         </button>
                         <p id="card-entry-hint" class="text-center small text-muted mt-2" style="display:none;">
@@ -491,10 +518,16 @@
                         </p>
                     @else
                         <button class="pay-now-btn w-100" disabled>
-                            Pay Now ({{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }})
+                            @if($isFreeOnlyCart)
+                                Get My Free eSIM
+                            @else
+                                Pay Now ({{ __('currency.symbol') }}{{ number_format($grandTotal, 2) }})
+                            @endif
                         </button>
                         <div class="mt-3 text-center">
-                            <p class="small text-danger mb-2">Please login to complete payment</p>
+                            <p class="small text-danger mb-2">Please login to complete
+                                @if($isFreeOnlyCart) your free eSIM @else payment @endif
+                            </p>
                             <button wire:click="redirectToLogin" class="btn btn-outline-dark w-100 mb-2">
                                 <i class="fa-solid fa-envelope me-1"></i> Login with Email
                             </button>
@@ -517,40 +550,3 @@
     </div>
 </div>
 
-{{-- ══ PROMO BADGE STYLES ══ --}}
-<style>
-.promo-applied-under-plan {
-    font-size: 13px;
-    padding: 6px 12px 6px 12px;
-    margin: 4px 0 8px 0;
-    border-left: 3px solid #198754;
-    background: #f0faf4;
-    border-radius: 0 6px 6px 0;
-}
-
-.promo-applied-badge-box {
-    padding: 10px 12px;
-    border-radius: 8px;
-    margin-top: 4px;
-}
-
-.promo-discount {
-    background: #f0faf4;
-    border: 1px solid #a3d9b1;
-}
-
-.promo-bonus {
-    background: #fffbeb;
-    border: 1px solid #f0c000;
-}
-
-.promo-free {
-    background: #f0faf4;
-    border: 1px solid #a3d9b1;
-}
-
-.promo-b1g1 {
-    background: #fff5f5;
-    border: 1px solid #f5a0a0;
-}
-</style>
