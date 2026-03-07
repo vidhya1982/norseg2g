@@ -15,7 +15,11 @@
     box-shadow: none;
     font-family: 'Montserrat', sans-serif;
 }
-
+.fa-bars{
+    color: var(--white);
+    font-size: 22px;
+    cursor: pointer;
+}
 .header{
     background-color: var(--header-bg);
     font-size: 0.875rem;

@@ -85,7 +85,7 @@
 
     <!-- 2) MOBILE SIDEBAR (off-canvas) -->
     <div id="mobileSidebar" class="mobile-sidebar" aria-hidden="true" role="dialog" aria-modal="true">
-        <button id="closeSidebar" class="close-sidebar" aria-label="Close menu">&times;</button>
+        <button id="closeSidebar" class="close-sidebar text-white" aria-label="Close menu">&times;</button>
 
         <div class="sidebar-content">
             <ul class="mobile-nav-list">
